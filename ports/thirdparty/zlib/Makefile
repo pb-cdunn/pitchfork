@@ -2,6 +2,7 @@
 GIT       = git
 SED       = sed
 WORKSPACE = $(realpath ../../../workspace)
+PREFIX   ?= $(realpath ../../../deployment)
 default:
 	@echo "[INFO] nothing is done."
 wscheck:
@@ -19,5 +20,7 @@ do-gitclone: wscheck
 	test -d $(_WRKSRC) || $(GIT) clone -o $(_REV) $(_URL) $(_WRKSRC)
 do-clean:
 	test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
+do-build:
+	test "$(PREFIX)"
 do-patch:
 	$(SED)
