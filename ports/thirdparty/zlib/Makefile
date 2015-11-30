@@ -24,9 +24,12 @@ do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
 	@mkdir -p "$(PREFIX)" || exit 1
-	@cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" ./configure --prefix=$(PREFIX)
+	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(PREFIX)
 do-build: do-config
 	@test -f $(_WRKSRC)/configure.log || exit 1
-	@cd $(_WRKSRC) && make
-do-patch:
-	$(SED)
+	@make -C $(_WRKSRC)
+do-deploy: do-build
+	@make -C $(_WRKSRC) install
+# TODO: avoid doing make install(?)
+#do-patch:
+#	$(SED)
