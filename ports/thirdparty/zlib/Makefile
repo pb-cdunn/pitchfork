@@ -1,19 +1,23 @@
-# local variable
-_NAME = zlib-1.2.8
-_URL  = https://github.com/cloudflare/zlib
-_REV  = a80420c63532c25220a54ea0980667c02303460a
-
 # Global overrides
-SRC_DIR = src
-GIT     = git
-SED	= sed
+GIT       = git
+SED       = sed
+WORKSPACE = $(realpath ../../../workspace)
+default:
+	@echo "[INFO] nothing is done."
+wscheck:
+	test "$(WORKSPACE)" && mkdir -p $(WORKSPACE) || exit 1
 
-#
+# Local variables
+_NAME   = zlib-1.2.8
+_URL    = https://github.com/cloudflare/zlib
+_REV    = a80420c63532c25220a54ea0980667c02303460a
+_WRKSRC = $(WORKSPACE)/$(_NAME)
 
+# Local works
 do-extract: do-gitclone
-do-gitclone:
-	test -d $(SRC_DIR) || $(GIT) clone -o $(_REV) $(_URL) $(SRC_DIR)
+do-gitclone: wscheck
+	test -d $(_WRKSRC) || $(GIT) clone -o $(_REV) $(_URL) $(_WRKSRC)
 do-clean:
-	test -d $(SRC_DIR) && rm -rf $(SRC_DIR) || true
+	test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-patch:
 	$(SED)
