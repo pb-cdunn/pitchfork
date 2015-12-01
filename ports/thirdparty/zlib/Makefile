@@ -7,7 +7,9 @@ CFLAGS    = -fPIC -static-libgcc
 default:
 	@echo "[INFO] nothing is done."
 wscheck:
-	mkdir -p $(WORKSPACE) || exit 1
+	@mkdir -p $(WORKSPACE) || exit 1
+pfcheck:
+	@mkdir -p "$(PREFIX)" || exit 1
 
 # Local variables
 _NAME   = zlib-1.2.8
@@ -23,12 +25,11 @@ do-gitclone: wscheck
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
-	@mkdir -p "$(PREFIX)" || exit 1
 	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(PREFIX)
 do-build: do-config
 	@test -f $(_WRKSRC)/configure.log || exit 1
 	@make -C $(_WRKSRC)
-do-deploy: do-build
+do-deploy: do-build pfcheck
 	@make -C $(_WRKSRC) install
 # TODO: avoid doing make install(?)
 #do-patch:
