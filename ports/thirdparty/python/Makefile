@@ -1,15 +1,4 @@
-# Global overrides
-GIT       = git
-SED       = sed
-WORKSPACE = $(realpath ../../..)/workspace
-PREFIX   ?= $(realpath ../../..)/deployment
-CFLAGS    = -fPIC -static-libgcc
-default:
-	@echo "[INFO] nothing is done."
-wscheck:
-	@mkdir -p $(WORKSPACE) || exit 1
-pfcheck:
-	@mkdir -p $(PREFIX) || exit 1
+include ../../../mk/config.mk
 
 # Local variables
 _NAME   = Python-2.7.10
@@ -26,6 +15,7 @@ do-extract: wscheck
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
+	@rm -f $(_FILE)
 
 #do-config: do-extract
 #	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(PREFIX)
