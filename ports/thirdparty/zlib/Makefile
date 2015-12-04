@@ -20,6 +20,7 @@ do-build: do-config
 	@$(MAKE) -C $(_WRKSRC)
 do-deploy: do-build pfcheck
 	@install -m 755 $(_WRKSRC)/libz.so.1.2.8 $(PREFIX)/lib/libz.so.1.2.8
+	@install -d $(PREFIX)/share/man/man3
 	@install -m 644 $(_WRKSRC)/zlib.3        $(PREFIX)/share/man/man3/zlib.3
 	@install -m 644 $(_WRKSRC)/zlib.pc       $(PREFIX)/lib/pkgconfig/zlib.pc
 	@install -m 644 $(_WRKSRC)/zlib.h        $(PREFIX)/include/zlib.h
