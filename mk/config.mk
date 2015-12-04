@@ -6,6 +6,7 @@ SHA1SUM   = sha1sum
 WORKSPACE = $(realpath ../../..)/workspace
 PREFIX   ?= $(realpath ../../..)/deployment
 CFLAGS    = -fPIC -static-libgcc
+CFLAGS   += -I$(PREFIX)/include -L$(PREFIX)/lib
 
 default:
 	@echo "[INFO] nothing is done."
