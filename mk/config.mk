@@ -13,9 +13,10 @@ default:
 wscheck:
 	@mkdir -p $(WORKSPACE) || exit 1
 pfcheck:
+	@mkdir -p "$(PREFIX)/bin"            || exit 1
 	@mkdir -p "$(PREFIX)/lib"            || exit 1
 	@mkdir -p "$(PREFIX)/lib/pkgconfig"  || exit 1
 	@mkdir -p "$(PREFIX)/share"          || exit 1
 	@mkdir -p "$(PREFIX)/share/man"      || exit 1
-	@mkdir -p "$(PREFIX)/share/man/man3" || exit 1
 	@mkdir -p "$(PREFIX)/include"        || exit 1
+#	@mkdir -p "$(PREFIX)/share/man/man3" || exit 1
