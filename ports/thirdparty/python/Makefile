@@ -24,6 +24,7 @@ do-config: do-extract
         ./configure $(_CONFIGURE_ARGS))
 do-build: do-config
 	@LD_LIBRARY_PATH=$(PREFIX)/lib:$$LD_LIBRARY_PATH \
-        make -C $(_WRKSRC)
+make -C $(_WRKSRC)
 do-install: do-build
-	@make -C $(_WRKSRC) install
+	@LD_LIBRARY_PATH=$(PREFIX)/lib:$$LD_LIBRARY_PATH \
+make -C $(_WRKSRC) install

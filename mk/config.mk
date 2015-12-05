@@ -1,4 +1,7 @@
 # Global overrides
+SHELL     = /bin/bash
+CC        = gcc
+CXX       = g++
 GIT       = git
 SED       = sed
 MD5SUM    = md5sum

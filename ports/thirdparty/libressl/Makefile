@@ -1,4 +1,6 @@
 include ../../../mk/config.mk
+include ../../../mk/checkautoconf.mk
+include ../../../mk/checkautomake.mk
 
 # Local variables
 _NAME   = libressl-2.3.1
