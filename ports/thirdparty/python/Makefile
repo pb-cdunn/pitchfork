@@ -8,7 +8,9 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 _CONFIGURE_ARGS  = --prefix=$(PREFIX)
                  # avoid STAGING for now
 _CONFIGURE_ARGS += --enable-unicode=ucs4
-_CFLAGS          = $(CFLAGS)
+_CFLAGS          = $(CFLAGS) -I$(PREFIX)/include/ncurses
+LD_LIBRARY_PATH  = $(PREFIX)/lib:$$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
 
 # Local works
 do-extract: wscheck
@@ -20,11 +22,8 @@ do-clean:
 do-config: do-extract
 	@echo CFLAGS="$(_CFLAGS)" LD_LIBRARY_PATH=$(PREFIX)/lib:$$LD_LIBRARY_PATH
 	@cd $(_WRKSRC) && (test -e config.log \
-     || CFLAGS="$(_CFLAGS)" LD_LIBRARY_PATH=$(PREFIX)/lib:$$LD_LIBRARY_PATH \
-        ./configure $(_CONFIGURE_ARGS))
+     || CFLAGS="$(_CFLAGS)" ./configure $(_CONFIGURE_ARGS))
 do-build: do-config
-	@LD_LIBRARY_PATH=$(PREFIX)/lib:$$LD_LIBRARY_PATH \
-make -C $(_WRKSRC)
+	@make -C $(_WRKSRC)
 do-install: do-build
-	@LD_LIBRARY_PATH=$(PREFIX)/lib:$$LD_LIBRARY_PATH \
-make -C $(_WRKSRC) install
+	@make -C $(_WRKSRC) install

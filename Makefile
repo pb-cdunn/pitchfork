@@ -1,19 +1,25 @@
 
-zlib:
-	$(MAKE) -C ports/thirdparty/zlib do-install
 libressl:
 	$(MAKE) -C ports/thirdparty/libressl do-install
 python:
 	$(MAKE) -C ports/thirdparty/python do-install
+readline:
+	$(MAKE) -C ports/thirdparty/readline do-install
+zlib:
+	$(MAKE) -C ports/thirdparty/zlib do-install
+ncurses:
+	$(MAKE) -C ports/thirdparty/ncurses do-install
 
 # deps
 
-python: zlib libressl
+openssl: libressl
+python: zlib libressl readline ncurses
+readline: ncurses
 
 # utils
 
-clean:
-	rm -rf staging/*
+startover:
+	rm -rf deployment/* staging/* workspace/*
 
 # disabled
 #openssl:
