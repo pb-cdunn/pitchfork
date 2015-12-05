@@ -19,34 +19,31 @@ do-clean:
 do-config: do-extract
 	@cd $(_WRKSRC) && test -d include/openssl \
      || CC="gcc $(CFLAGS)" ./Configure \
-            --prefix=$(PREFIX) \
+            --prefix=$(STAGING) \
             linux-x86_64 \
             shared \
             -Wa,--noexecstack
 do-build: do-config
 	@test ! Configure -nt Makefile || exit 1
 	@$(MAKE) -C $(_WRKSRC)
-do-deploy: do-build pfcheck
-	@install -m 755 $(_WRKSRC)/libcrypto.so.1.0.0 $(PREFIX)/lib/libcrypto.so.1.0.0
-	@install -m 755 $(_WRKSRC)/libssl.so.1.0.0    $(PREFIX)/lib/libssl.so.1.0.0
-	@install -m 644 $(_WRKSRC)/libcrypto.pc       $(PREFIX)/lib/pkgconfig/libcrypto.pc
-	@install -m 644 $(_WRKSRC)/libssl.pc          $(PREFIX)/lib/pkgconfig/libssl.pc
-	@install -m 644 $(_WRKSRC)/openssl.pc         $(PREFIX)/lib/pkgconfig/openssl.pc
+do-install: do-build pfcheck
+	@$(MAKE) -C $(_WRKSRC)
+	@install -m 755 $(STAGING)/lib/libssl.so.1.0.0        $(PREFIX)/lib/libssl.so.1.0.0
+	@install -m 755 $(STAGING)/lib/libcrypto.so.1.0.0     $(PREFIX)/lib/libcrypto.so.1.0.0
+	@install -m 644 $(STAGING)/lib/pkgconfig/libssl.pc    $(PREFIX)/lib/pkgconfig/libssl.pc
+	@install -m 644 $(STAGING)/lib/pkgconfig/openssl.pc   $(PREFIX)/lib/pkgconfig/openssl.pc
+	@install -m 644 $(STAGING)/lib/pkgconfig/libcrypto.pc $(PREFIX)/lib/pkgconfig/libcrypto.pc
 	@install -d $(PREFIX)/include/openssl
-	@cp $(_WRKSRC)/include/openssl/* $(PREFIX)/include/openssl/
+	@cp $(STAGING)/include/openssl/* $(PREFIX)/include/openssl/
 	@chmod 644 $(PREFIX)/include/openssl/*.h
 	@cd $(PREFIX)/lib && ln -f -s libssl.so.1.0.0 libssl.so
 	@cd $(PREFIX)/lib && ln -f -s libcrypto.so.1.0.0 libcrypto.so
-#	@install -d $(PREFIX)/lib/engines
-#	@cp $(_WRKSRC)/engines/*.so $(PREFIX)/lib/engines/
-#	@chmod 755 $(PREFIX)/lib/engines/*.so
-
 do-uninstall:
-	@rm -f $(PREFIX)/lib/libcrypto.so
-	@rm -f $(PREFIX)/lib/libcrypto.so.1.0.0
+	@rm -rf $(PREFIX)/include/openssl
 	@rm -f $(PREFIX)/lib/libssl.so
+	@rm -f $(PREFIX)/lib/libcrypto.so
 	@rm -f $(PREFIX)/lib/libssl.so.1.0.0
-	@rm -f $(PREFIX)/lib/pkgconfig/libcrypto.pc
+	@rm -f $(PREFIX)/lib/libcrypto.so.1.0.0
 	@rm -f $(PREFIX)/lib/pkgconfig/libssl.pc
 	@rm -f $(PREFIX)/lib/pkgconfig/openssl.pc
-	@rm -rf $(PREFIX)/include/openssl
+	@rm -f $(PREFIX)/lib/pkgconfig/libcrypto.pc

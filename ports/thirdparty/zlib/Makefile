@@ -14,22 +14,20 @@ do-gitclone: wscheck
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
-	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(PREFIX)
+	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)
 do-build: do-config
 	@test -f $(_WRKSRC)/configure.log || exit 1
 	@$(MAKE) -C $(_WRKSRC)
-do-deploy: do-build pfcheck
-	@install -m 755 $(_WRKSRC)/libz.so.1.2.8 $(PREFIX)/lib/libz.so.1.2.8
-	@install -d $(PREFIX)/share/man/man3
-	@install -m 644 $(_WRKSRC)/zlib.3        $(PREFIX)/share/man/man3/zlib.3
-	@install -m 644 $(_WRKSRC)/zlib.pc       $(PREFIX)/lib/pkgconfig/zlib.pc
-	@install -m 644 $(_WRKSRC)/zlib.h        $(PREFIX)/include/zlib.h
-	@install -m 644 $(_WRKSRC)/zconf.h       $(PREFIX)/include/zconf.h
+do-install: do-build pfcheck
+	@$(MAKE) -C $(_WRKSRC) install
+	@install -m 644 $(STAGING)/include/zlib.h        $(PREFIX)/include/zlib.h
+	@install -m 644 $(STAGING)/include/zconf.h       $(PREFIX)/include/zconf.h
+	@install -m 755 $(STAGING)/lib/libz.so.1.2.8     $(PREFIX)/lib/libz.so.1.2.8
+	@install -m 644 $(STAGING)/lib/pkgconfig/zlib.pc $(PREFIX)/lib/pkgconfig/zlib.pc
 	@ln -f -s $(PREFIX)/lib/libz.so.1.2.8    $(PREFIX)/lib/libz.so
 do-uninstall:
-	@rm -f $(PREFIX)/lib/libz.so.1.2.8
-	@rm -f $(PREFIX)/share/man/man3/zlib.3
-	@rm -f $(PREFIX)/lib/pkgconfig/zlib.pc
+	@rm -f $(PREFIX)/lib/libz.so
 	@rm -f $(PREFIX)/include/zlib.h
 	@rm -f $(PREFIX)/include/zconf.h
-	@rm -f $(PREFIX)/lib/libz.so
+	@rm -f $(PREFIX)/lib/libz.so.1.2.8
+	@rm -f $(PREFIX)/lib/pkgconfig/zlib.pc
