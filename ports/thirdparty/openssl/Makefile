@@ -25,8 +25,10 @@ do-config: do-extract
             -Wa,--noexecstack
 do-build: do-config
 	@test ! Configure -nt Makefile || exit 1
-	@$(MAKE) -C $(_WRKSRC)
-do-install: do-build pfcheck
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC)
+do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@$(MAKE) -C $(_WRKSRC) install
 	@install -m 755 $(STAGING)/lib/libssl.so.1.0.0        $(PREFIX)/lib/libssl.so.1.0.0
 	@install -m 755 $(STAGING)/lib/libcrypto.so.1.0.0     $(PREFIX)/lib/libcrypto.so.1.0.0
@@ -38,12 +40,10 @@ do-install: do-build pfcheck
 	@chmod 644 $(PREFIX)/include/openssl/*.h
 	@cd $(PREFIX)/lib && ln -f -s libssl.so.1.0.0 libssl.so
 	@cd $(PREFIX)/lib && ln -f -s libcrypto.so.1.0.0 libcrypto.so
+	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
+	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
+	grep -v '^++'|awk -F $(PREFIX) '/^+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-uninstall:
+	@cat $(PREFIX)/var/pkg/$(_NAME) | xargs rm -f
+	@rm -f $(PREFIX)/var/pkg/$(_NAME)
 	@rm -rf $(PREFIX)/include/openssl
-	@rm -f $(PREFIX)/lib/libssl.so
-	@rm -f $(PREFIX)/lib/libcrypto.so
-	@rm -f $(PREFIX)/lib/libssl.so.1.0.0
-	@rm -f $(PREFIX)/lib/libcrypto.so.1.0.0
-	@rm -f $(PREFIX)/lib/pkgconfig/libssl.pc
-	@rm -f $(PREFIX)/lib/pkgconfig/openssl.pc
-	@rm -f $(PREFIX)/lib/pkgconfig/libcrypto.pc

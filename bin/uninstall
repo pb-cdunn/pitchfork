@@ -1,0 +1,9 @@
+#!/bin/bash
+# description: a bash script to uninstall a package
+# input:       a path point to pitchforks package file
+# output:      exit number
+# work:        1. files/links in the package file get removed
+#              2. package file itself gets removed
+
+# beware of the space in the path list in the package file
+IFS=$(echo -en "\n\b")

@@ -19,8 +19,10 @@ do-clean:
 do-config: do-extract
 	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)
 do-build: do-config
-	@$(MAKE) -C $(_WRKSRC)
-do-install: do-build pfcheck
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC)
+do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@$(MAKE) -C $(_WRKSRC) install
 	@install -m 755 $(STAGING)/lib/libtls.so.9.0.1        $(PREFIX)/lib/libtls.so.9.0.1
 	@install -m 755 $(STAGING)/lib/libssl.so.37.0.1       $(PREFIX)/lib/libssl.so.37.0.1
@@ -37,18 +39,10 @@ do-install: do-build pfcheck
 	@cd $(PREFIX)/lib && ln -f -s libssl.so.37.0.1    libssl.so.37
 	@cd $(PREFIX)/lib && ln -f -s libcrypto.so.36.0.1 libcrypto.so
 	@cd $(PREFIX)/lib && ln -f -s libcrypto.so.36.0.1 libcrypto.so.36
+	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
+	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
+	grep -v '^++'|awk -F $(PREFIX) '/^+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-uninstall:
+	@cat $(PREFIX)/var/pkg/$(_NAME) | xargs rm -f
 	@rm -rf $(PREFIX)/include/openssl
-	@rm -f $(PREFIX)/lib/libtls.so
-	@rm -f $(PREFIX)/lib/libtls.so.9
-	@rm -f $(PREFIX)/lib/libtls.so.9.0.1
-	@rm -f $(PREFIX)/lib/libssl.so
-	@rm -f $(PREFIX)/lib/libssl.so.37
-	@rm -f $(PREFIX)/lib/libssl.so.37.0.1
-	@rm -f $(PREFIX)/lib/libcrypto.so
-	@rm -f $(PREFIX)/lib/libcrypto.so.36
-	@rm -f $(PREFIX)/lib/libcrypto.so.36.0.1
-	@rm -f $(PREFIX)/lib/pkgconfig/libssl.pc
-	@rm -f $(PREFIX)/lib/pkgconfig/libtls.pc
-	@rm -f $(PREFIX)/lib/pkgconfig/openssl.pc
-	@rm -f $(PREFIX)/lib/pkgconfig/libcrypto.pc
+	@rm -f $(PREFIX)/var/pkg/$(_NAME)

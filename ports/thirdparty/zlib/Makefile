@@ -20,19 +20,17 @@ do-build: do-config
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC)
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@$(MAKE) -C $(_WRKSRC) install
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
+	@$(MAKE) -C $(_WRKSRC) install
 	@install -m 644 $(STAGING)/include/zlib.h        $(PREFIX)/include/zlib.h
 	@install -m 644 $(STAGING)/include/zconf.h       $(PREFIX)/include/zconf.h
 	@install -m 755 $(STAGING)/lib/libz.so.1.2.8     $(PREFIX)/lib/libz.so.1.2.8
 	@install -m 644 $(STAGING)/lib/pkgconfig/zlib.pc $(PREFIX)/lib/pkgconfig/zlib.pc
-	@ln -f -s $(PREFIX)/lib/libz.so.1.2.8            $(PREFIX)/lib/libz.so
-	@find $(PREFIX) > $(_WRKSRC).after.list
+	@cd $(PREFIX)/lib && ln -f -s libz.so.1.2.8 libz.so.1
+	@cd $(PREFIX)/lib && ln -f -s libz.so.1     libz.so
+	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^++'|awk -F $(PREFIX) '/^+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-uninstall:
-	@rm -f $(PREFIX)/lib/libz.so
-	@rm -f $(PREFIX)/include/zlib.h
-	@rm -f $(PREFIX)/include/zconf.h
-	@rm -f $(PREFIX)/lib/libz.so.1.2.8
-	@rm -f $(PREFIX)/lib/pkgconfig/zlib.pc
+	@cat $(PREFIX)/var/pkg/$(_NAME) | xargs rm -f
+	@rm -f $(PREFIX)/var/pkg/$(_NAME)

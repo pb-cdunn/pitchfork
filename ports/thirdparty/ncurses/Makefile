@@ -20,8 +20,10 @@ do-config: do-extract
      || CFLAGS="$(CFLAGS)" ./configure --prefix=$(STAGING) --with-shared)
 do-build: do-config
 	@test ! -e config.log || exit 1
-	@$(MAKE) -C $(_WRKSRC)
-do-install: do-build pfcheck
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC)
+do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@$(MAKE) -C $(_WRKSRC) install
 	@install -m 755 $(STAGING)/lib/libncurses.so.6.0 $(PREFIX)/lib/libncurses.so.6.0
 	@install -m 755 $(STAGING)/lib/libpanel.so.6.0   $(PREFIX)/lib/libpanel.so.6.0
@@ -40,19 +42,11 @@ do-install: do-build pfcheck
 	@cd $(PREFIX)/lib && ln -f -s libmenu.so.6      libmenu.so
 	@cd $(PREFIX)/lib && ln -f -s libform.so.6.0    libform.so.6
 	@cd $(PREFIX)/lib && ln -f -s libform.so.6      libform.so
+	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
+	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
+	grep -v '^++'|awk -F $(PREFIX) '/^+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-uninstall:
+	@cat $(PREFIX)/var/pkg/$(_NAME) | xargs rm -f
+	@rm -f $(PREFIX)/var/pkg/$(_NAME)
 	@rm -rf $(PREFIX)/include/ncurses
 	@rm -rf $(PREFIX)/share/terminfo
-	@rm -f $(PREFIX)/lib/libform.so
-	@rm -f $(PREFIX)/lib/libform.so.6
-	@rm -f $(PREFIX)/lib/libform.so.6.0
-	@rm -f $(PREFIX)/lib/libmenu.so
-	@rm -f $(PREFIX)/lib/libmenu.so.6
-	@rm -f $(PREFIX)/lib/libmenu.so.6.0
-	@rm -f $(PREFIX)/lib/libncurses.so
-	@rm -f $(PREFIX)/lib/libncurses.so.6
-	@rm -f $(PREFIX)/lib/libncurses.so.6.0
-	@rm -f $(PREFIX)/lib/libpanel.so
-	@rm -f $(PREFIX)/lib/libpanel.so.6
-	@rm -f $(PREFIX)/lib/libpanel.so.6.0
-	@rm -f $(PREFIX)/lib/terminfo

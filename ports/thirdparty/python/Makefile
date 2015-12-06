@@ -9,8 +9,6 @@ _CONFIGURE_ARGS  = --prefix=$(PREFIX)
                  # avoid STAGING for now
 _CONFIGURE_ARGS += --enable-unicode=ucs4
 _CFLAGS          = $(CFLAGS) -I$(PREFIX)/include/ncurses
-LD_LIBRARY_PATH  = $(PREFIX)/lib:$$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH
 
 # Local works
 do-extract: wscheck
@@ -24,6 +22,14 @@ do-config: do-extract
 	@cd $(_WRKSRC) && (test -e config.log \
      || CFLAGS="$(_CFLAGS)" ./configure $(_CONFIGURE_ARGS))
 do-build: do-config
-	@make -C $(_WRKSRC)
-do-install: do-build
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || make -C $(_WRKSRC)
+do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@make -C $(_WRKSRC) install
+	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
+	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
+	grep -v '^++'|awk -F $(PREFIX) '/^+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+do-uninstall:
+	@cat $(PREFIX)/var/pkg/$(_NAME) | xargs rm -f
+	@rm -f $(PREFIX)/var/pkg/$(_NAME)
