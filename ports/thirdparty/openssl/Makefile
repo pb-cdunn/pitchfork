@@ -27,7 +27,7 @@ do-build: do-config
 	@test ! Configure -nt Makefile || exit 1
 	@$(MAKE) -C $(_WRKSRC)
 do-install: do-build pfcheck
-	@$(MAKE) -C $(_WRKSRC)
+	@$(MAKE) -C $(_WRKSRC) install
 	@install -m 755 $(STAGING)/lib/libssl.so.1.0.0        $(PREFIX)/lib/libssl.so.1.0.0
 	@install -m 755 $(STAGING)/lib/libcrypto.so.1.0.0     $(PREFIX)/lib/libcrypto.so.1.0.0
 	@install -m 644 $(STAGING)/lib/pkgconfig/libssl.pc    $(PREFIX)/lib/pkgconfig/libssl.pc

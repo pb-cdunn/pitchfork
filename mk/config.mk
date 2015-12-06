@@ -4,6 +4,7 @@ CC        = gcc
 CXX       = g++
 GIT       = git
 SED       = sed
+CURL      = curl
 MD5SUM    = md5sum
 SHA1SUM   = sha1sum
 PFHOME   := $(realpath ../../..)
@@ -19,11 +20,13 @@ default:
 	@echo "[INFO] nothing is done."
 wscheck:
 	@mkdir -p $(WORKSPACE) || exit 1
-pfcheck:
+stcheck:
+	@mkdir -p "$(STAGING)"              || exit 1
+pfcheck: stcheck
 	@mkdir -p "$(PREFIX)/bin"           || exit 1
 	@mkdir -p "$(PREFIX)/lib"           || exit 1
 	@mkdir -p "$(PREFIX)/lib/pkgconfig" || exit 1
 	@mkdir -p "$(PREFIX)/share"         || exit 1
 	@mkdir -p "$(PREFIX)/share/man"     || exit 1
 	@mkdir -p "$(PREFIX)/include"       || exit 1
-	@mkdir -p "$(STAGING)"              || exit 1
+	@mkdir -p "$(PREFIX)/var/pkg"       || exit 1

@@ -1,4 +1,5 @@
 
+openssl: libressl
 libressl:
 	$(MAKE) -C ports/thirdparty/libressl do-install
 python:
@@ -9,12 +10,14 @@ zlib:
 	$(MAKE) -C ports/thirdparty/zlib do-install
 ncurses:
 	$(MAKE) -C ports/thirdparty/ncurses do-install
+pip:
+	$(MAKE) -C ports/thirdparty/pip do-install
 
 # deps
 
-openssl: libressl
-python: zlib libressl readline ncurses
+python: zlib openssl readline ncurses
 readline: ncurses
+pip: python
 
 # utils
 

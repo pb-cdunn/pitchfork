@@ -14,7 +14,7 @@ export LD_LIBRARY_PATH
 
 # Local works
 do-extract: wscheck
-	@test -d $(_WRKSRC) || test -e $(_FILE) || curl -O $(_URL)/$(_FILE)
+	@test -d $(_WRKSRC) || test -e $(_FILE) || $(CURL) -O $(_URL)/$(_FILE)
 	@which md5sum >& /dev/null && md5sum -c MD5SUM
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
 do-clean:

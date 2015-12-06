@@ -17,14 +17,19 @@ do-config: do-extract
 	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)
 do-build: do-config
 	@test -f $(_WRKSRC)/configure.log || exit 1
-	@$(MAKE) -C $(_WRKSRC)
-do-install: do-build pfcheck
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC)
+do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
 	@$(MAKE) -C $(_WRKSRC) install
+	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@install -m 644 $(STAGING)/include/zlib.h        $(PREFIX)/include/zlib.h
 	@install -m 644 $(STAGING)/include/zconf.h       $(PREFIX)/include/zconf.h
 	@install -m 755 $(STAGING)/lib/libz.so.1.2.8     $(PREFIX)/lib/libz.so.1.2.8
 	@install -m 644 $(STAGING)/lib/pkgconfig/zlib.pc $(PREFIX)/lib/pkgconfig/zlib.pc
-	@ln -f -s $(PREFIX)/lib/libz.so.1.2.8    $(PREFIX)/lib/libz.so
+	@ln -f -s $(PREFIX)/lib/libz.so.1.2.8            $(PREFIX)/lib/libz.so
+	@find $(PREFIX) > $(_WRKSRC).after.list
+	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
+	grep -v '^++'|awk -F $(PREFIX) '/^+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-uninstall:
 	@rm -f $(PREFIX)/lib/libz.so
 	@rm -f $(PREFIX)/include/zlib.h
