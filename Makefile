@@ -14,13 +14,20 @@ pip:
 	$(MAKE) -C ports/thirdparty/pip do-install
 openblas:
 	$(MAKE) -C ports/thirdparty/openblas do-install
+numpy:
+	$(MAKE) -C ports/thirdparty/numpy do-install
+cython:
+	$(MAKE) -C ports/thirdparty/cython do-install
 
-# deps
+# deps that this port would directly use
 
-python:   zlib openssl readline ncurses
+python:   zlib openssl ncurses readline
 readline: ncurses
 pip:      python
-world:    zlib openssl readline ncurses python pip openblas
+cython:   pip
+numpy:    pip cython openblas
+
+world:    zlib openssl ncurses readline python pip openblas cython numpy
 
 # utils
 startover:

@@ -1,5 +1,8 @@
 include ../../../mk/config.mk
 
+# Local sanity check
+_tmpvar:=$(if $(shell which $(FC)),exists,$(error "unable to run $(FC), consider doing yum install gcc-gfortran"))
+
 # Local variables
 _NAME            = numpy-1.10.1
 _URL             = https://github.com/numpy/numpy

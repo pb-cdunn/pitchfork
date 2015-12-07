@@ -14,6 +14,7 @@ PREFIX    ?= $(PFHOME)/deployment
 STAGING   ?= $(PFHOME)/staging
 CFLAGS     = -fPIC -static-libgcc
 CFLAGS    += -I$(PREFIX)/include -L$(PREFIX)/lib
+ARCH      := $(shell arch)
 
 export CC
 export CXX
