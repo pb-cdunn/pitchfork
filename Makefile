@@ -1,4 +1,4 @@
-
+# rules
 openssl: libressl
 libressl:
 	$(MAKE) -C ports/thirdparty/libressl do-install
@@ -12,15 +12,17 @@ ncurses:
 	$(MAKE) -C ports/thirdparty/ncurses do-install
 pip:
 	$(MAKE) -C ports/thirdparty/pip do-install
+openblas:
+	$(MAKE) -C ports/thirdparty/openblas do-install
 
 # deps
 
-python: zlib openssl readline ncurses
+python:   zlib openssl readline ncurses
 readline: ncurses
-pip: python
+pip:      python
+world:    zlib openssl readline ncurses python pip openblas
 
 # utils
-
 startover:
 	rm -rf deployment/* staging/* workspace/*
 

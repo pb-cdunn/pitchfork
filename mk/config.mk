@@ -1,22 +1,27 @@
 # Global overrides
-SHELL            = /bin/bash
-CC               = gcc
-CXX              = g++
-GIT              = git
-SED              = sed
-CURL             = curl
-MD5SUM           = md5sum
-SHA1SUM          = sha1sum
-PFHOME          := $(realpath ../../..)
-WORKSPACE        = $(PFHOME)/workspace
-PREFIX          ?= $(PFHOME)/deployment
-STAGING         ?= $(PFHOME)/staging
-CFLAGS           = -fPIC -static-libgcc
-CFLAGS          += -I$(PREFIX)/include -L$(PREFIX)/lib
-PATH             = $(PREFIX)/bin:$$PATH
-LD_LIBRARY_PATH  = $(PREFIX)/lib:$$LD_LIBRARY_PATH
-export PATH
-export LD_LIBRARY_PATH
+SHELL      = /bin/bash
+CC         = gcc
+CXX        = g++
+FC         = gfortran
+GIT        = git
+SED        = sed
+CURL       = curl
+MD5SUM     = md5sum
+SHA1SUM    = sha1sum
+PFHOME    := $(realpath ../../..)
+WORKSPACE  = $(PFHOME)/workspace
+PREFIX    ?= $(PFHOME)/deployment
+STAGING   ?= $(PFHOME)/staging
+CFLAGS     = -fPIC -static-libgcc
+CFLAGS    += -I$(PREFIX)/include -L$(PREFIX)/lib
+
+export CC
+export CXX
+export FC
+
+export PATH            := $(PREFIX)/bin:$(PATH)
+export LD_LIBRARY_PATH := $(PREFIX)/lib:$(LD_LIBRARY_PATH)
+
 
 include $(PFHOME)/mk/sanity.mk
 

@@ -1,21 +1,22 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME            = pip-7.1.2
-_URL             = https://raw.githubusercontent.com/pypa/pip
-_REV             = 3dfa1f9a55d25587e9e97a27d8c87943e4b6aa54
+_NAME            = numpy-1.10.1
+_URL             = https://github.com/numpy/numpy
+_REV             = f769c64026f5ff993ec1e28cbd9f39b8da75347d
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
-_FILE            = get-pip.py
 
 # Local works
-do-extract: do-fetch
-do-fetch:
-	@test -e $(_FILE) || $(CURL) -O $(_URL)/$(_REV)/contrib/$(_FILE)
-do-build: do-extract wscheck
+do-extract: do-gitclone
+do-gitclone: wscheck
+	@test -d $(_WRKSRC) || $(GIT) clone -o $(_REV) $(_URL) $(_WRKSRC)
+do-config: do-extract
+	@test -e $(_WRKSRC)/site.cfg || $(SED) -e 's@_PREFIX_@$(PREFIX)@g' site.cfg.template > $(_WRKSRC)/site.cfg
+do-build: do-config
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@$(PREFIX)/bin/python $(_FILE)
+	@$(PREFIX)/bin/pip install $(_WRKSRC)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^++'|awk -F $(PREFIX)/ '/^+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
