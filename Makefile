@@ -18,6 +18,8 @@ numpy:
 	$(MAKE) -C ports/thirdparty/numpy do-install
 cython:
 	$(MAKE) -C ports/thirdparty/cython do-install
+hdf5:
+	$(MAKE) -C ports/thirdparty/hdf5 do-install
 
 # deps that this port would directly use
 
@@ -26,8 +28,9 @@ readline: ncurses
 pip:      python
 cython:   pip
 numpy:    pip cython openblas
+hdf5:     zlib
 
-world:    zlib openssl ncurses readline python pip openblas cython numpy
+world:    zlib openssl ncurses readline python pip openblas cython numpy hdf5
 
 # utils
 startover:
