@@ -22,9 +22,18 @@ hdf5:
 	$(MAKE) -C ports/thirdparty/hdf5 do-install
 ipython:
 	$(MAKE) -C ports/thirdparty/ipython do-install
+h5py:
+	$(MAKE) -C ports/thirdparty/h5py do-install
+pysam:
+	$(MAKE) -C ports/thirdparty/pysam do-install
+pbcore:
+	$(MAKE) -C ports/pacbio/pbcore do-install
+#pyxb:
+#	$(MAKE) -C ports/thirdparty/pyxb do-install
 world: \
-       zlib     openssl ncurses readline python  pip \
-       openblas cython  numpy   hdf5     ipython
+       zlib     openssl ncurses readline python  pip  \
+       openblas cython  numpy   hdf5     ipython h5py \
+       pysam    pbcore
 
 # deps that this port would directly use
 
@@ -35,6 +44,9 @@ cython:   pip
 numpy:    pip cython openblas
 hdf5:     zlib
 ipython:  pip
+h5py:     pip hdf5
+pysam:    pip
+pbcore:   pip pysam
 
 # utils
 startover:
