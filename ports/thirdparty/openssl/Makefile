@@ -1,22 +1,30 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME   = zlib-1.2.8
-_URL    = https://github.com/cloudflare/zlib
-_REV    = a80420c63532c25220a54ea0980667c02303460a
+_NAME   = openssl-1.0.2e
+_URL    = ftp://ftp.openssl.org/source
+_FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-_CFLAGS = $(CFLAGS) -march=native -O3
 
 # Local works
-do-extract: do-gitclone
-do-gitclone: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone -o $(_REV) $(_URL) $(_WRKSRC)
+do-extract: wscheck
+	@test -e $(_FILE) || curl -O $(_URL)/$(_FILE)
+	@which $(SHA1SUM) >& /dev/null && $(SHA1SUM) -c SHA1SUM
+	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
+do-clean-distfile:
+	@rm -f $(_FILE)
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
+	@rm -f $(_FILE)
 do-config: do-extract
-	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
+	@cd $(_WRKSRC) && test -d include/openssl \
+     || CC="gcc $(CFLAGS)" ./Configure \
+            --prefix=$(STAGING)/$(_NAME) \
+            linux-$(ARCH) \
+            shared \
+            -Wa,--noexecstack
 do-build: do-config
-	@test -f $(_WRKSRC)/configure.log || exit 1
+	@test ! Configure -nt Makefile || exit 1
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC)
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):

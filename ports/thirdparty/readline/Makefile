@@ -1,11 +1,11 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME   = zlib-1.2.8
-_URL    = https://github.com/cloudflare/zlib
-_REV    = a80420c63532c25220a54ea0980667c02303460a
+_NAME   = readline-6.3p8
+_URL    = http://git.savannah.gnu.org/r/readline.git
+_REV    = a73b98f779b388a5d0624e02e8bb187246e3e396
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-_CFLAGS = $(CFLAGS) -march=native -O3
+_CFLAGS = $(CFLAGS)
 
 # Local works
 do-extract: do-gitclone
@@ -14,9 +14,9 @@ do-gitclone: wscheck
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
-	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
+	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
 do-build: do-config
-	@test -f $(_WRKSRC)/configure.log || exit 1
+	@test -f $(_WRKSRC)/config.log || exit 1
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC)
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):

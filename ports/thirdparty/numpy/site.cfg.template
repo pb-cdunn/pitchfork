@@ -1,0 +1,4 @@
+[openblas]
+libraries = openblas
+library_dirs = _PREFIX_/lib
+include_dirs = _PREFIX_/include
