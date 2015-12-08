@@ -14,7 +14,8 @@ addon:
       - libtool
 
 install:
-  - make world
+  - apt-cache search fortran
+#  - make world
 
 script:
   - echo "success!"
