@@ -32,12 +32,14 @@ xmlbuilder:
 	$(MAKE) -C ports/thirdparty/xmlbuilder do-install
 blasr_libcpp:
 	$(MAKE) -C ports/pacbio/blasr_libcpp do-install
+blasr:
+	$(MAKE) -C ports/pacbio/blasr do-install
 docopt:
 	$(MAKE) -C ports/thirdparty/docopt
 pbdoctorb:
 	$(MAKE) -C ports/pacbio/pbdoctorb do-install
-#pyxb:
-#	$(MAKE) -C ports/thirdparty/pyxb do-install
+pyxb:
+	$(MAKE) -C ports/thirdparty/pyxb do-install
 world: \
        zlib     openssl   ncurses      readline python     pip  \
        openblas cython    numpy        hdf5     ipython    h5py \
