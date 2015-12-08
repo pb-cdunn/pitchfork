@@ -14,9 +14,7 @@ addons:
       - libtool
 
 install:
-  - apt-cache search fortran
-  - gfortran --version
-#  - make world
+  - make world
 
 script:
   - echo "success!"
