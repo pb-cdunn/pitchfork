@@ -20,17 +20,39 @@ cython:
 	$(MAKE) -C ports/thirdparty/cython do-install
 hdf5:
 	$(MAKE) -C ports/thirdparty/hdf5 do-install
+ipython:
+	$(MAKE) -C ports/thirdparty/ipython do-install
+h5py:
+	$(MAKE) -C ports/thirdparty/h5py do-install
+pysam:
+	$(MAKE) -C ports/thirdparty/pysam do-install
+pbcore:
+	$(MAKE) -C ports/pacbio/pbcore do-install
+xmlbuilder:
+	$(MAKE) -C ports/thirdparty/xmlbuilder do-install
+blasr_libcpp:
+	$(MAKE) -C ports/pacbio/blasr_libcpp do-install
+#pyxb:
+#	$(MAKE) -C ports/thirdparty/pyxb do-install
+world: \
+       zlib     openssl ncurses readline python  pip  \
+       openblas cython  numpy   hdf5     ipython h5py \
+       pysam    pbcore
 
 # deps that this port would directly use
 
-python:   zlib openssl ncurses readline
-readline: ncurses
-pip:      python
-cython:   pip
-numpy:    pip cython openblas
-hdf5:     zlib
-
-world:    zlib openssl ncurses readline python pip openblas cython numpy hdf5
+python:       zlib openssl ncurses readline
+readline:     ncurses
+pip:          python
+cython:       pip
+numpy:        pip cython openblas
+hdf5:         zlib
+ipython:      pip
+h5py:         pip hdf5
+pysam:        pip
+pbcore:       pip pysam
+blasr_libcpp: hdf5
+blasr:        blasr_libcpp
 
 # utils
 startover:
