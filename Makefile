@@ -35,9 +35,9 @@ blasr_libcpp:
 #pyxb:
 #	$(MAKE) -C ports/thirdparty/pyxb do-install
 world: \
-       zlib     openssl ncurses readline python  pip  \
-       openblas cython  numpy   hdf5     ipython h5py \
-       pysam    pbcore
+       zlib     openssl ncurses      readline python     pip  \
+       openblas cython  numpy        hdf5     ipython    h5py \
+       pysam    pbcore  blasr_libcpp blasr    xmlbuilder pyxb
 
 # deps that this port would directly use
 
@@ -53,6 +53,8 @@ pysam:        pip
 pbcore:       pip pysam
 blasr_libcpp: hdf5
 blasr:        blasr_libcpp
+xmlbuilder:   pip
+pyxb:         pip
 
 # utils
 startover:
