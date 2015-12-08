@@ -7,8 +7,9 @@ sudo: false
 
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
-      - gfortran
       - gcc-4.8
       - g++-4.8
       - gfortran-4.8
