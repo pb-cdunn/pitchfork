@@ -15,8 +15,7 @@ addons:
       - gfortran-4.8
 
 install:
-  - gcc-4.8 --version
-#  - make blasr
+  - make CC=gcc-4.8 CXX=g++-4.8 FC=gfortran-4.8 blasr
 
 script:
   - echo "success!"
