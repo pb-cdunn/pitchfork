@@ -6,6 +6,8 @@ _URL    = https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.16/src
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
+_tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
+
 # Local works
 do-extract: wscheck
 	@test -e $(_FILE) || curl -O $(_URL)/$(_FILE)

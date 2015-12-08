@@ -28,6 +28,10 @@ pysam:
 	$(MAKE) -C ports/thirdparty/pysam do-install
 pbcore:
 	$(MAKE) -C ports/pacbio/pbcore do-install
+xmlbuilder:
+	$(MAKE) -C ports/thirdparty/xmlbuilder do-install
+blasr_libcpp:
+	$(MAKE) -C ports/pacbio/blasr_libcpp do-install
 #pyxb:
 #	$(MAKE) -C ports/thirdparty/pyxb do-install
 world: \
@@ -37,16 +41,18 @@ world: \
 
 # deps that this port would directly use
 
-python:   zlib openssl ncurses readline
-readline: ncurses
-pip:      python
-cython:   pip
-numpy:    pip cython openblas
-hdf5:     zlib
-ipython:  pip
-h5py:     pip hdf5
-pysam:    pip
-pbcore:   pip pysam
+python:       zlib openssl ncurses readline
+readline:     ncurses
+pip:          python
+cython:       pip
+numpy:        pip cython openblas
+hdf5:         zlib
+ipython:      pip
+h5py:         pip hdf5
+pysam:        pip
+pbcore:       pip pysam
+blasr_libcpp: hdf5
+blasr:        blasr_libcpp
 
 # utils
 startover:
