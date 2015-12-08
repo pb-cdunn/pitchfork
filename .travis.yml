@@ -9,12 +9,15 @@ addons:
   apt:
     packages:
       - gfortran
-      - autoreconf
-      - automake
-      - libtool
+#      - autoreconf
+#      - automake
+#      - libtool
 
 install:
-  - make world
+   - apt-cache search gcc-4.8
+   - apt-cache search g++-4.8
+   - apt-cache search gfortran-4.8
+#  - make world
 
 script:
   - echo "success!"
