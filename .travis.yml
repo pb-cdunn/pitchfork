@@ -14,10 +14,7 @@ addon:
       - libtool
 
 install:
-   - ls ports/thirdparty/python
-   - which md5sum
-   - make -C ports/thirdparty/python do-extract
-#  - make world
+  - make world
 
 script:
   - echo "success!"
