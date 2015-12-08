@@ -5,7 +5,7 @@ language: cpp
 
 sudo: false
 
-addon:
+addons:
   apt:
     packages:
       - gfortran
