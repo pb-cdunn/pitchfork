@@ -14,7 +14,8 @@ addon:
       - libtool
 
 install:
-  - make world
+   - make -C ports/third-party/python do-extract
+#  - make world
 
 script:
   - echo "success!"
