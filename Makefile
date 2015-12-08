@@ -32,12 +32,17 @@ xmlbuilder:
 	$(MAKE) -C ports/thirdparty/xmlbuilder do-install
 blasr_libcpp:
 	$(MAKE) -C ports/pacbio/blasr_libcpp do-install
+docopt:
+	$(MAKE) -C ports/thirdparty/docopt
+pbdoctorb:
+	$(MAKE) -C ports/pacbio/pbdoctorb do-install
 #pyxb:
 #	$(MAKE) -C ports/thirdparty/pyxb do-install
 world: \
-       zlib     openssl ncurses      readline python     pip  \
-       openblas cython  numpy        hdf5     ipython    h5py \
-       pysam    pbcore  blasr_libcpp blasr    xmlbuilder pyxb
+       zlib     openssl   ncurses      readline python     pip  \
+       openblas cython    numpy        hdf5     ipython    h5py \
+       pysam    pbcore    blasr_libcpp blasr    xmlbuilder pyxb \
+       docopt   pbdoctorb
 
 # deps that this port would directly use
 
@@ -52,9 +57,11 @@ h5py:         pip hdf5
 pysam:        pip
 pbcore:       pip pysam
 blasr_libcpp: hdf5
-blasr:        blasr_libcpp
+blasr:        blasr_libcpp hdf5
 xmlbuilder:   pip
 pyxb:         pip
+pbdoctorb:    pip docopt pbcore
+docopt:       pip
 
 # utils
 startover:
