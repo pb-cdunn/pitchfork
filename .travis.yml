@@ -9,15 +9,16 @@ addons:
   apt:
     packages:
       - gfortran
+      - gcc-4.8
+      - g++-4.8
+      - gfortran-4.8
 #      - autoreconf
 #      - automake
 #      - libtool
 
 install:
-   - apt-cache search gcc-4.8
-   - apt-cache search g++-4.8
-   - apt-cache search gfortran-4.8
-#  - make world
+  - echo "success!"
+#  - make blasr
 
 script:
   - echo "success!"
