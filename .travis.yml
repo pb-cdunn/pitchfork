@@ -15,6 +15,7 @@ addon:
 
 install:
   - apt-cache search fortran
+  - gfortran --version
 #  - make world
 
 script:
