@@ -15,18 +15,7 @@ addons:
       - gfortran-4.8
 
 install:
-  - make CC=gcc-4.8 CXX=g++-4.8 FC=gfortran-4.8 blasr
+  - make CC=gcc-4.8 CXX=g++-4.8 FC=gfortran-4.8 blasr pbdoctorb
 
 script:
   - echo "success!"
-
-#notifications:
-#  email:
-#    recipients:
-#      - mhsieh@pacificbiosciences.com
-#
-#  irc:
-#    channels:
-#      - "irc.freenode.org#osxchat"
-#    use_notice: true
-#    on_success: change
