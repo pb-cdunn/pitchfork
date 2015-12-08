@@ -13,12 +13,9 @@ addons:
       - gcc-4.8
       - g++-4.8
       - gfortran-4.8
-#      - autoreconf
-#      - automake
-#      - libtool
 
 install:
-  - echo "success!"
+  - gcc-4.8 --version
 #  - make blasr
 
 script:
