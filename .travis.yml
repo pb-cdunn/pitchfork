@@ -1,0 +1,31 @@
+########################
+# Author: Mengjuei Hsieh
+
+language: cpp
+
+sudo: false
+
+addon:
+  apt:
+    packages:
+      - gfortran
+      - autoreconf
+      - automake
+      - libtool
+
+install:
+  - make world
+
+script:
+  - echo "success!"
+
+#notifications:
+#  email:
+#    recipients:
+#      - mhsieh@pacificbiosciences.com
+#
+#  irc:
+#    channels:
+#      - "irc.freenode.org#osxchat"
+#    use_notice: true
+#    on_success: change
