@@ -15,12 +15,16 @@ PFHOME    := $(realpath ../../..)
 WORKSPACE  = $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
 STAGING   ?= $(PFHOME)/staging
+
 ifeq ($(OPSYS),Darwin)
     CFLAGS = -fPIC
+    DYLIB  = dylib
 endif
 ifeq ($(OPSYS),Linux)
     CFLAGS = -fPIC -static-libgcc
+    DYLIB  = so
 endif
+
 CFLAGS    += -I$(PREFIX)/include -L$(PREFIX)/lib
 
 export CC
