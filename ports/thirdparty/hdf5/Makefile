@@ -19,7 +19,10 @@ do-extract: wscheck
 #	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
 	@cd $(_WRKSRC) && (test -e config.log \
-     || CFLAGS="$(CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --enable-cxx --with-shared --with-zlib=$(PREFIX))
+     || CFLAGS="$(CFLAGS)" \
+        ./configure --prefix=$(STAGING)/$(_NAME) --enable-cxx \
+                    --with-shared --with-zlib=$(PREFIX)) \
+        >& config.log
 do-build: do-config
 	@test ! -e config.log || exit 1
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log
