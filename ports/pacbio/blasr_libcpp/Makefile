@@ -15,7 +15,10 @@ export CXXFLAGS=$(CFLAGS)
 # Local works
 do-extract: do-gitclone
 do-gitclone: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+	@test -d $(_WRKSRC) || ( \
+        curl -O -L $(_URL)/archive/master.zip \
+        && unzip master.zip -d $(WORKSPACE) \
+        && mv $(WORKSPACE)/$(_NAME)-master $(_WRKSRC) )
 do-config: do-extract $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
@@ -29,9 +32,9 @@ do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@cp -a $(_WRKSRC)/alignment/libblasr.so $(PREFIX)/lib/
-	@cp -a $(_WRKSRC)/hdf/libpbihdf.so $(PREFIX)/lib/
-	@cp -a $(_WRKSRC)/pbdata/libpbdata.so $(PREFIX)/lib/
+	@cp -a $(_WRKSRC)/alignment/libblasr.$(DYLIB) $(PREFIX)/lib/
+	@cp -a $(_WRKSRC)/hdf/libpbihdf.$(DYLIB) $(PREFIX)/lib/
+	@cp -a $(_WRKSRC)/pbdata/libpbdata.$(DYLIB) $(PREFIX)/lib/
 	@cd $(_WRKSRC) && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
 	@cp -a $(_WRKSRC)/libconfig.h $(PREFIX)/include/alignment/libconfig.h
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list

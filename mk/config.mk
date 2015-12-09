@@ -8,13 +8,24 @@ SED        = sed
 CURL       = curl
 MD5SUM     = md5sum
 SHA1SUM    = sha1sum
+UNAME      = uname
+ARCH      := $(shell $(UNAME) -m)
+OPSYS     := $(shell $(UNAME) -s)
 PFHOME    := $(realpath ../../..)
 WORKSPACE  = $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
 STAGING   ?= $(PFHOME)/staging
-CFLAGS     = -fPIC -static-libgcc
+
+ifeq ($(OPSYS),Darwin)
+    CFLAGS = -fPIC
+    DYLIB  = dylib
+endif
+ifeq ($(OPSYS),Linux)
+    CFLAGS = -fPIC -static-libgcc
+    DYLIB  = so
+endif
+
 CFLAGS    += -I$(PREFIX)/include -L$(PREFIX)/lib
-ARCH      := $(shell arch)
 
 export CC
 export CXX
