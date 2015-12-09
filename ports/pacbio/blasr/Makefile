@@ -15,7 +15,10 @@ export CXXFLAGS=$(CFLAGS)
 # Local works
 do-extract: do-gitclone
 do-gitclone: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+	@test -d $(_WRKSRC) || ( \
+        curl -O -L $(_URL)/archive/master.zip \
+        && unzip master.zip -d $(WORKSPACE) \
+        && mv $(WORKSPACE)/$(_NAME)-master $(_WRKSRC) )
 do-config: do-extract $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
