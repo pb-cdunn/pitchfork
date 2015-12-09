@@ -22,11 +22,11 @@ do-config: do-extract
      || CFLAGS="$(CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --enable-cxx --with-shared --with-zlib=$(PREFIX))
 do-build: do-config
 	@test ! -e config.log || exit 1
-	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC)
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@$(MAKE) -C $(_WRKSRC) install >& install.log
+	@$(MAKE) -C $(_WRKSRC) install
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
