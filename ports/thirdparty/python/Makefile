@@ -29,7 +29,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@make -C $(_WRKSRC) install >& install.log
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^++'|awk -F $(PREFIX)/ '/^+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-uninstall:
 	@cd $(PREFIX) && cat var/pkg/$(_NAME) | xargs rm -f
 	@rm -f $(PREFIX)/var/pkg/$(_NAME)
