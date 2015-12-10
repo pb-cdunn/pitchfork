@@ -1,3 +1,4 @@
+include mk/osdetect.mk
 # rules
 openssl: libressl
 libressl:
@@ -6,8 +7,12 @@ python:
 	$(MAKE) -C ports/thirdparty/python do-install
 readline:
 	$(MAKE) -C ports/thirdparty/readline do-install
+ifeq ($(OPSYS),Darwin)
+zlib: ;
+else
 zlib:
 	$(MAKE) -C ports/thirdparty/zlib-ng do-install
+endif
 ncurses:
 	$(MAKE) -C ports/thirdparty/ncurses do-install
 pip:
@@ -47,18 +52,12 @@ world: \
        docopt   pbdoctorb
 
 # deps that this port would directly use
-ifeq ($(shell $(UNAME) -s),Darwin)
 python:       zlib openssl ncurses readline
-else
-python:       openssl ncurses readline
-endif
 readline:     ncurses
 pip:          python
 cython:       pip
 numpy:        pip cython openblas
-ifneq ($(shell $(UNAME) -s),Darwin)
 hdf5:         zlib
-endif
 ipython:      pip
 h5py:         pip hdf5
 pysam:        pip
