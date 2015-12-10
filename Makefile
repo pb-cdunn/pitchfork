@@ -8,7 +8,7 @@ ifeq ($(OPSYS),Darwin)
 zlib: ;
 else
 zlib:
-	$(MAKE) -C ports/thirdparty/zlib-ng do-install
+	$(MAKE) -C ports/thirdparty/zlib-cloudflare do-install
 endif
 ncurses:
 	$(MAKE) -C ports/thirdparty/ncurses do-install
