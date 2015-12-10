@@ -47,13 +47,18 @@ world: \
        docopt   pbdoctorb
 
 # deps that this port would directly use
-
+ifeq ($(shell $(UNAME) -s),Darwin)
 python:       zlib openssl ncurses readline
+else
+python:       openssl ncurses readline
+endif
 readline:     ncurses
 pip:          python
 cython:       pip
 numpy:        pip cython openblas
+ifneq ($(shell $(UNAME) -s),Darwin)
 hdf5:         zlib
+endif
 ipython:      pip
 h5py:         pip hdf5
 pysam:        pip

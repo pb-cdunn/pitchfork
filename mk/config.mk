@@ -8,13 +8,12 @@ SED        = sed
 CURL       = curl
 MD5SUM     = md5sum
 SHA1SUM    = sha1sum
-UNAME      = uname
-ARCH      := $(shell $(UNAME) -m)
-OPSYS     := $(shell $(UNAME) -s)
 PFHOME    := $(realpath ../../..)
 WORKSPACE  = $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
 STAGING   ?= $(PFHOME)/staging
+
+include $(PFHOME)/mk/osdetect.mk
 
 ifeq ($(OPSYS),Darwin)
     CFLAGS = -fPIC
@@ -31,7 +30,7 @@ export CC
 export CXX
 export FC
 
-export PATH            := $(PREFIX)/bin:$(PATH)
+export PATH            := $(PREFIX)/bin:$(PFHOME)/bin:$(PATH)
 export LD_LIBRARY_PATH := $(PREFIX)/lib:$(LD_LIBRARY_PATH)
 
 
