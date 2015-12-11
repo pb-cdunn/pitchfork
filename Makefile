@@ -21,7 +21,7 @@ blasr_libcpp:
 blasr:
 	$(MAKE) -C ports/pacbio/blasr do-install
 htslib:
-	$(MAKE) -C ports/thirdparty/pyxb do-install
+	$(MAKE) -C ports/thirdparty/htslib do-install
 python:
 	$(MAKE) -C ports/thirdparty/python do-install
 pip:

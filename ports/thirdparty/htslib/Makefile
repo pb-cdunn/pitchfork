@@ -5,7 +5,6 @@ _NAME   = htslib-1.2.1
 _URL    = https://github.com/samtools/htslib/releases/download/1.2.1/
 _REV    = 26229a368e3045a827f04fc03f3879e25f110ba3
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-_CFLAGS = $(CFLAGS)
 
 # Local works
 do-extract: do-gitclone
@@ -14,7 +13,7 @@ do-gitclone: wscheck
 	@test -e $(_NAME).tar.bz2 || $(CURL) -L -O $(_URL)/$(_NAME).tar.bz2
 	@$(MD5SUM) -c MD5SUM
 do-config: do-extract
-	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
+	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
 do-build: do-config
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)

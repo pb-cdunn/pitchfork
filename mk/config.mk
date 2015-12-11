@@ -23,8 +23,8 @@ ifeq ($(OPSYS),Linux)
     CFLAGS = -fPIC -static-libgcc
     DYLIB  = so
 endif
-
-CFLAGS    += -I$(PREFIX)/include -L$(PREFIX)/lib
+LDFLAGS    = -L$(PREFIX)/lib
+CFLAGS    += -I$(PREFIX)/include $(LDFLAGS)
 
 export CC
 export CXX
