@@ -36,7 +36,6 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cp -a $(_WRKSRC)/hdf/libpbihdf.$(DYLIB) $(PREFIX)/lib/
 	@cp -a $(_WRKSRC)/pbdata/libpbdata.$(DYLIB) $(PREFIX)/lib/
 	@cd $(_WRKSRC) && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
-	@cp -a $(_WRKSRC)/libconfig.h $(PREFIX)/include/alignment/libconfig.h
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
