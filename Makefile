@@ -61,7 +61,7 @@ cython:       pip
 numpy:        pip cython openblas
 hdf5:         zlib
 ipython:      pip
-h5py:         pip hdf5
+h5py:         pip hdf5 numpy
 pysam:        pip
 pbcore:       pip pysam
 blasr_libcpp: hdf5
