@@ -46,6 +46,8 @@ pbdoctorb:
 	$(MAKE) -C ports/pacbio/pbdoctorb do-install
 pyxb:
 	$(MAKE) -C ports/thirdparty/pyxb do-install
+gtest:
+	$(MAKE) -C ports/thirdparty/gtest do-install
 
 world: \
        zlib     openssl   ncurses      readline python     pip  \

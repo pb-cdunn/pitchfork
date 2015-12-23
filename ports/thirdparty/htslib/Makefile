@@ -11,7 +11,7 @@ do-extract: do-gitclone
 	@test -d $(_WRKSRC) || tar jxf $(_NAME).tar.bz2 -C $(WORKSPACE)
 do-gitclone: wscheck
 	@test -e $(_NAME).tar.bz2 || $(CURL) -L -O $(_URL)/$(_NAME).tar.bz2
-	@$(MD5SUM) -c MD5SUM
+	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 do-config: do-extract
 	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
 do-build: do-config

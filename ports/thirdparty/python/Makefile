@@ -13,7 +13,7 @@ _CFLAGS          = $(CFLAGS) -I$(PREFIX)/include/ncurses
 # Local works
 do-extract: wscheck
 	@test -e $(_FILE) || $(CURL) -O $(_URL)/$(_FILE)
-	@which md5sum >& /dev/null && md5sum -c MD5SUM
+	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true

@@ -12,7 +12,8 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 # Local works
 do-extract: do-gitclone
 do-gitclone: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone -o $(_REV) $(_URL) $(_WRKSRC)
+	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+	@$(GIT) -C $(_WRKSRC) checkout $(_REV)
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
