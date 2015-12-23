@@ -3,17 +3,18 @@ include ../../../mk/checkautoconf.mk
 include ../../../mk/checkautomake.mk
 
 # Local variables
-_NAME   = libressl-2.3.1
+_NAME   = libressl-2.2.3
 _URL    = https://github.com/libressl-portable/portable
-#_REV    = 7180bed3bb78144e19c1dfe3180b0dd2f426bf60
+_REV    = da424147c99796b8ab6f6f0d73dc8f521a12d0fc
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 
 # Local works
 do-extract: do-gitclone
+	@test -e $(_WRKSRC)/configure || (cd $(_WRKSRC) && ./autogen.sh)
 do-gitclone: wscheck
 	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
-	@test -e $(_WRKSRC)/configure || (cd $(_WRKSRC) && ./autogen.sh)
+	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
