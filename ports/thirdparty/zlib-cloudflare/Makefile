@@ -11,7 +11,7 @@ _CFLAGS = $(CFLAGS) -march=native -O3
 do-extract: do-gitclone
 do-gitclone: wscheck
 	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
-	@$(GIT) -C $(_WRKSRC) checkout $(_REV)
+	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract

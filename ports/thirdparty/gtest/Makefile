@@ -2,13 +2,13 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME            = gtest-1.7.0
-_URL             = https://github.com/google/googletes
+_URL             = https://github.com/google/googletest
 _FILE            = release-1.7.0.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
 # Local works
 do-extract: wscheck
-	@test -e $(_FILE) || $(CURL) -O $(_URL)/archive/$(_FILE)
+	@test -e $(_FILE) || $(CURL) -L -O $(_URL)/archive/$(_FILE)
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) --transform 's/^googletest-release/gtest/' -C $(WORKSPACE)
 do-clean:
