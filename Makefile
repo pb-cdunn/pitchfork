@@ -81,7 +81,7 @@ docopt:       pip
 htslib:       zlib
 samtools:     zlib ncurses
 boost:        zlib python
-cmake:        zlib
+cmake:        zlib ncurses
 
 # utils
 startover:
