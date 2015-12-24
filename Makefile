@@ -82,7 +82,7 @@ cmake:        zlib ncurses
 
 htslib:       zlib
 pbcore:       pip pysam
-blasr_libcpp: hdf5
+blasr_libcpp: hdf5 pbbam
 blasr:        blasr_libcpp hdf5
 pbdoctorb:    pip docopt pbcore
 
