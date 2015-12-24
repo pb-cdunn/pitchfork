@@ -52,6 +52,8 @@ boost:
 	$(MAKE) -C ports/thirdparty/boost do-install
 samtools:
 	$(MAKE) -C ports/thirdparty/samtools do-install
+cmake:
+	$(MAKE) -C ports/thirdparty/cmake do-install
 
 world: \
        zlib     openssl   ncurses      readline python     pip  \
@@ -79,6 +81,7 @@ docopt:       pip
 htslib:       zlib
 samtools:     zlib ncurses
 boost:        zlib python
+cmake:        zlib
 
 # utils
 startover:
