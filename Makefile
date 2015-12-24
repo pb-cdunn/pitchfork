@@ -16,12 +16,6 @@ openblas:
 	$(MAKE) -C ports/thirdparty/openblas do-install
 hdf5:
 	$(MAKE) -C ports/thirdparty/hdf5 do-install
-blasr_libcpp:
-	$(MAKE) -C ports/pacbio/blasr_libcpp do-install
-blasr:
-	$(MAKE) -C ports/pacbio/blasr do-install
-htslib:
-	$(MAKE) -C ports/thirdparty/htslib do-install
 python:
 	$(MAKE) -C ports/thirdparty/python do-install
 pip:
@@ -40,10 +34,6 @@ docopt:
 	$(MAKE) -C ports/thirdparty/docopt
 pysam:
 	$(MAKE) -C ports/thirdparty/pysam do-install
-pbcore:
-	$(MAKE) -C ports/pacbio/pbcore do-install
-pbdoctorb:
-	$(MAKE) -C ports/pacbio/pbdoctorb do-install
 pyxb:
 	$(MAKE) -C ports/thirdparty/pyxb do-install
 gtest:
@@ -54,6 +44,17 @@ samtools:
 	$(MAKE) -C ports/thirdparty/samtools do-install
 cmake:
 	$(MAKE) -C ports/thirdparty/cmake do-install
+
+blasr_libcpp:
+	$(MAKE) -C ports/pacbio/blasr_libcpp do-install
+blasr:
+	$(MAKE) -C ports/pacbio/blasr do-install
+htslib:
+	$(MAKE) -C ports/pacbio/htslib do-install
+pbcore:
+	$(MAKE) -C ports/pacbio/pbcore do-install
+pbdoctorb:
+	$(MAKE) -C ports/pacbio/pbdoctorb do-install
 pbbam:
 	$(MAKE) -C ports/pacbio/pbbam do-install
 
