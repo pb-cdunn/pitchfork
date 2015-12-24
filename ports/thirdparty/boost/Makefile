@@ -16,7 +16,7 @@ do-extract: wscheck
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) --transform 's/^boost_1_60_0/boost-1.60.0/' -C $(WORKSPACE)
 do-config: do-extract
-	@cd $(_WRKSRC) && (test -e project-config.jam || ./bootstrap.sh --prefix=$(PREFIX))
+	@cd $(_WRKSRC) && (test -e project-config.jam || ./bootstrap.sh --prefix=$(PREFIX) >& bootstrap.run.log)
 do-install: do-config pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list

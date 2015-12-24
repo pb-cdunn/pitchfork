@@ -18,7 +18,7 @@ do-extract: wscheck
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
 do-config: do-extract
-	@cd $(_WRKSRC) && (test -e Makefile || ./bootstrap --prefix=$(PREFIX))
+	@cd $(_WRKSRC) && (test -e Makefile || ./bootstrap --prefix=$(PREFIX) >& bootstrap.run.log)
 do-build: do-config
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
