@@ -54,6 +54,8 @@ samtools:
 	$(MAKE) -C ports/thirdparty/samtools do-install
 cmake:
 	$(MAKE) -C ports/thirdparty/cmake do-install
+pbbam:
+	$(MAKE) -C ports/pacbio/pbbam do-install
 
 world: \
        zlib     openssl   ncurses      readline python     pip  \
@@ -71,17 +73,19 @@ hdf5:         zlib
 ipython:      pip
 h5py:         pip hdf5 numpy
 pysam:        pip
+xmlbuilder:   pip
+pyxb:         pip
+docopt:       pip
+samtools:     zlib ncurses
+cmake:        zlib ncurses
+
+htslib:       zlib
 pbcore:       pip pysam
 blasr_libcpp: hdf5
 blasr:        blasr_libcpp hdf5
-xmlbuilder:   pip
-pyxb:         pip
 pbdoctorb:    pip docopt pbcore
-docopt:       pip
-htslib:       zlib
-samtools:     zlib ncurses
-boost:        zlib python
-cmake:        zlib ncurses
+
+pbbam:        samtools cmake boost htslib gtest
 
 # utils
 startover:
