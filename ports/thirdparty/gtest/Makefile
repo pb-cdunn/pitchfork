@@ -10,7 +10,7 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 do-extract: wscheck
 	@test -e $(_FILE) || $(CURL) -L -O $(_URL)/archive/$(_FILE)
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-	@test -d $(_WRKSRC) || tar zxf $(_FILE) --transform 's/^googletest-release/gtest/' -C $(WORKSPACE)
+	@test -d $(_WRKSRC) || (mkdir -p test $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC))
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-build: do-extract
