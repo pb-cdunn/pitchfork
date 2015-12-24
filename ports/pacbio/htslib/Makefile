@@ -1,7 +1,7 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME   = htslib-pacbio
+_NAME   = htslib
 _URL    = https://github.com/PacificBiosciences/htslib
 _REV    = ea846607f3ca7f49b3fb43df76f572d3f47cc6bb
 _WRKSRC = $(WORKSPACE)/$(_NAME)
