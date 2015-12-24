@@ -16,11 +16,11 @@ do-extract: wscheck
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 	@test -d $(_WRKSRC) || (mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC))
 do-config: do-extract
-	@cd $(_WRKSRC) && (test -e project-config.jam || ./bootstrap.sh --prefix=$(PREFIX) >& bootstrap.run.log)
+	@cd $(_WRKSRC) && (test -e project-config.jam || ./bootstrap.sh --prefix=$(PREFIX) 2>&1 | $(PFHOME)/bin/activity.bash)
 do-install: do-config pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@(cd $(_WRKSRC) && ./bjam --without-python --without-mpi --without-iostreams install) >& install.log
+	@(cd $(_WRKSRC) && ./bjam --without-python --without-mpi --without-iostreams install 2>&1) | $(PFHOME)/bin/activity.bash 
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
