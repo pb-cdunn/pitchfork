@@ -48,6 +48,10 @@ pyxb:
 	$(MAKE) -C ports/thirdparty/pyxb do-install
 gtest:
 	$(MAKE) -C ports/thirdparty/gtest do-install
+boost:
+	$(MAKE) -C ports/thirdparty/boost do-install
+samtools:
+	$(MAKE) -C ports/thirdparty/samtools do-install
 
 world: \
        zlib     openssl   ncurses      readline python     pip  \
@@ -73,6 +77,8 @@ pyxb:         pip
 pbdoctorb:    pip docopt pbcore
 docopt:       pip
 htslib:       zlib
+samtools:     zlib ncurses
+boost:        zlib python
 
 # utils
 startover:
