@@ -17,8 +17,7 @@ do-build: do-extract
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@cd $(_WRKSRC) && tar cf - include | tar xf - -C $(PREFIX)
-	@mkdir -p $(PREFIX)/src && cp -a $(_WRKSRC)/src $(PREFIX)/src/gtest
+	@mkdir -p $(PREFIX)/src && cp -a $(_WRKSRC) $(PREFIX)/src/gtest
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)

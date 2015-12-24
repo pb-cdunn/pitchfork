@@ -7,6 +7,10 @@ _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 _tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
+export CC
+export CXX
+export CFLAGS
+export CXXFLAGS=$(CFLAGS)
 
 # Local works
 do-extract: wscheck
