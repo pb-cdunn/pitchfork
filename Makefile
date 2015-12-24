@@ -18,24 +18,6 @@ hdf5:
 	$(MAKE) -C ports/thirdparty/hdf5 do-install
 python:
 	$(MAKE) -C ports/thirdparty/python do-install
-pip:
-	$(MAKE) -C ports/thirdparty/pip do-install
-numpy:
-	$(MAKE) -C ports/thirdparty/numpy do-install
-cython:
-	$(MAKE) -C ports/thirdparty/cython do-install
-xmlbuilder:
-	$(MAKE) -C ports/thirdparty/xmlbuilder do-install
-ipython:
-	$(MAKE) -C ports/thirdparty/ipython do-install
-h5py:
-	$(MAKE) -C ports/thirdparty/h5py do-install
-docopt:
-	$(MAKE) -C ports/thirdparty/docopt
-pysam:
-	$(MAKE) -C ports/thirdparty/pysam do-install
-pyxb:
-	$(MAKE) -C ports/thirdparty/pyxb do-install
 gtest:
 	$(MAKE) -C ports/thirdparty/gtest do-install
 boost:
@@ -44,6 +26,25 @@ samtools:
 	$(MAKE) -C ports/thirdparty/samtools do-install
 cmake:
 	$(MAKE) -C ports/thirdparty/cmake do-install
+
+pip:
+	$(MAKE) -C ports/python/pip do-install
+numpy:
+	$(MAKE) -C ports/python/numpy do-install
+cython:
+	$(MAKE) -C ports/python/cython do-install
+xmlbuilder:
+	$(MAKE) -C ports/python/xmlbuilder do-install
+ipython:
+	$(MAKE) -C ports/python/ipython do-install
+h5py:
+	$(MAKE) -C ports/python/h5py do-install
+docopt:
+	$(MAKE) -C ports/python/docopt
+pysam:
+	$(MAKE) -C ports/python/pysam do-install
+pyxb:
+	$(MAKE) -C ports/python/pyxb do-install
 
 blasr_libcpp:
 	$(MAKE) -C ports/pacbio/blasr_libcpp do-install
