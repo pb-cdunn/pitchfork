@@ -77,7 +77,7 @@ pyxb:         pip
 pbdoctorb:    pip docopt pbcore
 docopt:       pip
 htslib:       zlib
-samtools:     zlib
+samtools:     zlib ncurses
 boost:        zlib python
 
 # utils
