@@ -22,10 +22,13 @@ do-gitclone: wscheck
 do-config: do-extract $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
-        NOPBBAM=1 ./configure.py \
+        ./configure.py \
         PREFIX=$(PREFIX) \
         HDF5_INC=$(PREFIX)/include HDF5_LIB=$(PREFIX)/lib \
-        ZLIB_LIB=$(PREFIX)
+        ZLIB_LIB=$(PREFIX) \
+        PBBAM_INC=$(PREFIX)/include PBBAM_LIB=$(PREFIX)/lib \
+        HTSLIB_INC=$(PREFIX)/src/htslib \
+        HTSLIB_LIB=$(PREFIX)/src/htslib
 do-build: do-config
 	@$(MAKE) -C $(_WRKSRC) all
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
