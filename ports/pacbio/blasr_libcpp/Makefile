@@ -13,8 +13,8 @@ export CFLAGS
 export CXXFLAGS=$(CFLAGS)
 
 # Local works
-do-extract: do-gitclone
-do-gitclone: wscheck
+do-extract: do-fetch
+do-fetch: wscheck
 	@test -d $(_WRKSRC) || ( \
         curl -O -L $(_URL)/archive/master.zip \
         && unzip master.zip -d $(WORKSPACE) \
@@ -23,7 +23,6 @@ do-config: do-extract $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
         ./configure.py \
-         OS_STRING="" \
             PREFIX=$(PREFIX) \
           HDF5_INC=$(PREFIX)/include HDF5_LIB=$(PREFIX)/lib \
           ZLIB_LIB=$(PREFIX) \
