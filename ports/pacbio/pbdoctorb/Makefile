@@ -6,8 +6,8 @@ _URL             = https://github.com/dalexander/pbdoctorb
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-gitclone
-do-gitclone: wscheck
+do-extract: do-fetch
+do-fetch: wscheck
 	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
 do-config: do-extract
 do-build: do-config

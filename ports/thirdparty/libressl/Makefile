@@ -10,9 +10,9 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 
 # Local works
-do-extract: do-gitclone
+do-extract: do-fetch
 	@test -e $(_WRKSRC)/configure || (cd $(_WRKSRC) && ./autogen.sh)
-do-gitclone: wscheck
+do-fetch: wscheck
 	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-clean:

@@ -13,8 +13,8 @@ export CFLAGS
 export CXXFLAGS=$(CFLAGS)
 
 # Local works
-do-extract: do-gitclone
-do-gitclone: wscheck
+do-extract: do-fetch
+do-fetch: wscheck
 	@test -d $(_WRKSRC) || ( \
         curl -O -L $(_URL)/archive/master.zip \
         && unzip master.zip -d $(WORKSPACE) \

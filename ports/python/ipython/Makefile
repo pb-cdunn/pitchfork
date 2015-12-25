@@ -9,8 +9,8 @@ _NAME   = ipython-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-gitclone
-do-gitclone: wscheck
+do-extract: do-fetch
+do-fetch: wscheck
 do-config: do-extract
 do-build: do-config
 # note that dependencies is taken care of already here, mj is lazy

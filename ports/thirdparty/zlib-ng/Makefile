@@ -8,8 +8,8 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = -fPIC -march=native -O3
 
 # Local works
-do-extract: do-gitclone
-do-gitclone: wscheck
+do-extract: do-fetch
+do-fetch: wscheck
 	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-clean:

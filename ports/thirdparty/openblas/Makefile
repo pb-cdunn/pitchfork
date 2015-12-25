@@ -10,8 +10,8 @@ _REV    = 53e849f4fcae4363a64576de00e982722c7304f9
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-gitclone
-do-gitclone: wscheck
+do-extract: do-fetch
+do-fetch: wscheck
 	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-clean:
