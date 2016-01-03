@@ -2,8 +2,12 @@ include mk/osdetect.mk
 # rules
 openssl:
 	$(MAKE) -C ports/thirdparty/libressl do-install
+ifeq ($(OPSYS),Darwin)
+readline: ;
+else
 readline:
 	$(MAKE) -C ports/thirdparty/readline do-install
+endif
 ifeq ($(OPSYS),Darwin)
 zlib: ;
 else

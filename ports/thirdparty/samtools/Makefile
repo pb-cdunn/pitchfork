@@ -12,6 +12,10 @@ do-fetch: wscheck
 	@test -e $(_NAME).tar.bz2 || $(CURL) -L -O $(_URL)/$(_NAME).tar.bz2
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 do-config: do-extract
+ifeq ($(OPSYS),Darwin)
+	@test -e $(_WRKSRC)/config.log || cat patch-01 | (cd $(_WRKSRC) && patch -p0)
+	@test -e $(_WRKSRC)/config.log || perl -pi -e 's/-rdynamic//g' $(_WRKSRC)/Makefile $(_WRKSRC)/htslib-*/configure*
+endif
 	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
 do-build: do-config
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log
