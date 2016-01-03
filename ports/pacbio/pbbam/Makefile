@@ -23,6 +23,7 @@ do-config: do-extract
 	@cd $(_WRKSRC) && mkdir -p build
 	@cd $(_WRKSRC)/build && \
         cmake \
+            -D PacBioBAM_build_shared=ON \
             -D GTEST_SRC_DIR=$(PREFIX)/src/gtest \
             -D HTSLIB_ROOTDIR=$(PREFIX)/src/htslib \
             ..
