@@ -49,4 +49,5 @@ pfcheck: _stcheck
 	@mkdir -p "$(PREFIX)/share"         || exit 1
 	@mkdir -p "$(PREFIX)/include"       || exit 1
 	@mkdir -p "$(PREFIX)/var/pkg"       || exit 1
+	@mkdir -p "$(PREFIX)/etc"           || exit 1
 #	@mkdir -p "$(PREFIX)/share/man"     || exit 1
