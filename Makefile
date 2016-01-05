@@ -62,6 +62,8 @@ pbdoctorb:
 	$(MAKE) -C ports/pacbio/pbdoctorb do-install
 pbbam:
 	$(MAKE) -C ports/pacbio/pbbam do-install
+pbccs:
+	$(MAKE) -C ports/pacbio/pbccs do-install
 
 world: \
        zlib     openssl   ncurses      readline python     pip  \
@@ -92,10 +94,11 @@ blasr:        blasr_libcpp hdf5
 pbdoctorb:    pip docopt pbcore
 
 pbbam:        samtools cmake boost htslib gtest
+pbccs:        pbbam htslib cmake boost gtest
 
 # utils
 startover:
-	rm -rf deployment/* staging/* workspace/*
+	rm -rf deployment/* staging/* workspace/* ports/*/*/*.log
 
 # disabled
 #openssl:
