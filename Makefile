@@ -4,18 +4,16 @@ openssl:
 	$(MAKE) -C ports/thirdparty/libressl do-install
 ifeq ($(OPSYS),Darwin)
 readline: ;
+zlib: ;
+ncurses: ;
 else
 readline:
 	$(MAKE) -C ports/thirdparty/readline do-install
-endif
-ifeq ($(OPSYS),Darwin)
-zlib: ;
-else
 zlib:
 	$(MAKE) -C ports/thirdparty/zlib-cloudflare do-install
-endif
 ncurses:
 	$(MAKE) -C ports/thirdparty/ncurses do-install
+endif
 openblas:
 	$(MAKE) -C ports/thirdparty/openblas do-install
 hdf5:

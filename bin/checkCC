@@ -1,0 +1,25 @@
+#!/bin/bash
+
+reportVersion(){
+    set -euf -o pipefail
+    $1 -v 2>&1|grep ' version '|awk -F 'version ' '{print $2}'|awk '{print $1}'
+}
+
+# check the c++11 availability
+case $CC in
+gcc*)
+  myVersion=`reportVersion $CC`
+  if $CC -v 2>&1|grep ' version '|grep Apple >& /dev/null; then
+      echo "clang + gcc 4.2 fe"
+  else
+      (echo 4.8.0 && echo $myVersion)|sort -t. -k1,2|head -1|grep 4.8.0 >& /dev/null && echo pass
+  fi
+  ;;
+clang*)
+  myVersion=`reportVersion $CC`
+  (echo 3.3.0 && echo $myVersion)|sort -t. -k1,2|head -1|grep 3.3.0 >& /dev/null && echo pass
+  ;;
+*)
+  echo unrecognized CC
+  ;;
+esac
