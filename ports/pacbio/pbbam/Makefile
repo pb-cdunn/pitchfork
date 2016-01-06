@@ -23,8 +23,15 @@ do-config: do-extract
 	@cd $(_WRKSRC) && mkdir -p build
 	@cd $(_WRKSRC)/build && \
         cmake \
-            -D GTEST_SRC_DIR=$(PREFIX)/src/gtest \
-            -D HTSLIB_ROOTDIR=$(PREFIX)/src/htslib \
+            -DPacBioBAM_build_docs=OFF \
+            -DPacBioBAM_build_tests=OFF \
+            -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
+            -DHTSLIB_ROOTDIR=$(PREFIX)/src/htslib \
+            -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
+            -DZLIB_LIBRARIES_DIRS=$(PREFIX)/lib \
+            -DBoost_INCLUDE_DIRS=$(PREFIX)/include/boost \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..
 do-build: do-config
 	@cd $(_WRKSRC)/build && $(MAKE)
