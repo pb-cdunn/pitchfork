@@ -1,4 +1,6 @@
 include mk/osdetect.mk
+PREFIX ?= deployment
+
 # rules
 openssl:
 	$(MAKE) -C ports/thirdparty/libressl do-install
@@ -95,8 +97,8 @@ pbbam:        samtools cmake boost htslib gtest
 pbccs:        pbbam htslib cmake boost gtest
 
 # utils
-startover:
-	rm -rf deployment/* staging/* workspace/* ports/*/*/*.log
+_startover:
+	rm -rf $(PREFIX)/* staging/* workspace/* ports/*/*/*.log
 
 # disabled
 #openssl:
