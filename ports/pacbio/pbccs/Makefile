@@ -4,6 +4,7 @@ include ../../../mk/config.mk
 _NAME            = pbccs
 _URL             = https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION?= HEAD
 
 _tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
 
@@ -16,6 +17,7 @@ export CXXFLAGS=$(CFLAGS)
 do-extract: do-fetch
 do-fetch: wscheck
 	@test -d $(_WRKSRC) || git clone $(_URL) $(_WRKSRC)
+	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
 	@test -d $(_WRKSRC)/ConsensusCore2 || git clone https://github.com/PacificBiosciences/ConsensusCore2.git $(_WRKSRC)/ConsensusCore2 
 	@test -d $(_WRKSRC)/seqan || git clone https://github.com/PacificBiosciences/seqan.git $(_WRKSRC)/seqan
 do-config: do-extract $(_WRKSRC)/_build/Makefile
