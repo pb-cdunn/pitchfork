@@ -7,7 +7,6 @@ Prototyping github source building while having a dumb file (Makefile) to descri
 ```
 $ git clone https://github.com/mhsieh/pitchfork
 $ cd pitchfork
-$ make PREFIX=/tmp/pitchfork startover
 $ make PREFIX=/tmp/pitchfork blasr
 ```
 
