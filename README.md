@@ -11,6 +11,11 @@ $ make PREFIX=/tmp/pitchfork startover
 $ make PREFIX=/tmp/pitchfork blasr
 ```
 
+## other possible target to build:
+1. ipython
+2. pbcore
+3. pbccs
+
 # Developing pitchfork ports
 
 ## Style guide
