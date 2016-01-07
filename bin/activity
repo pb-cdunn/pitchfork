@@ -6,4 +6,4 @@ while read LINE; do
     test $ncount = 2 && echo -ne "\r/"  && ncount=3 && continue || true
     test $ncount = 3 && echo -ne "\r-"  && ncount=0 && continue || true
 done
-echo
+echo -ne "\r"

@@ -18,13 +18,14 @@ do-extract: wscheck
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
 do-config: do-extract
-	@cd $(_WRKSRC) && (test -e Makefile || ./bootstrap --prefix=$(PREFIX) 2>&1) | $(PFHOME)/bin/activity
+	@test -e $(_WRKSRC)/Makefile \
+      || (cd $(_WRKSRC) && ./bootstrap --prefix=$(PREFIX) 2>&1) | tee config.log | $(PFHOME)/bin/activity
 do-build: do-config
-	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | $(PFHOME)/bin/activity
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@$(MAKE) -C $(_WRKSRC) install >& install.log
+	@$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
