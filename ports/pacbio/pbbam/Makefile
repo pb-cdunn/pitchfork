@@ -8,10 +8,10 @@ $(_NAME)_VERSION?= HEAD
 
 _tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
 
-export CC
-export CXX
-export CFLAGS
-export CXXFLAGS=$(CFLAGS)
+#export CC
+#export CXX
+#export CFLAGS
+#export CXXFLAGS=$(CFLAGS)
 
 # Local works
 do-extract: do-fetch
@@ -28,7 +28,7 @@ do-config: do-extract
             -DHTSLIB_ROOTDIR=$(PREFIX)/src/htslib \
             -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
             -DZLIB_LIBRARIES_DIRS=$(PREFIX)/lib \
-            -DBoost_INCLUDE_DIRS=$(PREFIX)/include/boost \
+            -DBoost_INCLUDE_DIRS=$(PREFIX)/include \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..
