@@ -28,6 +28,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cd $(PREFIX)/bin && ln -s ccache `basename $(CC)`
 	@cd $(PREFIX)/bin && ln -s ccache `basename $(CXX)`
 	@cd $(PREFIX)/bin && ln -s ccache `basename $(FC)`
+	@cd $(PREFIX)/bin && ln -s ccache cpp
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
