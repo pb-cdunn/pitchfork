@@ -13,6 +13,9 @@ WORKSPACE  = $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
 STAGING   ?= $(PFHOME)/staging
 
+CCACHE_DIR = $(WORKSPACE)/.ccache
+CCACHE_BASEDIR = $(CCACHE_DIR)
+
 include $(PFHOME)/mk/osdetect.mk
 
 ifeq ($(OPSYS),Darwin)
@@ -29,6 +32,8 @@ CFLAGS    += -I$(PREFIX)/include $(LDFLAGS)
 export CC
 export CXX
 export FC
+export CCACHE_DIR
+export CCACHE_BASEDIR
 
 export PATH            := $(PREFIX)/bin:$(PFHOME)/bin:$(PATH)
 export LD_LIBRARY_PATH := $(PREFIX)/lib:$(LD_LIBRARY_PATH)

@@ -30,6 +30,10 @@ samtools:
 	$(MAKE) -C ports/thirdparty/samtools do-install
 cmake:
 	$(MAKE) -C ports/thirdparty/cmake do-install
+nim:
+	$(MAKE) -C ports/thirdparty/nim do-install
+ccache:
+	$(MAKE) -C ports/thirdparty/ccache do-install
 
 pip:
 	$(MAKE) -C ports/python/pip do-install
@@ -69,32 +73,35 @@ world: \
        zlib     openssl   ncurses      readline python     pip  \
        openblas cython    numpy        hdf5     ipython    h5py \
        pysam    pbcore    blasr_libcpp blasr    xmlbuilder pyxb \
-       docopt   pbdoctorb
+       docopt   pbdoctorb pbccs
 
 # deps that this port would directly use
-python:       zlib openssl ncurses readline
-readline:     ncurses
+boost:        ccache
+python:       ccache zlib openssl ncurses readline
+readline:     ccache ncurses
+samtools:     ccache zlib ncurses
+cmake:        ccache zlib ncurses
+ncurses:      ccache
+
 pip:          python
 cython:       pip
-numpy:        pip cython openblas
-hdf5:         zlib
+numpy:        ccache pip cython openblas
+hdf5:         ccache zlib
 ipython:      pip
-h5py:         pip hdf5 numpy
-pysam:        pip
+h5py:         ccache pip hdf5 numpy
+pysam:        ccache pip
 xmlbuilder:   pip
 pyxb:         pip
 docopt:       pip
-samtools:     zlib ncurses
-cmake:        zlib ncurses
 
-htslib:       zlib
+htslib:       ccache zlib
 pbcore:       pip pysam
-blasr_libcpp: hdf5 pbbam
-blasr:        blasr_libcpp hdf5
+blasr_libcpp: ccache hdf5 pbbam
+blasr:        ccache blasr_libcpp hdf5
 pbdoctorb:    pip docopt pbcore
 
-pbbam:        samtools cmake boost htslib gtest
-pbccs:        pbbam htslib cmake boost gtest
+pbbam:        ccache samtools cmake boost htslib gtest
+pbccs:        ccache pbbam htslib cmake boost gtest
 
 # utils
 _startover:

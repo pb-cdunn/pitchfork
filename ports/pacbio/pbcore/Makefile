@@ -4,11 +4,13 @@ include ../../../mk/config.mk
 _NAME            = pbcore
 _URL             = https://github.com/PacificBiosciences/pbcore
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION?= HEAD
 
 # Local works
 do-extract: do-fetch
 do-fetch: wscheck
 	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+	@@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
 do-config: do-extract
 do-build: do-config
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
