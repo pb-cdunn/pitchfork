@@ -16,7 +16,7 @@ do-fetch: wscheck
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-config: do-extract
 do-build: do-config
-	@$(MAKE) -C $(_WRKSRC) ZLIB_ROOT=$(PREFIX)
+	@$(MAKE) -C $(_WRKSRC) ZLIB_ROOT=$(PREFIX) CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function"
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list

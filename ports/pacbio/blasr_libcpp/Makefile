@@ -29,7 +29,9 @@ $(_WRKSRC)/defines.mk:
         HTSLIB_INC=$(PREFIX)/src/htslib \
         HTSLIB_LIB=$(PREFIX)/src/htslib
 do-build: do-config
-	@$(MAKE) -C $(_WRKSRC) all
+	@$(MAKE) -C $(_WRKSRC) libpbdata LDLIBS=-lpbbam
+	@$(MAKE) -C $(_WRKSRC) libpbihdf
+	@$(MAKE) -C $(_WRKSRC) libblasr
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
