@@ -22,6 +22,7 @@ do-config: do-extract
 	@cd $(_WRKSRC) && mkdir -p build
 	@cd $(_WRKSRC)/build && \
         cmake \
+            -DPacBioBAM_build_shared=ON \
             -DPacBioBAM_build_docs=OFF \
             -DPacBioBAM_build_tests=OFF \
             -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \

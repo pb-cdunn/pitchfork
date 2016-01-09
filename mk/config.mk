@@ -18,12 +18,11 @@ CCACHE_BASEDIR = $(CCACHE_DIR)
 
 include $(PFHOME)/mk/osdetect.mk
 
+CFLAGS = -fPIC
 ifeq ($(OPSYS),Darwin)
-    CFLAGS = -fPIC
     DYLIB  = dylib
 endif
 ifeq ($(OPSYS),Linux)
-    CFLAGS = -fPIC -static-libgcc
     DYLIB  = so
 endif
 LDFLAGS    = -L$(PREFIX)/lib

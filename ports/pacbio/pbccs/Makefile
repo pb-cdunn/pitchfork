@@ -25,7 +25,7 @@ $(_WRKSRC)/_build/Makefile:
 	mkdir -p $(_WRKSRC)/_build && \
 	cd $(_WRKSRC)/_build  && \
         cmake \
-              -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.a \
+              -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DPBBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioConsensus_RootDir=$(_WRKSRC)/ConsensusCore2 \
               -DBoost_INCLUDE_DIRS=$(PREFIX)/include \
