@@ -70,12 +70,10 @@ pbccs:
 	$(MAKE) -j1 -C ports/pacbio/pbccs do-install
 
 world: \
-       zlib     openssl   ncurses      readline python     pip  \
-       openblas cython    numpy        hdf5     ipython    h5py \
-       pysam    pbcore    blasr_libcpp blasr    xmlbuilder pyxb \
-       docopt   pbdoctorb pbccs
+       pbccs blasr pbcore ipython pbdoctorb 
 
 # deps that this port would directly use
+openssl:      ccache
 zlib:         ccache
 boost:        ccache
 python:       ccache zlib openssl ncurses readline
@@ -83,6 +81,7 @@ readline:     ccache ncurses
 samtools:     ccache zlib ncurses
 cmake:        ccache zlib ncurses
 ncurses:      ccache
+gtest:        ccache
 
 pip:          python
 cython:       pip
