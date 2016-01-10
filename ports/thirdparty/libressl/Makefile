@@ -20,8 +20,9 @@ do-clean:
 do-config: do-extract
 	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
 do-build: do-config
-	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -j1 -C $(_WRKSRC) >& build.log
+do-install: do-build pfcheck
+	$(MAKE) $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@$(MAKE) -C $(_WRKSRC) install >& install.log
