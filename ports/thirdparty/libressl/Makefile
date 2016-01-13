@@ -18,14 +18,17 @@ do-fetch: wscheck
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
-	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
+	@test -e $(_WRKSRC)/config.log \
+     || (cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
+        | tee config.log | $(PFHOME)/bin/activity
 do-build: do-config
-	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -j1 -C $(_WRKSRC) >& build.log
+	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -j1 -C $(_WRKSRC) 2>&1 | tee build.log \
+        | $(PFHOME)/bin/activity
 do-install: do-build pfcheck
-	$(MAKE) $(PREFIX)/var/pkg/$(_NAME)
+	@$(MAKE) $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@$(MAKE) -C $(_WRKSRC) install >& install.log
+	@$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
