@@ -10,7 +10,8 @@ case $CC in
 gcc*)
   myVersion=`reportVersion $CC`
   if $CC -v 2>&1|grep ' version '|grep Apple >& /dev/null; then
-      echo "clang + gcc 4.2 fe"
+      #echo "clang + gcc 4.2 fe"
+      (echo 3.3.0 && echo $myVersion)|sort -t. -k1,2|head -1|grep 3.3.0 >& /dev/null && echo pass
   else
       (echo 4.8.0 && echo $myVersion)|sort -t. -k1,2|head -1|grep 4.8.0 >& /dev/null && echo pass
   fi
