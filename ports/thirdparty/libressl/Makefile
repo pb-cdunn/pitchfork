@@ -11,7 +11,7 @@ _CFLAGS = $(CFLAGS)
 
 # Local works
 do-extract: do-fetch
-	@test -e $(_WRKSRC)/configure || (cd $(_WRKSRC) && ./autogen.sh)
+	@test -e $(_WRKSRC)/configure || (cd $(_WRKSRC) && ./autogen.sh) 2>&1
 do-fetch: wscheck
 	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
