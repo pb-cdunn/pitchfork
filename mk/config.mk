@@ -13,7 +13,7 @@ WORKSPACE  = $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
 STAGING   ?= $(PFHOME)/staging
 
-CCACHE_DIR = $(WORKSPACE)/.ccache
+CCACHE_DIR    ?= $(WORKSPACE)/.ccache
 CCACHE_BASEDIR = $(CCACHE_DIR)
 
 include $(PFHOME)/mk/osdetect.mk
