@@ -5,15 +5,17 @@ _tmpvar:=$(if $(shell which $(FC)),exists,$(error "unable to run $(FC), consider
 
 # Local variables
 _NAME   = OpenBLAS-0.2.15
-_URL    = https://github.com/xianyi/OpenBLAS
-_REV    = 53e849f4fcae4363a64576de00e982722c7304f9
+_URL    = http://github.com/xianyi/OpenBLAS/archive
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+do-extract: do-fetch wscheck | $(_WRKSRC)
+$(_WRKSRC):
+	@tar zxf v0.2.15.tar.gz -C $(WORKSPACE)
+do-fetch: | v0.2.15.tar.gz
+	@$(MD5SUM) -c MD5SUM
+v0.2.15.tar.gz:
+	@$(CURL) -O -L $(_URL)/$@
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract

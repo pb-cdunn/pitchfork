@@ -82,6 +82,7 @@ samtools:     ccache zlib ncurses
 cmake:        ccache zlib ncurses
 ncurses:      ccache
 gtest:        ccache
+openblas:     ccache
 
 pip:          python
 cython:       pip
