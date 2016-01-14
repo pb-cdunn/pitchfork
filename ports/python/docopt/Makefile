@@ -1,8 +1,5 @@
 include ../../../mk/config.mk
 
-# Local sanity check
-_tmpvar:=$(if $(shell which $(FC)),exists,$(error "unable to run $(FC), consider doing yum install gcc-gfortran"))
-
 # Local variables
 _VER    = 0.6.2
 _NAME   = docopt-$(_VER)
