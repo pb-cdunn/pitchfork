@@ -14,7 +14,7 @@ do-fetch: wscheck
 do-config: do-extract
 ifeq ($(OPSYS),Darwin)
 	@test -e $(_WRKSRC)/config.log || cat patch-01 | (cd $(_WRKSRC) && patch -p0)
-	@test -e $(_WRKSRC)/config.log || perl -pi -e 's/-rdynamic//g' $(_WRKSRC)/Makefile $(_WRKSRC)/htslib-*/configure*
+	@test -e $(_WRKSRC)/config.log || $(SED) -i -e 's/-rdynamic//g' $(_WRKSRC)/Makefile $(_WRKSRC)/htslib-*/configure*
 endif
 	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
 do-build: do-config

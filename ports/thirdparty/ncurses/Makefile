@@ -17,7 +17,7 @@ do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
 	@cd $(_WRKSRC) && (test -e config.log \
-     || CFLAGS="$(CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --with-shared)
+     || CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --with-shared)
 do-build: do-config
 	@test ! -e config.log || exit 1
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log

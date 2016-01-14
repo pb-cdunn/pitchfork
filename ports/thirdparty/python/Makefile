@@ -7,14 +7,15 @@ _FILE            = Python-2.7.10.tgz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 _CONFIGURE_ARGS  = --prefix=$(STAGING)/$(_NAME)
 _CONFIGURE_ARGS += --enable-unicode=ucs4
-_CFLAGS          = $(CFLAGS) -I$(PREFIX)/include/ncurses
+_CFLAGS          = $(CFLAGS)
+_CFLAGS         += -I$(PREFIX)/include/ncurses
 
 # Local works
 do-extract: wscheck
 	@test -e $(_FILE) || $(CURL) -O $(_URL)/$(_FILE)
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
-	@perl -pi -e "s|@@PREFIX@@|$(PREFIX)|g" $(_WRKSRC)/Lib/cgi.py $(_WRKSRC)/Lib/ctypes/macholib/dyld.py
+	@$(SED) -i -e "s|@@PREFIX@@|$(PREFIX)|g" $(_WRKSRC)/Lib/cgi.py $(_WRKSRC)/Lib/ctypes/macholib/dyld.py
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract

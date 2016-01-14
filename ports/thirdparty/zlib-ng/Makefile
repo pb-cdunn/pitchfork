@@ -1,11 +1,12 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME   = zlib-1.2.8
-_URL    = https://github.com/Dead2/zlib-ng
-_REV    = 76a02fa8c312cc9d2bfc4f9d76c31a67e38d9199
-_WRKSRC = $(WORKSPACE)/$(_NAME)
-_CFLAGS = -fPIC -march=native -O3
+_NAME    = zlib-1.2.8
+_URL     = https://github.com/Dead2/zlib-ng
+_REV     = 76a02fa8c312cc9d2bfc4f9d76c31a67e38d9199
+_WRKSRC  = $(WORKSPACE)/$(_NAME)
+_CFLAGS  = $(CFLAGS)
+_CFLAGS += -march=native -O3
 
 # Local works
 do-extract: do-fetch
@@ -15,7 +16,7 @@ do-fetch: wscheck
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
-	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
+	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
 do-build: do-config
 	@test -f $(_WRKSRC)/configure.log || exit 1
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log

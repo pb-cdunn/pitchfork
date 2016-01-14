@@ -15,7 +15,7 @@ do-fetch: wscheck
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
-	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
+	@cd $(_WRKSRC) && test -e configure.log || CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
 do-build: do-config
 	@test -f $(_WRKSRC)/configure.log || exit 1
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) >& build.log

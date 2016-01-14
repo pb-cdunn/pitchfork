@@ -19,7 +19,7 @@ do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
 	@test -e $(_WRKSRC)/config.log \
-     || (cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
+     || (cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 do-build: do-config
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -j1 -C $(_WRKSRC) 2>&1 | tee build.log \
