@@ -1,8 +1,5 @@
 include ../../../mk/config.mk
 
-# Local sanity check
-_tmpvar:=$(if $(shell which $(FC)),exists,$(error "unable to run $(FC), consider doing yum install gcc-gfortran"))
-
 # Local variables
 _VER    = 2.5.0
 _NAME   = h5py-$(_VER)
@@ -18,7 +15,7 @@ do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@CFLAGS="$(CFLAGS)" $(PREFIX)/bin/pip install h5py==$(_VER)
+	@CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" $(PREFIX)/bin/pip install h5py==$(_VER)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

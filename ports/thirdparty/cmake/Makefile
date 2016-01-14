@@ -10,7 +10,8 @@ _tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consid
 export CC
 export CXX
 export CFLAGS
-export CXXFLAGS=$(CFLAGS)
+export CXXFLAGS
+export LDFLAGS
 
 # Local works
 do-extract: wscheck

@@ -1,25 +1,24 @@
 include ../../../mk/config.mk
-include ../../../mk/checkautoconf.mk
-include ../../../mk/checkautomake.mk
 
 # Local variables
-_NAME   = libressl-2.2.3
-_URL    = https://github.com/libressl-portable/portable
-_REV    = da424147c99796b8ab6f6f0d73dc8f521a12d0fc
+_NAME   = libressl-2.2.5
+_URL    = http://ftp.openbsd.org/pub/OpenBSD/LibreSSL
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 
 # Local works
-do-extract: do-fetch
-	@test -e $(_WRKSRC)/configure || (cd $(_WRKSRC) && ./autogen.sh) 2>&1
-do-fetch: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+do-extract: do-fetch | $(_WRKSRC)/configure
+$(_WRKSRC)/configure:
+	@tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
+do-fetch: wscheck | $(_NAME).tar.gz
+	@$(MD5SUM) -c MD5SUM
+$(_NAME).tar.gz:
+	@$(CURL) -O -L $(_URL)/$(_NAME).tar.gz
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: do-extract
 	@test -e $(_WRKSRC)/config.log \
-     || (cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
+     || (cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 do-build: do-config
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -j1 -C $(_WRKSRC) 2>&1 | tee build.log \

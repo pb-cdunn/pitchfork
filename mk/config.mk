@@ -18,15 +18,17 @@ CCACHE_BASEDIR = $(CCACHE_DIR)
 
 include $(PFHOME)/mk/osdetect.mk
 
-CFLAGS = -fPIC
 ifeq ($(OPSYS),Darwin)
     DYLIB  = dylib
 endif
 ifeq ($(OPSYS),Linux)
     DYLIB  = so
 endif
-LDFLAGS    = -L$(PREFIX)/lib
-CFLAGS    += -I$(PREFIX)/include $(LDFLAGS)
+
+LDFLAGS   = -L$(PREFIX)/lib
+CFLAGS    = -fPIC
+CFLAGS   += -I$(PREFIX)/include
+CXXFLAGS  = $(CFLAGS)
 
 export CC
 export CXX
@@ -36,7 +38,6 @@ export CCACHE_BASEDIR
 
 export PATH            := $(PREFIX)/bin:$(PFHOME)/bin:$(PATH)
 export LD_LIBRARY_PATH := $(PREFIX)/lib:$(LD_LIBRARY_PATH)
-
 
 include $(PFHOME)/mk/sanity.mk
 

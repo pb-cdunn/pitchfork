@@ -100,7 +100,7 @@ blasr:        ccache blasr_libcpp hdf5
 pbbam:        ccache samtools cmake boost htslib gtest
 pbccs:        ccache pbbam htslib cmake boost gtest
 
-pbcore:       pysam
+pbcore:       pysam h5py
 pbdoctorb:    docopt pbcore
 
 # utils
