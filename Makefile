@@ -23,6 +23,7 @@ pysam:        pip
 xmlbuilder:   pip
 pyxb:         pip
 docopt:       pip
+biopython:    pip
 
 htslib:       ccache zlib
 blasr_libcpp: ccache hdf5 pbbam
@@ -82,8 +83,6 @@ cython:
 	$(MAKE) -j1 -C ports/python/cython do-install
 xmlbuilder:
 	$(MAKE) -j1 -C ports/python/xmlbuilder do-install
-ipython:
-	$(MAKE) -j1 -C ports/python/ipython do-install
 h5py:
 	$(MAKE) -j1 -C ports/python/h5py do-install
 docopt:
@@ -92,6 +91,11 @@ pysam:
 	$(MAKE) -j1 -C ports/python/pysam do-install
 pyxb:
 	$(MAKE) -j1 -C ports/python/pyxb do-install
+# Not part of pacbio developers' software collection
+ipython:
+	$(MAKE) -j1 -C ports/python/ipython do-install
+biopython:
+	$(MAKE) -j1 -C ports/python/biopython do-install
 
 blasr_libcpp:
 	$(MAKE) -j1 -C ports/pacbio/blasr_libcpp do-install
