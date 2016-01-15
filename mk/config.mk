@@ -8,6 +8,7 @@ SED        = sed
 CURL       = curl
 MD5SUM     = md5sum
 SHA1SUM    = sha1sum
+
 PFHOME    := $(realpath ../../..)
 WORKSPACE  = $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
