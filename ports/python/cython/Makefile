@@ -1,23 +1,25 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME   = cython-0.23.4
-_URL    = https://github.com/cython/cython
-_REV    = dc00a176d896f0df892aad8b305d946d3ed632a0
+_NAME   = Cython-0.23.4
+_URL    = http://cython.org/release
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+do-extract: do-fetch wscheck | $(_WRKSRC)
+$(_WRKSRC):
+	@tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
+do-fetch: | $(_NAME).tar.gz
+	@$(MD5SUM) -c MD5SUM
+$(_NAME).tar.gz:
+	@$(CURL) -O -L $(_URL)/$@
 do-config: do-extract
 do-build: do-config
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@pip install $(_WRKSRC)/
+	@$(PIP) install $(_WRKSRC)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

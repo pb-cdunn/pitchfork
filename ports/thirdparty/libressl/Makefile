@@ -7,10 +7,10 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 
 # Local works
-do-extract: do-fetch | $(_WRKSRC)/configure
+do-extract: do-fetch wscheck | $(_WRKSRC)/configure
 $(_WRKSRC)/configure:
 	@tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
-do-fetch: wscheck | $(_NAME).tar.gz
+do-fetch: | $(_NAME).tar.gz
 	@$(MD5SUM) -c MD5SUM
 $(_NAME).tar.gz:
 	@$(CURL) -O -L $(_URL)/$(_NAME).tar.gz

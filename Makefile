@@ -1,6 +1,38 @@
 include mk/osdetect.mk
 PREFIX ?= deployment
 
+# deps that this port would directly use
+openssl:      ccache
+zlib:         ccache
+boost:        ccache
+python:       ccache zlib openssl ncurses readline
+readline:     ccache ncurses
+samtools:     ccache zlib ncurses
+cmake:        ccache zlib ncurses
+ncurses:      ccache
+gtest:        ccache
+openblas:     ccache
+
+pip:          python
+cython:       pip
+numpy:        pip cython openblas
+hdf5:         zlib
+ipython:      pip
+h5py:         pip hdf5 numpy
+pysam:        pip
+xmlbuilder:   pip
+pyxb:         pip
+docopt:       pip
+
+htslib:       ccache zlib
+blasr_libcpp: ccache hdf5 pbbam
+blasr:        ccache blasr_libcpp hdf5
+pbbam:        ccache samtools cmake boost htslib gtest
+pbccs:        ccache pbbam htslib cmake boost gtest
+
+pbcore:       pysam h5py
+pbdoctorb:    docopt pbcore
+
 # rules
 openssl:
 	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
@@ -20,8 +52,6 @@ openblas:
 	$(MAKE) -j1 -C ports/thirdparty/openblas do-install
 hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/hdf5 do-install
-python:
-	$(MAKE) -j1 -C ports/thirdparty/python do-install
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/gtest do-install
 boost:
@@ -35,8 +65,17 @@ nim:
 ccache:
 	$(MAKE) -j1 -C ports/thirdparty/ccache do-install
 
+ifneq ($(PYVE),"")
+python:
+	$(MAKE) -j1 -C ports/python/virtualenv do-install
+pip: ;
+else
+python:
+	$(MAKE) -j1 -C ports/thirdparty/python do-install
 pip:
 	$(MAKE) -j1 -C ports/python/pip do-install
+endif
+
 numpy:
 	$(MAKE) -j1 -C ports/python/numpy do-install
 cython:
@@ -72,41 +111,6 @@ pbccs:
 world: \
        pbccs blasr pbcore ipython pbdoctorb 
 
-# deps that this port would directly use
-openssl:      ccache
-zlib:         ccache
-boost:        ccache
-python:       ccache zlib openssl ncurses readline
-readline:     ccache ncurses
-samtools:     ccache zlib ncurses
-cmake:        ccache zlib ncurses
-ncurses:      ccache
-gtest:        ccache
-
-pip:          python
-cython:       pip
-numpy:        pip cython openblas
-hdf5:         zlib
-ipython:      pip
-h5py:         pip hdf5 numpy
-pysam:        pip
-xmlbuilder:   pip
-pyxb:         pip
-docopt:       pip
-
-htslib:       ccache zlib
-blasr_libcpp: ccache hdf5 pbbam
-blasr:        ccache blasr_libcpp hdf5
-pbbam:        ccache samtools cmake boost htslib gtest
-pbccs:        ccache pbbam htslib cmake boost gtest
-
-pbcore:       pysam h5py
-pbdoctorb:    docopt pbcore
-
 # utils
 _startover:
 	rm -rf $(PREFIX)/* staging/* workspace/* ports/*/*/*.log
-
-# disabled
-#openssl:
-#	$(MAKE) -j1 -C ports/thirdparty/openssl do-install

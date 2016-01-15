@@ -15,7 +15,7 @@ do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" $(PREFIX)/bin/pip install h5py==$(_VER)
+	@CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" $(PIP) install h5py==$(_VER)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

@@ -1,21 +1,26 @@
 include ../../../mk/config.mk
 
 # Local variables
-_VER    = 4.0.1
-_NAME   = ipython-$(_VER)
+_NAME   = virtualenv-13.1.2
+_URL    = https://pypi.python.org/packages/source/v/virtualenv
+_FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
+do-extract: do-fetch wscheck | $(_WRKSRC)/virtualenv.py
+$(_WRKSRC)/virtualenv.py:
+	@tar zxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_FILE)
+	@$(MD5SUM) -c MD5SUM
+$(_FILE):
+	@curl -L -O $(_URL)/$(_FILE)
 do-config: do-extract
 do-build: do-config
-# note that dependencies is taken care of already here, mj is lazy
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@$(PIP) install ipython==$(_VER)
+	@python $(_WRKSRC)/virtualenv.py $(PREFIX)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
