@@ -14,8 +14,9 @@ WORKSPACE  = $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
 STAGING   ?= $(PFHOME)/staging
 
-CCACHE_DIR    ?= $(WORKSPACE)/.ccache
-CCACHE_BASEDIR = $(CCACHE_DIR)
+CCACHE_DIR?= $(WORKSPACE)/.ccache
+
+PIP        = $(PREFIX)/bin/pip --no-cache-dir
 
 include $(PFHOME)/mk/osdetect.mk
 

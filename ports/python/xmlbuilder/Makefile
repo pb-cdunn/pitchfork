@@ -15,7 +15,7 @@ do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@$(PREFIX)/bin/pip install xmlbuilder==$(_VER)
+	@$(PIP) install xmlbuilder==$(_VER)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
