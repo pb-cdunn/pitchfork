@@ -27,17 +27,15 @@ ifeq ($(OPSYS),Linux)
     DYLIB  = so
 endif
 
-LDFLAGS   = -L$(PREFIX)/lib
-CFLAGS    = -fPIC
-CFLAGS   += -I$(PREFIX)/include
-CXXFLAGS  = $(CFLAGS)
+LDFLAGS    = -L$(PREFIX)/lib
+CFLAGS     = -fPIC
+CFLAGS    += -I$(PREFIX)/include
+CXXFLAGS   = $(CFLAGS)
 
 export CC
 export CXX
 export FC
 export CCACHE_DIR
-export CCACHE_BASEDIR
-
 export PATH            := $(PREFIX)/bin:$(PFHOME)/bin:$(PATH)
 export LD_LIBRARY_PATH := $(PREFIX)/lib:$(LD_LIBRARY_PATH)
 
