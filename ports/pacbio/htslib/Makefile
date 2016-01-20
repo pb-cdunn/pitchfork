@@ -22,7 +22,9 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@mkdir -p $(PREFIX)/src/htslib
 	@cd $(_WRKSRC) && \
-        tar cf - Makefile *.cmake *.mk */*.[c,h] *.[a,c,h]| tar xf - -C $(PREFIX)/src/htslib
+        tar cf - Makefile *.cmake *.mk */*.[c,h] *.[a,c,h]|tar xf - -C $(PREFIX)/src/htslib
+	@cd $(_WRKSRC) && \
+        tar cf - *.$(DYLIB)|tar xf - -C $(PREFIX)/lib
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
