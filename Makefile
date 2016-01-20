@@ -27,6 +27,7 @@ jinja2:       pip
 networkx:     pip
 pyparsing:    pip
 pydot:        pip pyparsing
+fabric:       pip
 avro:         pip
 requests:     pip
 pyxb:         pip
@@ -41,6 +42,7 @@ pbccs:        ccache pbbam htslib cmake boost gtest
 
 pbcore:       pysam h5py
 pbcommand:    xmlbuilder jsonschema avro requests iso8601
+pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 pbdoctorb:    docopt pbcore
 
 # rules
@@ -108,6 +110,8 @@ pyparsing:
 	$(MAKE) -j1 -C ports/python/pyparsing do-install
 pydot:
 	$(MAKE) -j1 -C ports/python/pydot do-install
+fabric:
+	$(MAKE) -j1 -C ports/python/fabric do-install
 h5py:
 	$(MAKE) -j1 -C ports/python/h5py do-install
 docopt:
@@ -134,6 +138,8 @@ pbcore:
 	$(MAKE) -j1 -C ports/pacbio/pbcore do-install
 pbcommand:
 	$(MAKE) -j1 -C ports/pacbio/pbcommand do-install
+pbsmrtpipe:
+	$(MAKE) -j1 -C ports/pacbio/pbsmrtpipe do-install
 pbdoctorb:
 	$(MAKE) -j1 -C ports/pacbio/pbdoctorb do-install
 pbbam:
