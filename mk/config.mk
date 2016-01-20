@@ -37,7 +37,11 @@ export CXX
 export FC
 export CCACHE_DIR
 export PATH            := $(PREFIX)/bin:$(PFHOME)/bin:$(PATH)
+ifeq ($(OPSYS),Darwin)
+export DYLD_LIBRARY_PATH := $(PREFIX)/lib:$(DYLD_LIBRARY_PATH)
+else
 export LD_LIBRARY_PATH := $(PREFIX)/lib:$(LD_LIBRARY_PATH)
+endif
 
 include $(PFHOME)/mk/sanity.mk
 
