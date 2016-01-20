@@ -23,6 +23,10 @@ pysam:        pip
 xmlbuilder:   pip
 jsonschema:   pip
 iso8601:      pip
+jinja2:       pip
+networkx:     pip
+pyparsing:    pip
+pydot:        pip pyparsing
 avro:         pip
 requests:     pip
 pyxb:         pip
@@ -71,7 +75,7 @@ nim:
 ccache:
 	$(MAKE) -j1 -C ports/thirdparty/ccache do-install
 
-ifneq ($(PYVE),"")
+ifneq ($(origin PYVE),undefined)
 python:
 	$(MAKE) -j1 -C ports/python/virtualenv do-install
 pip: ;
@@ -96,6 +100,14 @@ requests:
 	$(MAKE) -j1 -C ports/python/requests do-install
 iso8601:
 	$(MAKE) -j1 -C ports/python/iso8601 do-install
+jinja2:
+	$(MAKE) -j1 -C ports/python/jinja2 do-install
+networkx:
+	$(MAKE) -j1 -C ports/python/networkx do-install
+pyparsing:
+	$(MAKE) -j1 -C ports/python/pyparsing do-install
+pydot:
+	$(MAKE) -j1 -C ports/python/pydot do-install
 h5py:
 	$(MAKE) -j1 -C ports/python/h5py do-install
 docopt:
@@ -134,4 +146,4 @@ world: \
 
 # utils
 _startover:
-	rm -rf $(PREFIX)/* staging/* workspace/* ports/*/*/*.log
+	rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log
