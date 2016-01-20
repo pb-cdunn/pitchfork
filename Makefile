@@ -21,6 +21,10 @@ ipython:      pip
 h5py:         pip hdf5 numpy
 pysam:        pip
 xmlbuilder:   pip
+jsonschema:   pip
+iso8601:      pip
+avro:         pip
+requests:     pip
 pyxb:         pip
 docopt:       pip
 biopython:    pip
@@ -32,6 +36,7 @@ pbbam:        ccache samtools cmake boost htslib gtest
 pbccs:        ccache pbbam htslib cmake boost gtest
 
 pbcore:       pysam h5py
+pbcommand:    xmlbuilder jsonschema avro requests iso8601
 pbdoctorb:    docopt pbcore
 
 # rules
@@ -83,6 +88,14 @@ cython:
 	$(MAKE) -j1 -C ports/python/cython do-install
 xmlbuilder:
 	$(MAKE) -j1 -C ports/python/xmlbuilder do-install
+jsonschema:
+	$(MAKE) -j1 -C ports/python/jsonschema do-install
+avro:
+	$(MAKE) -j1 -C ports/python/avro do-install
+requests:
+	$(MAKE) -j1 -C ports/python/requests do-install
+iso8601:
+	$(MAKE) -j1 -C ports/python/iso8601 do-install
 h5py:
 	$(MAKE) -j1 -C ports/python/h5py do-install
 docopt:
@@ -105,6 +118,8 @@ htslib:
 	$(MAKE) -j1 -C ports/pacbio/htslib do-install
 pbcore:
 	$(MAKE) -j1 -C ports/pacbio/pbcore do-install
+pbcommand:
+	$(MAKE) -j1 -C ports/pacbio/pbcommand do-install
 pbdoctorb:
 	$(MAKE) -j1 -C ports/pacbio/pbdoctorb do-install
 pbbam:
