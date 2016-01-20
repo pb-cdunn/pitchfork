@@ -116,6 +116,8 @@ blasr:
 	$(MAKE) -j1 -C ports/pacbio/blasr do-install
 htslib:
 	$(MAKE) -j1 -C ports/pacbio/htslib do-install
+seqan:
+	$(MAKE) -j1 -C ports/pacbio/seqan do-install
 pbcore:
 	$(MAKE) -j1 -C ports/pacbio/pbcore do-install
 pbcommand:
