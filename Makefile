@@ -45,6 +45,8 @@ daligner:     ccache dazzdb
 pbcore:       pysam h5py
 pbcommand:    xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
+falcon_kit:   networkx
+pbfalcon:     falcon_kit pbsmrtpipe
 pbdoctorb:    docopt pbcore
 
 # rules
@@ -151,6 +153,10 @@ pbcommand:
 	$(MAKE) -j1 -C ports/pacbio/pbcommand do-install
 pbsmrtpipe:
 	$(MAKE) -j1 -C ports/pacbio/pbsmrtpipe do-install
+falcon_kit:
+	$(MAKE) -j1 -C ports/pacbio/falcon_kit do-install
+pbfalcon:
+	$(MAKE) -j1 -C ports/pacbio/pbfalcon do-install
 pbdoctorb:
 	$(MAKE) -j1 -C ports/pacbio/pbdoctorb do-install
 #
