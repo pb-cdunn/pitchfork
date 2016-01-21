@@ -3,6 +3,7 @@ SHELL      = /bin/bash
 CC         = gcc
 CXX        = g++
 FC         = gfortran
+AR         = ar
 GIT        = git
 SED        = sed
 CURL       = curl

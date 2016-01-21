@@ -12,11 +12,11 @@ cmake:        ccache zlib ncurses
 ncurses:      ccache
 gtest:        ccache
 openblas:     ccache
-
+hdf5:         ccache zlib
+#
 pip:          python
 cython:       pip
 numpy:        pip cython openblas
-hdf5:         zlib
 ipython:      pip
 h5py:         pip hdf5 numpy
 pysam:        pip
@@ -33,16 +33,20 @@ requests:     pip
 pyxb:         pip
 docopt:       pip
 biopython:    pip
-
+#
 htslib:       ccache zlib
 blasr_libcpp: ccache hdf5 pbbam
 blasr:        ccache blasr_libcpp hdf5
 pbbam:        ccache samtools cmake boost htslib gtest
 pbccs:        ccache pbbam htslib cmake boost gtest
-
+dazzdb:       ccache
+daligner:     ccache dazzdb
+#
 pbcore:       pysam h5py
 pbcommand:    xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
+falcon_kit:   networkx
+pbfalcon:     falcon_kit pbsmrtpipe
 pbdoctorb:    docopt pbcore
 
 # rules
@@ -125,7 +129,7 @@ ipython:
 	$(MAKE) -j1 -C ports/python/ipython do-install
 biopython:
 	$(MAKE) -j1 -C ports/python/biopython do-install
-
+#
 blasr_libcpp:
 	$(MAKE) -j1 -C ports/pacbio/blasr_libcpp do-install
 blasr:
@@ -134,19 +138,28 @@ htslib:
 	$(MAKE) -j1 -C ports/pacbio/htslib do-install
 seqan:
 	$(MAKE) -j1 -C ports/pacbio/seqan do-install
+pbbam:
+	$(MAKE) -j1 -C ports/pacbio/pbbam do-install
+pbccs:
+	$(MAKE) -j1 -C ports/pacbio/pbccs do-install
+dazzdb:
+	$(MAKE) -j1 -C ports/pacbio/dazzdb do-install
+daligner:
+	$(MAKE) -j1 -C ports/pacbio/daligner do-install
+#
 pbcore:
 	$(MAKE) -j1 -C ports/pacbio/pbcore do-install
 pbcommand:
 	$(MAKE) -j1 -C ports/pacbio/pbcommand do-install
 pbsmrtpipe:
 	$(MAKE) -j1 -C ports/pacbio/pbsmrtpipe do-install
+falcon_kit:
+	$(MAKE) -j1 -C ports/pacbio/falcon_kit do-install
+pbfalcon:
+	$(MAKE) -j1 -C ports/pacbio/pbfalcon do-install
 pbdoctorb:
 	$(MAKE) -j1 -C ports/pacbio/pbdoctorb do-install
-pbbam:
-	$(MAKE) -j1 -C ports/pacbio/pbbam do-install
-pbccs:
-	$(MAKE) -j1 -C ports/pacbio/pbccs do-install
-
+#
 world: \
        pbccs blasr pbcore ipython pbdoctorb 
 
