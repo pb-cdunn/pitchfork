@@ -30,8 +30,12 @@ pydot:        pip pyparsing
 fabric:       pip
 avro:         pip
 requests:     pip
-pyxb:         pip
 docopt:       pip
+rdflib:       pip
+# TODO add six
+rdfextras:    pip rdflib
+pyxb:         pip
+# pyxb is required by smrttools-python
 biopython:    pip
 #
 htslib:       ccache zlib
@@ -47,6 +51,7 @@ pbcommand:    xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 falcon_kit:   networkx
 pbfalcon:     falcon_kit pbsmrtpipe
+pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
 
 # rules
@@ -121,14 +126,19 @@ h5py:
 docopt:
 	$(MAKE) -j1 -C ports/python/docopt
 pysam:
-	$(MAKE) -j1 -C ports/python/pysam do-install
-pyxb:
-	$(MAKE) -j1 -C ports/python/pyxb do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
+rdflib:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+rdfextras:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+
 # Not part of pacbio developers' software collection
 ipython:
 	$(MAKE) -j1 -C ports/python/ipython do-install
 biopython:
 	$(MAKE) -j1 -C ports/python/biopython do-install
+pyxb:
+	$(MAKE) -j1 -C ports/python/pyxb do-install
 #
 blasr_libcpp:
 	$(MAKE) -j1 -C ports/pacbio/blasr_libcpp do-install
@@ -146,6 +156,8 @@ dazzdb:
 	$(MAKE) -j1 -C ports/pacbio/dazzdb do-install
 daligner:
 	$(MAKE) -j1 -C ports/pacbio/daligner do-install
+pypeFLOW:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 #
 pbcore:
 	$(MAKE) -j1 -C ports/pacbio/pbcore do-install

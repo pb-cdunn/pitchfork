@@ -3,6 +3,9 @@ include ../../../mk/config.mk
 # Local variables
 _NAME            = blasr
 _URL             = https://github.com/PacificBiosciences/blasr
+ifeq ($(origin BLASR_REPO),undefined)
+    _URL         = $(BLASR_REPO)
+endif
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
