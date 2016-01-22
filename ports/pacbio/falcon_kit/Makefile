@@ -2,7 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME            = falcon_kit
-_URL             = https://github.com/PacificBiosciences/FALCON
+$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/FALCON
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 

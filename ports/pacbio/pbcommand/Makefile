@@ -2,14 +2,14 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME            = pbcommand
-_URL             = https://github.com/PacificBiosciences/pbcommand
+$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
 do-extract: do-fetch
 do-fetch: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+	@test -d $(_WRKSRC) || $(GIT) clone $($(_NAME)_REPO) $(_WRKSRC)
 	@@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
 do-config: do-extract
 do-build: do-config
