@@ -2,7 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME            = pbccs
-_URL             = https://github.com/PacificBiosciences/$(_NAME)
+$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
@@ -16,7 +16,7 @@ export CXXFLAGS=$(CFLAGS)
 # Local works
 do-extract: do-fetch
 do-fetch: wscheck
-	@test -d $(_WRKSRC) || git clone $(_URL) $(_WRKSRC)
+	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test "$($(_NAME)_VERSION)" && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
 	@test -d $(_WRKSRC)/ConsensusCore2 || git clone https://github.com/PacificBiosciences/ConsensusCore2.git $(_WRKSRC)/ConsensusCore2 
 	@test "$(ConsensusCore2_VERSION)" && (cd $(_WRKSRC)/ConsensusCore2 && git checkout $(ConsensusCore2_VERSION)) || true

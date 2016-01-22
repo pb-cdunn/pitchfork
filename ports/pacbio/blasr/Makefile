@@ -2,10 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME            = blasr
-_URL             = https://github.com/PacificBiosciences/blasr
-ifneq ($(origin BLASR_REPO),undefined)
-    _URL         = $(BLASR_REPO)
-endif
+$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
@@ -19,7 +16,7 @@ _tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consid
 # Local works
 do-extract: do-fetch
 do-fetch: wscheck
-	@test -d $(_WRKSRC) || git clone $(_URL) $(_WRKSRC)
+	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
 do-config: do-extract $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk:
