@@ -45,6 +45,7 @@ pbbam:        ccache samtools cmake boost htslib gtest
 pbccs:        ccache pbbam htslib cmake boost gtest
 dazzdb:       ccache
 daligner:     ccache dazzdb
+pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
 #
 pbcore:       pysam h5py
 pbcommand:    xmlbuilder jsonschema avro requests iso8601
@@ -56,75 +57,75 @@ pbdoctorb:    docopt pbcore
 
 # rules
 openssl:
-	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ifeq ($(OPSYS),Darwin)
 readline: ;
 zlib: ;
 ncurses: ;
 else
 readline:
-	$(MAKE) -j1 -C ports/thirdparty/readline do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 zlib:
-	$(MAKE) -j1 -C ports/thirdparty/zlib-cloudflare do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ncurses:
-	$(MAKE) -j1 -C ports/thirdparty/ncurses do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
 openblas:
-	$(MAKE) -j1 -C ports/thirdparty/openblas do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 hdf5:
-	$(MAKE) -j1 -C ports/thirdparty/hdf5 do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 gtest:
-	$(MAKE) -j1 -C ports/thirdparty/gtest do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 boost:
-	$(MAKE) -j1 -C ports/thirdparty/boost do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 samtools:
-	$(MAKE) -j1 -C ports/thirdparty/samtools do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 cmake:
-	$(MAKE) -j1 -C ports/thirdparty/cmake do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 nim:
-	$(MAKE) -j1 -C ports/thirdparty/nim do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ccache:
-	$(MAKE) -j1 -C ports/thirdparty/ccache do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
 python:
-	$(MAKE) -j1 -C ports/python/virtualenv do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 pip: ;
 else
 python:
-	$(MAKE) -j1 -C ports/thirdparty/python do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 pip:
-	$(MAKE) -j1 -C ports/python/pip do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 endif
 
 numpy:
-	$(MAKE) -j1 -C ports/python/numpy do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 cython:
-	$(MAKE) -j1 -C ports/python/cython do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 xmlbuilder:
-	$(MAKE) -j1 -C ports/python/xmlbuilder do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 jsonschema:
-	$(MAKE) -j1 -C ports/python/jsonschema do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 avro:
-	$(MAKE) -j1 -C ports/python/avro do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 requests:
-	$(MAKE) -j1 -C ports/python/requests do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 iso8601:
-	$(MAKE) -j1 -C ports/python/iso8601 do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 jinja2:
-	$(MAKE) -j1 -C ports/python/jinja2 do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 networkx:
-	$(MAKE) -j1 -C ports/python/networkx do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 pyparsing:
-	$(MAKE) -j1 -C ports/python/pyparsing do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 pydot:
-	$(MAKE) -j1 -C ports/python/pydot do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 fabric:
-	$(MAKE) -j1 -C ports/python/fabric do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 h5py:
-	$(MAKE) -j1 -C ports/python/h5py do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 docopt:
-	$(MAKE) -j1 -C ports/python/docopt
+	$(MAKE) -j1 -C ports/python/$@ do-install
 pysam:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 rdflib:
@@ -134,43 +135,45 @@ rdfextras:
 
 # Not part of pacbio developers' software collection
 ipython:
-	$(MAKE) -j1 -C ports/python/ipython do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 biopython:
-	$(MAKE) -j1 -C ports/python/biopython do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 pyxb:
-	$(MAKE) -j1 -C ports/python/pyxb do-install
+	$(MAKE) -j1 -C ports/python/$@ do-install
 #
 blasr_libcpp:
-	$(MAKE) -j1 -C ports/pacbio/blasr_libcpp do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 blasr:
-	$(MAKE) -j1 -C ports/pacbio/blasr do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 htslib:
-	$(MAKE) -j1 -C ports/pacbio/htslib do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 seqan:
-	$(MAKE) -j1 -C ports/pacbio/seqan do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbbam:
-	$(MAKE) -j1 -C ports/pacbio/pbbam do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbccs:
-	$(MAKE) -j1 -C ports/pacbio/pbccs do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 dazzdb:
-	$(MAKE) -j1 -C ports/pacbio/dazzdb do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 daligner:
-	$(MAKE) -j1 -C ports/pacbio/daligner do-install
-pypeFLOW:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pbdagcon:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 #
 pbcore:
-	$(MAKE) -j1 -C ports/pacbio/pbcore do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbcommand:
-	$(MAKE) -j1 -C ports/pacbio/pbcommand do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbsmrtpipe:
-	$(MAKE) -j1 -C ports/pacbio/pbsmrtpipe do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 falcon_kit:
-	$(MAKE) -j1 -C ports/pacbio/falcon_kit do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbfalcon:
-	$(MAKE) -j1 -C ports/pacbio/pbfalcon do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pypeFLOW:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbdoctorb:
-	$(MAKE) -j1 -C ports/pacbio/pbdoctorb do-install
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 #
 world: \
        pbccs blasr pbcore ipython pbdoctorb 
