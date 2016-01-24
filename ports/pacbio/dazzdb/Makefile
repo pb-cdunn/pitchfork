@@ -2,7 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME   = dazzdb
-_URL    = https://github.com/PacificBiosciences/DAZZ_DB
+$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/DAZZ_DB
 _REV    = HEAD
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
@@ -12,7 +12,7 @@ export CFLAGS
 # Local works
 do-extract: do-fetch
 do-fetch: wscheck
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+	@test -d $(_WRKSRC) || $(GIT) clone $($(_NAME)_REPO) $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-config: do-extract
 	@mkdir -p $(_WRKSRC)/build $(STAGING)/$(_NAME)

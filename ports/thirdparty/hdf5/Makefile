@@ -20,8 +20,8 @@ do-extract: wscheck
 do-config: do-extract
 	@test -e $(_WRKSRC)/config.log || ( cd $(_WRKSRC) && \
         CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --enable-cxx \
-                    --with-shared --with-zlib=$(PREFIX)) \
-        >& config.log
+                    --with-shared --with-zlib=$(PREFIX)) 2>&1 \
+        | tee config.log | $(PFHOME)/bin/activity
 do-build: do-config
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
