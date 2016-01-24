@@ -57,7 +57,7 @@ pbdoctorb:    docopt pbcore
 
 # rules
 openssl:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
 ifeq ($(OPSYS),Darwin)
 readline: ;
 zlib: ;
@@ -66,7 +66,7 @@ else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 zlib:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -j1 -C ports/thirdparty/zlib-cloudflare do-install
 ncurses:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
