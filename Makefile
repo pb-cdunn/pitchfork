@@ -89,7 +89,7 @@ ccache:
 
 ifneq ($(origin PYVE),undefined)
 python:
-	$(MAKE) -j1 -C ports/python/$@ do-install
+	$(MAKE) -j1 -C ports/python/virtualenv do-install
 pip: ;
 else
 python:
