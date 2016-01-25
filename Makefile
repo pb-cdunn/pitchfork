@@ -51,7 +51,7 @@ pbcore:       pysam h5py
 pbcommand:    xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 falcon_kit:   networkx
-pbfalcon:     falcon_kit pbsmrtpipe
+pbfalcon:     falcon_kit pbsmrtpipe pypeFLOW
 pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
 
