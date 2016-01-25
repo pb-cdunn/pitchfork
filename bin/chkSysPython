@@ -1,0 +1,14 @@
+#!/bin/bash
+# Mengjuei Hsieh
+die(){
+    test "$*" && echo "$*" || true
+    exit 1
+}
+
+test -f /usr/bin/python || die "ERROR: system python missing"
+$(/usr/bin/python -V 2>&1 | awk '{print $2}' | awk -F \. '{
+if ((10*$1+$2)<27) print "ERROR: system python is too old";
+}')
+$(/usr/bin/python -V 2>&1 | awk '{print $2}' | awk -F \. '{
+if ((10*$1+$2)>29) print "ERROR: system python3 is not supported";
+}')
