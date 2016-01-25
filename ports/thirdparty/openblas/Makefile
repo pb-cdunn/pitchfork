@@ -9,7 +9,7 @@ _URL    = http://github.com/xianyi/OpenBLAS/archive
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-fetch wscheck | $(_WRKSRC)
+do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	@tar zxf v0.2.15.tar.gz -C $(WORKSPACE)
 do-fetch: | v0.2.15.tar.gz
@@ -18,10 +18,10 @@ v0.2.15.tar.gz:
 	@$(CURL) -O -L $(_URL)/$@
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
-do-config: do-extract
-do-build: do-config
+do-config: ;
+do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@$(MAKE) -C $(_WRKSRC) PREFIX=$(STAGING)/$(_NAME) install 2>&1 | tee install.log | $(PFHOME)/bin/activity

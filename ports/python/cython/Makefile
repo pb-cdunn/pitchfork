@@ -6,16 +6,14 @@ _URL    = http://cython.org/release
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-fetch wscheck | $(_WRKSRC)
+do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	@tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
 do-fetch: | $(_NAME).tar.gz
 	@$(MD5SUM) -c MD5SUM
 $(_NAME).tar.gz:
 	@$(CURL) -O -L $(_URL)/$@
-do-config: do-extract
-do-build: do-config
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist

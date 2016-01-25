@@ -6,16 +6,16 @@ _URL             = http://nim-lang.org/download
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-fetch: wscheck
+do-fetch:
 	@test -e $(_NAME).zip || curl -O -L $(_URL)/$(_NAME).zip
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-do-extract: do-fetch
+do-extract:
 	@test -d $(_WRKSRC) || unzip $(_NAME).zip -d $(WORKSPACE)
-do-config: do-extract
-do-build: do-config $(_WRKSRC)/bin/nim
+do-config: ;
+do-build: | $(_WRKSRC)/bin/nim
 $(_WRKSRC)/bin/nim:
 	@cd $(_WRKSRC) && sh build.sh
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@mkdir -p $(STAGING)/$(_NAME)
 	@mkdir -p $(PREFIX)/share/doc

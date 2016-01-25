@@ -7,7 +7,7 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 
 # Local works
-do-extract: do-fetch wscheck | $(_WRKSRC)/configure
+do-extract: | $(_WRKSRC)/configure
 $(_WRKSRC)/configure:
 	@tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
 do-fetch: | $(_NAME).tar.gz
@@ -16,15 +16,14 @@ $(_NAME).tar.gz:
 	@$(CURL) -O -L $(_URL)/$(_NAME).tar.gz
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
-do-config: do-extract
+do-config:
 	@test -e $(_WRKSRC)/config.log \
      || (cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
-do-build: do-config
+do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -j1 -C $(_WRKSRC) 2>&1 | tee build.log \
         | $(PFHOME)/bin/activity
-do-install: do-build pfcheck
-	@$(MAKE) $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity

@@ -10,15 +10,16 @@ _FILE    = boost_1_60_0.tar.gz
 _WRKSRC  = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: wscheck
+do-fetch:
 	@test -e $(_FILE) || $(CURL) -L -O $(_URL)/$(_FILE)
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
+do-extract:
 	@test -d $(_WRKSRC) || (mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC))
-do-config: do-extract
-do-build: do-config
+do-config: ;
+do-build:
 	@test -e $(_WRKSRC)/project-config.jam \
       || (cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(STAGING)/$(_NAME) 2>&1) | tee build.log | $(PFHOME)/bin/activity
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@mkdir -p $(STAGING)/$(_NAME)

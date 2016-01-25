@@ -61,3 +61,8 @@ pfcheck: _stcheck
 	@mkdir -p "$(PREFIX)/var/pkg"       || exit 1
 	@mkdir -p "$(PREFIX)/etc"           || exit 1
 #	@mkdir -p "$(PREFIX)/share/man"     || exit 1
+do-extract: do-fetch
+do-fetch: wscheck
+do-config: do-extract
+do-build: do-config
+do-install: do-build pfcheck
