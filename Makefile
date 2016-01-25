@@ -54,6 +54,10 @@ falcon_kit:   networkx
 pbfalcon:     falcon_kit pbsmrtpipe pypeFLOW
 pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
+#
+world: \
+       pbccs blasr pbcore pbdoctorb \
+       ipython biopython
 
 # rules
 openssl:
@@ -175,9 +179,6 @@ pypeFLOW:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbdoctorb:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
-#
-world: \
-       pbccs blasr pbcore ipython pbdoctorb 
 
 # utils
 _startover:
