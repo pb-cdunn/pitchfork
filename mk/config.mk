@@ -37,11 +37,11 @@ export CC
 export CXX
 export FC
 export CCACHE_DIR
-export PATH            := $(PREFIX)/bin:$(PFHOME)/bin:$(PATH)
+export PATH            := $(PREFIX)/bin:$(PFHOME)/bin:${PATH}
 ifeq ($(OPSYS),Darwin)
-export DYLD_LIBRARY_PATH := $(PREFIX)/lib:$(DYLD_LIBRARY_PATH)
+export DYLD_LIBRARY_PATH := $(PREFIX)/lib:${DYLD_LIBRARY_PATH}
 else
-export LD_LIBRARY_PATH := $(PREFIX)/lib:$(LD_LIBRARY_PATH)
+export LD_LIBRARY_PATH := $(PREFIX)/lib:${LD_LIBRARY_PATH}
 endif
 
 include $(PFHOME)/mk/sanity.mk
@@ -60,7 +60,12 @@ pfcheck: _stcheck
 	@mkdir -p "$(PREFIX)/include"       || exit 1
 	@mkdir -p "$(PREFIX)/var/pkg"       || exit 1
 	@mkdir -p "$(PREFIX)/etc"           || exit 1
-#	@mkdir -p "$(PREFIX)/share/man"     || exit 1
+ifeq ($(OPSYS),Darwin)
+	@echo "export DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH) PATH=$(PATH)" > "$(PREFIX)/setup-env.sh"
+else
+	@echo "export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)     PATH=$(PATH)" > "$(PREFIX)/setup-env.sh"
+endif
+
 do-extract: do-fetch
 do-fetch: wscheck
 do-config: do-extract
