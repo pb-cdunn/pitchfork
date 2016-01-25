@@ -5,6 +5,11 @@ reportVersion(){
     $1 -v 2>&1|grep ' version '|awk -F 'version ' '{print $2}'|awk '{print $1}'
 }
 
+die(){
+    test "$*" && echo "$*" || true
+    exit 1
+}
+
 # check the c++11 availability
 case $CC in
 gcc*)

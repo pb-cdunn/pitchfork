@@ -1,17 +1,13 @@
 include ../../../mk/config.mk
 
+# CXX check
+include ../../../mk/chkcxx.mk
+
 # Local variables
 _NAME            = blasr
 $(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
-
-_tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
-
-#export CC
-#export CXX
-#export CFLAGS
-#export CXXFLAGS=$(CFLAGS)
 
 # Local works
 do-extract: do-fetch

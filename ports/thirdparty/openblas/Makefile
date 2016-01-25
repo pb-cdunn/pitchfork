@@ -1,7 +1,7 @@
 include ../../../mk/config.mk
 
-# Local sanity check
-_tmpvar:=$(if $(shell which $(FC)),exists,$(error "unable to run $(FC), consider doing yum install gcc-gfortran"))
+# FC check
+include ../../../mk/chkfc.mk
 
 # Local variables
 _NAME   = OpenBLAS-0.2.15

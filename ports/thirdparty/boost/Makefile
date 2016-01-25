@@ -1,14 +1,13 @@
 include ../../../mk/config.mk
 
-# Local variables
-_NAME            = boost-1.60.0
-_URL             = http://sourceforge.net/projects/boost/files/boost/1.60.0
-_FILE            = boost_1_60_0.tar.gz
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+# CXX check
+include ../../../mk/chkcxx.mk
 
-_tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
-export CC
-export CXX
+# Local variables
+_NAME    = boost-1.60.0
+_URL     = http://sourceforge.net/projects/boost/files/boost/1.60.0
+_FILE    = boost_1_60_0.tar.gz
+_WRKSRC  = $(WORKSPACE)/$(_NAME)
 
 # Local works
 do-extract: wscheck

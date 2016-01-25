@@ -1,14 +1,14 @@
 include ../../../mk/config.mk
 
+# CXX check
+include ../../../mk/chkcxx.mk
+
 # Local variables
 _NAME   = cmake-3.4.1
 _URL    = https://cmake.org/files/v3.4
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
-_tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
-export CC
-export CXX
 export CFLAGS
 export CXXFLAGS
 export LDFLAGS
