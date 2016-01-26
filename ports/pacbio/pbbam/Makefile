@@ -10,11 +10,10 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
+do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-do-config: do-extract
+do-config:
 	@cd $(_WRKSRC) && mkdir -p build
 	@cd $(_WRKSRC)/build && \
         cmake \
@@ -29,9 +28,9 @@ do-config: do-extract
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..
-do-build: do-config
+do-build:
 	@cd $(_WRKSRC)/build && $(MAKE)
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist

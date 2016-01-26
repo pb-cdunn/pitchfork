@@ -10,20 +10,18 @@ export CC
 export CFLAGS
 
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
+do-fetch:
 	@test -d $(_WRKSRC) || $(GIT) clone $($(_NAME)_REPO) $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
-do-config: do-extract
+do-config:
 	@mkdir -p $(_WRKSRC)/build $(STAGING)/$(_NAME)
 	@echo PREFIX:=$(STAGING)/$(_NAME) > $(_WRKSRC)/build/Makefile
 	@echo CC:=$(CC) >> $(_WRKSRC)/build/Makefile
 	@echo AR:=$(AR) >> $(_WRKSRC)/build/Makefile
 	@echo include ../GNUmakefile >> $(_WRKSRC)/build/Makefile
-
-do-build: do-config
+do-build:
 	@$(MAKE) -C $(_WRKSRC)/build
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@cd $(_WRKSRC)/build && tar cf - DBrm DBshow DBsplit DBstats fasta2DB|tar xf - -C $(PREFIX)/bin

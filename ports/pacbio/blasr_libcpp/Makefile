@@ -10,11 +10,10 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
+do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-do-config: do-extract $(_WRKSRC)/defines.mk
+do-config: | $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
         ./configure.py \
@@ -24,11 +23,11 @@ $(_WRKSRC)/defines.mk:
          PBBAM_INC=$(PREFIX)/include PBBAM_LIB=$(PREFIX)/lib \
         HTSLIB_INC=$(PREFIX)/src/htslib \
         HTSLIB_LIB=$(PREFIX)/src/htslib
-do-build: do-config
+do-build:
 	@$(MAKE) -C $(_WRKSRC) libpbdata LDLIBS=-lpbbam
 	@$(MAKE) -C $(_WRKSRC) libpbihdf
 	@$(MAKE) -C $(_WRKSRC) libblasr
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist

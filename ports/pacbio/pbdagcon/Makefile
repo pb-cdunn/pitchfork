@@ -10,11 +10,10 @@ export CC
 export CXX
 
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
+do-fetch:
 	@test -d $(_WRKSRC) || $(GIT) clone $($(_NAME)_REPO) $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
-do-config: do-extract
+do-config:
 	@mkdir -p $(_WRKSRC)/build
 	@cd $(_WRKSRC) \
      &&     BOOST_INCLUDE=$(PREFIX)/include \
@@ -33,9 +32,9 @@ do-config: do-extract
              DALIGNER_SRC=$(_WRKSRC)/../daligner \
               DAZZ_DB_SRC=$(_WRKSRC)/../dazzdb \
         ./configure.py --build-dir=$(_WRKSRC)/build
-do-build: do-config
+do-build:
 	@$(MAKE) -C $(_WRKSRC)/build
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@cd $(_WRKSRC)/build/src/cpp \
