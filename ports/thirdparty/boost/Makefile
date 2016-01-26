@@ -15,11 +15,10 @@ do-fetch:
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 do-extract:
 	@test -d $(_WRKSRC) || (mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC))
-do-config: ;
+ifneq ($(origin DO_BOOST_LIB),undefined)
 do-build:
 	@test -e $(_WRKSRC)/project-config.jam \
       || (cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(STAGING)/$(_NAME) 2>&1) | tee build.log | $(PFHOME)/bin/activity
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@mkdir -p $(STAGING)/$(_NAME)
@@ -32,6 +31,16 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 	@echo "done"
+else
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
+	@cd $(_WRKSRC) && tar cf - boost | tar xf - -C $(PREFIX)/include
+	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
+	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
+	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@echo "done"
+endif
 do-uninstall:
 	@PREFIX=$(PREFIX) $(PFHOME)/bin/uninstall $(_NAME)
 do-clean:
