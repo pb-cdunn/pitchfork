@@ -32,5 +32,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-uninstall:
-	@cd $(PREFIX) && cat var/pkg/$(_NAME) | xargs rm -f
-	@rm -f $(PREFIX)/var/pkg/$(_NAME)
+	@PREFIX=$(PREFIX) $(PFHOME)/bin/uninstall $(_NAME)
