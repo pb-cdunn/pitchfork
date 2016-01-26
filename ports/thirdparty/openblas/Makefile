@@ -18,7 +18,6 @@ v0.2.15.tar.gz:
 	@$(CURL) -O -L $(_URL)/$@
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
-do-config: ;
 do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

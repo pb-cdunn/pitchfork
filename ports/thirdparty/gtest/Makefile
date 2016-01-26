@@ -14,7 +14,6 @@ do-extract:
 	@test -d $(_WRKSRC) || (mkdir -p test $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC))
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
-do-build: ;
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
