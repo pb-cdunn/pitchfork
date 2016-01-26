@@ -6,12 +6,7 @@ _NAME   = networkx-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
-do-config: do-extract
-do-build: do-config
-# note that dependencies is taken care of already here, mj is lazy
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist

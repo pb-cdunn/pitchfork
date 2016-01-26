@@ -1,27 +1,22 @@
 include ../../../mk/config.mk
 
+# CXX check
+include ../../../mk/chkcxx.mk
+
 # Local variables
 _NAME            = pbccs
 $(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
-_tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
-
-export CC
-export CXX
-export CFLAGS
-export CXXFLAGS=$(CFLAGS)
-
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
+do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test "$($(_NAME)_VERSION)" && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-	@test -d $(_WRKSRC)/ConsensusCore2 || git clone https://github.com/PacificBiosciences/ConsensusCore2.git $(_WRKSRC)/ConsensusCore2 
+	@test -d $(_WRKSRC)/ConsensusCore2 || git clone https://github.com/PacificBiosciences/ConsensusCore2.git $(_WRKSRC)/ConsensusCore2
 	@test "$(ConsensusCore2_VERSION)" && (cd $(_WRKSRC)/ConsensusCore2 && git checkout $(ConsensusCore2_VERSION)) || true
 	@test -d $(_WRKSRC)/seqan || git clone https://github.com/PacificBiosciences/seqan.git $(_WRKSRC)/seqan
-do-config: do-extract $(_WRKSRC)/_build/Makefile
+do-config: | $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile:
 	mkdir -p $(_WRKSRC)/_build && \
 	cd $(_WRKSRC)/_build  && \
@@ -35,9 +30,9 @@ $(_WRKSRC)/_build/Makefile:
               -DCMAKE_BUILD_TYPE=RelWithDebInfo \
               -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..
-do-build: do-config
+do-build:
 	@$(MAKE) -C $(_WRKSRC)/_build
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist

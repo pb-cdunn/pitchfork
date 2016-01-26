@@ -1,24 +1,19 @@
 include ../../../mk/config.mk
 
+# CXX check
+include ../../../mk/chkcxx.mk
+
 # Local variables
 _NAME            = blasr
 $(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
-_tmpvar:=$(if $(shell which $(CXX)),exists,$(error "unable to run $(CXX), consider doing yum install gcc-c++"))
-
-#export CC
-#export CXX
-#export CFLAGS
-#export CXXFLAGS=$(CFLAGS)
-
 # Local works
-do-extract: do-fetch
-do-fetch: wscheck
+do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-do-config: do-extract $(_WRKSRC)/defines.mk
+do-config: | $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
         ./configure.py --shared \
@@ -36,9 +31,9 @@ $(_WRKSRC)/defines.mk:
             PBBAM_LIB=$(PREFIX)/lib \
            HTSLIB_INC=$(PREFIX)/src/htslib \
            HTSLIB_LIB=$(PREFIX)/src/htslib
-do-build: do-config
+do-build:
 	@$(MAKE) -C $(_WRKSRC) all
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist

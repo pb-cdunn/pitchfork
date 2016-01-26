@@ -51,9 +51,13 @@ pbcore:       pysam h5py
 pbcommand:    xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 falcon_kit:   networkx
-pbfalcon:     falcon_kit pbsmrtpipe
+pbfalcon:     falcon_kit pbsmrtpipe pypeFLOW
 pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
+#
+world: \
+       pbccs blasr pbcore pbdoctorb \
+       ipython biopython
 
 # rules
 openssl:
@@ -89,6 +93,7 @@ ccache:
 
 ifneq ($(origin PYVE),undefined)
 python:
+	@bin/chkSysPython
 	$(MAKE) -j1 -C ports/python/virtualenv do-install
 pip: ;
 else
@@ -174,9 +179,6 @@ pypeFLOW:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbdoctorb:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
-#
-world: \
-       pbccs blasr pbcore ipython pbdoctorb 
 
 # utils
 _startover:

@@ -7,16 +7,14 @@ _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-fetch wscheck | $(_WRKSRC)/virtualenv.py
+do-extract: | $(_WRKSRC)/virtualenv.py
 $(_WRKSRC)/virtualenv.py:
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 do-fetch: | $(_FILE)
 	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@curl -L -O $(_URL)/$(_FILE)
-do-config: do-extract
-do-build: do-config
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist

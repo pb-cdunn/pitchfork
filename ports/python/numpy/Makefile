@@ -1,7 +1,7 @@
 include ../../../mk/config.mk
 
-# Local sanity check
-_tmpvar:=$(if $(shell which $(FC)),exists,$(error "unable to run $(FC), consider doing yum install gcc-gfortran"))
+# FC check
+include ../../../mk/chkfc.mk
 
 # Local variables
 _NAME   = numpy-1.10.2
@@ -10,15 +10,15 @@ _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: do-fetch
+do-extract:
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
-do-fetch: wscheck
+do-fetch:
 	@test -e $(_FILE) || curl -L -O $(_URL)/$(_FILE)
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-do-config: do-extract
+do-config:
 	@test -e $(_WRKSRC)/site.cfg || $(SED) -e 's@_PREFIX_@$(PREFIX)@g' site.cfg.template > $(_WRKSRC)/site.cfg
-do-build: do-config
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-build: ;
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist

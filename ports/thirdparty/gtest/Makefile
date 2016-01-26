@@ -7,15 +7,15 @@ _FILE            = release-1.7.0.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: wscheck
+do-fetch:
 	@test -e $(_FILE) || $(CURL) -L -O $(_URL)/archive/$(_FILE)
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
+do-extract:
 	@test -d $(_WRKSRC) || (mkdir -p test $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC))
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
-do-build: do-extract
-# NO NEED FOR STAGING
-do-install: do-build pfcheck $(PREFIX)/var/pkg/$(_NAME)
+do-build: ;
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@mkdir -p $(PREFIX)/src && cp -a $(_WRKSRC) $(PREFIX)/src/gtest
