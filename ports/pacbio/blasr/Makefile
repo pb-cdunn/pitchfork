@@ -9,6 +9,10 @@ $(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
+ifneq ($(OPSYS),Darwin)
+export LDFLAGS=-lrt
+endif
+
 # Local works
 do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
