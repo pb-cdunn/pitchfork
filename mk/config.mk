@@ -71,3 +71,5 @@ do-fetch: wscheck
 do-config: do-extract
 do-build: do-config
 do-install: do-build pfcheck
+do-uninstall:
+	@PREFIX=$(PREFIX) $(PFHOME)/bin/uninstall $(_NAME)
