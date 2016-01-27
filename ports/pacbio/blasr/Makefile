@@ -39,7 +39,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
-              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.a \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.$(DYLIB) \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
         ..
 $(_WRKSRC)/utils/bam2bax/build/Makefile:
@@ -50,7 +50,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
-              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.a \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.$(DYLIB) \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
         ..
 	@perl -pi -e 's/"Unable to convert RegionType to VirtualRegionType." == false/"Unable to convert RegionType to VirtualRegionType." == NULL/' $(_WRKSRC)/utils/bam2bax/src/RegionTypeAdapter.h
