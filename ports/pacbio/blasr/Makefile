@@ -13,18 +13,6 @@ $(_NAME)_VERSION?= HEAD
 do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-do-test:
-	@cd $(_WRKSRC)/utils/bam2bax && \
-        mkdir -p build && \
-        cd build && \
-        cmake \
-              -DHDF5_RootDir=$(PREFIX) \
-              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
-              -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
-              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
-              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.a \
-              -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
-        .. && make
 do-config: | $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
@@ -44,9 +32,8 @@ $(_WRKSRC)/defines.mk:
            HTSLIB_INC=$(PREFIX)/src/htslib \
            HTSLIB_LIB=$(PREFIX)/src/htslib
 $(_WRKSRC)/utils/bax2bam/build/Makefile:
-	@cd $(_WRKSRC)/utils/bax2bam && \
-        mkdir -p build && \
-        cd build && \
+	@mkdir -p $(_WRKSRC)/utils/bax2bam/build && \
+        cd $(_WRKSRC)/utils/bax2bam/build && \
         cmake \
               -DHDF5_RootDir=$(PREFIX) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
@@ -55,6 +42,18 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.a \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
         ..
+$(_WRKSRC)/utils/bam2bax/build/Makefile:
+	@mkdir -p $(_WRKSRC)/utils/bam2bax/build && \
+        cd $(_WRKSRC)/utils/bam2bax/build && \
+        cmake \
+              -DHDF5_RootDir=$(PREFIX) \
+              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
+              -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.a \
+              -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
+        ..
+	@perl -pi -e 's/"Unable to convert RegionType to VirtualRegionType." == false/"Unable to convert RegionType to VirtualRegionType." == NULL/' $(_WRKSRC)/utils/bam2bax/src/RegionTypeAdapter.h
 do-build:
 	@$(MAKE) -C $(_WRKSRC) all
 	@$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
