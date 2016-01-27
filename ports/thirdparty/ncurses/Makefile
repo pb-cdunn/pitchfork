@@ -16,9 +16,10 @@ do-clean-distfile:
 	@rm -f $(_FILE)
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
-do-config:
-	@cd $(_WRKSRC) && (test -e config.log \
-     || CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --with-shared)
+do-config: | $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log:
+	@(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --with-shared 2>&1) \
+        | tee config.log | $(PFHOME)/bin/activity
 do-build:
 	@test ! -e config.log || exit 1
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
@@ -30,5 +31,3 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
-do-uninstall:
-	@PREFIX=$(PREFIX) $(PFHOME)/bin/uninstall $(_NAME)

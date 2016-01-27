@@ -41,7 +41,5 @@ $(PREFIX)/var/pkg/$(_NAME):
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 	@echo "done"
 endif
-do-uninstall:
-	@PREFIX=$(PREFIX) $(PFHOME)/bin/uninstall $(_NAME)
 do-clean:
 	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
