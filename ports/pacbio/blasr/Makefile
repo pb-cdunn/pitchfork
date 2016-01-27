@@ -10,14 +10,15 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-ifneq ($(origin TRAVIS),undefined)
 do-extract:
+	@perl -pi -e 's/"Unable to convert RegionType to VirtualRegionType." == false/"Unable to convert RegionType to VirtualRegionType." == NULL/' $(_WRKSRC)/utils/bam2bax/src/RegionTypeAdapter.h
+ifneq ($(origin TRAVIS),undefined)
 	@cat travis.patch | (cd $(_WRKSRC) && patch -p0)
 endif
 do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-do-config: | $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile
+do-config: | $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
         ./configure.py --shared \
@@ -57,10 +58,10 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.$(DYLIB) \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
         ..
-	@perl -pi -e 's/"Unable to convert RegionType to VirtualRegionType." == false/"Unable to convert RegionType to VirtualRegionType." == NULL/' $(_WRKSRC)/utils/bam2bax/src/RegionTypeAdapter.h
 do-build:
 	@$(MAKE) -C $(_WRKSRC) all
 	@$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
+	@$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
@@ -68,6 +69,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(PREFIX)/bin
 	@cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(PREFIX)/bin
 	@cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
+	@cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(PREFIX)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
