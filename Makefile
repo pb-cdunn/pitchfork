@@ -84,8 +84,12 @@ boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+ifneq ($(origin HAVECMAKE),undefined)
+cmake: ;
+else
 cmake:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+endif
 nim:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ccache:
