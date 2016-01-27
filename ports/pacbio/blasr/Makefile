@@ -13,7 +13,19 @@ $(_NAME)_VERSION?= HEAD
 do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-do-config: | $(_WRKSRC)/defines.mk
+do-test:
+	@cd $(_WRKSRC)/utils/bam2bax && \
+        mkdir -p build && \
+        cd build && \
+        cmake \
+              -DHDF5_RootDir=$(PREFIX) \
+              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
+              -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.a \
+              -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
+        .. && make
+do-config: | $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
         ./configure.py --shared \
@@ -31,14 +43,28 @@ $(_WRKSRC)/defines.mk:
             PBBAM_LIB=$(PREFIX)/lib \
            HTSLIB_INC=$(PREFIX)/src/htslib \
            HTSLIB_LIB=$(PREFIX)/src/htslib
+$(_WRKSRC)/utils/bax2bam/build/Makefile:
+	@cd $(_WRKSRC)/utils/bax2bam && \
+        mkdir -p build && \
+        cd build && \
+        cmake \
+              -DHDF5_RootDir=$(PREFIX) \
+              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
+              -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.a \
+              -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
+        ..
 do-build:
 	@$(MAKE) -C $(_WRKSRC) all
+	@$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
 	@cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(PREFIX)/bin
-	@cd $(_WRKSRC)/utils && tar cf - pls2fasta sawriter | tar xf - -C $(PREFIX)/bin
+	@cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(PREFIX)/bin
+	@cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
