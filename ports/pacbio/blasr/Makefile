@@ -9,11 +9,11 @@ $(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
-ifneq ($(OPSYS),Darwin)
-export LDFLAGS=-lrt
-endif
-
 # Local works
+ifneq ($(origin TRAVIS),undefined)
+do-extract:
+	@cat travis.patch | (cd $(_WRKSRC) && patch -p0)
+endif
 do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
 	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
