@@ -39,7 +39,7 @@ pyxb:         pip
 biopython:    pip
 #
 htslib:       ccache zlib
-blasr_libcpp: ccache hdf5 pbbam
+blasr_libcpp: ccache boost hdf5 pbbam
 blasr:        ccache blasr_libcpp hdf5
 pbbam:        ccache samtools cmake boost htslib gtest
 pbccs:        ccache pbbam htslib cmake boost gtest

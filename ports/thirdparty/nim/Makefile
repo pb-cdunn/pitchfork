@@ -11,7 +11,6 @@ do-fetch:
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 do-extract:
 	@test -d $(_WRKSRC) || unzip $(_NAME).zip -d $(WORKSPACE)
-do-config: ;
 do-build: | $(_WRKSRC)/bin/nim
 $(_WRKSRC)/bin/nim:
 	@cd $(_WRKSRC) && sh build.sh

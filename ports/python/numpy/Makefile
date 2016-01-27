@@ -17,7 +17,6 @@ do-fetch:
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 do-config:
 	@test -e $(_WRKSRC)/site.cfg || $(SED) -e 's@_PREFIX_@$(PREFIX)@g' site.cfg.template > $(_WRKSRC)/site.cfg
-do-build: ;
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list

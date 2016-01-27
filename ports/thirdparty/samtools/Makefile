@@ -11,12 +11,15 @@ do-extract:
 do-fetch:
 	@test -e $(_NAME).tar.bz2 || $(CURL) -L -O $(_URL)/$(_NAME).tar.bz2
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-do-config:
+do-config: | $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log:
 ifeq ($(OPSYS),Darwin)
 	@test -e $(_WRKSRC)/config.log || cat patch-01 | (cd $(_WRKSRC) && patch -p0)
 	@test -e $(_WRKSRC)/config.log || $(SED) -i -e 's/-rdynamic//g' $(_WRKSRC)/Makefile $(_WRKSRC)/htslib-*/configure*
 endif
-	@cd $(_WRKSRC) && test -e config.log || CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)
+	@(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+                           ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
+        | tee config.log | $(PFHOME)/bin/activity
 do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
