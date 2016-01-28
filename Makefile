@@ -44,7 +44,7 @@ biopython:    pip
 #
 htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
-blasr:        ccache blasr_libcpp hdf5
+blasr:        ccache blasr_libcpp hdf5 cmake
 pbbam:        ccache samtools cmake boost htslib gtest
 pbccs:        ccache pbbam htslib cmake boost gtest seqan
 dazzdb:       ccache
@@ -59,8 +59,9 @@ pbfalcon:     falcon_kit pbsmrtpipe pypeFLOW
 pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
 #
-ConsensusCore: numpy boost swig
-ConsensusCore2: numpy boost swig
+ConsensusCore: numpy boost swig cmake
+ConsensusCore2: numpy boost swig cmake
+GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
 world: \
        pbccs blasr pbcore pbdoctorb \
@@ -195,6 +196,8 @@ pbdoctorb:
 ConsensusCore:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 ConsensusCore2:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+GenomicConsensus:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils
