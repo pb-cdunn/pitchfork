@@ -1,17 +1,18 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME   = readline-6.3p8
-_URL    = http://git.savannah.gnu.org/r/readline.git
-_REV    = a73b98f779b388a5d0624e02e8bb187246e3e396
+_NAME   = readline-6.3
+_URL    = ftp://ftp.gnu.org/gnu/readline
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 
 # Local works
-do-extract:
-do-fetch:
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+do-extract: | $(_WRKSRC)
+$(_WRKSRC):
+	@tar zxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_NAME).tar.gz
+$(_NAME).tar.gz:
+	@$(CURL) -L -O $(_URL)/$(_NAME).tar.gz
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	@(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
