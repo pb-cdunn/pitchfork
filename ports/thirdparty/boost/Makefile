@@ -42,4 +42,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@echo "done"
 endif
 do-clean:
-	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
+	@rm -rf $(_WRKSRC) || true
