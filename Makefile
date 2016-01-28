@@ -1,6 +1,9 @@
 include mk/osdetect.mk
 PREFIX ?= deployment
 
+default:
+	@echo no default rule
+
 # deps that this port would directly use
 openssl:      ccache
 zlib:         ccache
@@ -13,6 +16,7 @@ ncurses:      ccache
 gtest:        ccache
 openblas:     ccache
 hdf5:         ccache zlib
+swig:         ccache python
 #
 pip:          python
 cython:       pip
@@ -55,6 +59,8 @@ pbfalcon:     falcon_kit pbsmrtpipe pypeFLOW
 pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
 #
+ConsensusCore: numpy boost swig
+#
 world: \
        pbccs blasr pbcore pbdoctorb \
        ipython biopython
@@ -93,6 +99,8 @@ endif
 nim:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ccache:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+swig:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
@@ -182,6 +190,8 @@ pbfalcon:
 pypeFLOW:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbdoctorb:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+ConsensusCore:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils
