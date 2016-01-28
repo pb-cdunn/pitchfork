@@ -67,7 +67,7 @@ GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
 world: \
        pbccs blasr pbcore pbdoctorb \
-       ipython biopython
+       ipython biopython pbreports GenomicConsensus ConsensusCore2 pbfalcon
 
 # rules
 openssl:
