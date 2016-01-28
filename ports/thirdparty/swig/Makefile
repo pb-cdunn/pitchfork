@@ -35,4 +35,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	@grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
