@@ -17,7 +17,7 @@ $(_WRKSRC)/config.log:
           CFLAGS="$(CFLAGS)" \
           LDFLAGS="$(LDFLAGS)" \
             ./configure \
-              --prefix=$(STAGING)/$(_NAME) \
+              --prefix=$(PREFIX) \
               --without-java \
               --without-lua \
               --without-perl5 \
@@ -31,8 +31,8 @@ do-build:
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
-	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	@$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xvf - -C $(PREFIX)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)

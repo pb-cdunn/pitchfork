@@ -4,7 +4,7 @@ include ../../../mk/config.mk
 include ../../../mk/chkcxx.mk
 
 # Local variables
-_NAME            = pbbam
+_NAME            = ConsensusCore2
 $(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
@@ -12,29 +12,26 @@ $(_NAME)_VERSION?= HEAD
 # Local works
 do-fetch:
 	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
-	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-do-config:
-	@cd $(_WRKSRC) && mkdir -p build
-	@cd $(_WRKSRC)/build \
+	@test "$($(_NAME)_VERSION)" && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
+do-config: | $(_WRKSRC)/_build/Makefile
+$(_WRKSRC)/_build/Makefile:
+	@mkdir -p $(_WRKSRC)/_build
+	@cd $(_WRKSRC)/_build \
      && $(CMAKE) \
-            -DPacBioBAM_build_shared=ON \
-            -DPacBioBAM_build_docs=OFF \
-            -DPacBioBAM_build_tests=OFF \
-            -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
-            -DHTSLIB_ROOTDIR=$(PREFIX)/src/htslib \
-            -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
-            -DZLIB_LIBRARIES_DIRS=$(PREFIX)/lib \
-            -DBoost_INCLUDE_DIRS=$(PREFIX)/include \
-            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            -DCMAKE_SKIP_BUILD_RPATH=TRUE \
-            ..
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBoost_INCLUDE_DIRS=$(PREFIX)/include \
+        ..
 do-build:
-	@cd $(_WRKSRC)/build && $(MAKE)
+	@cd $(_WRKSRC)/_build && $(MAKE)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@cd $(_WRKSRC) && tar cf - bin lib include | tar xf - -C $(PREFIX)
+	@    CMAKE_COMMAND=$(CMAKE) \
+        Boost_INCLUDE_DIRS=$(PREFIX)/include \
+              SWIG_COMMAND=$(shell . $(PREFIX)/setup-env.sh && which swig) \
+                   VERBOSE=1 \
+        pip install --verbose --upgrade --no-deps $(_WRKSRC)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

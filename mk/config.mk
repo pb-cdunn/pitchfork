@@ -7,6 +7,7 @@ AR         = ar
 GIT        = git
 SED        = sed
 CURL       = curl
+CMAKE      = cmake
 MD5SUM     = md5sum
 SHA1SUM    = sha1sum
 
