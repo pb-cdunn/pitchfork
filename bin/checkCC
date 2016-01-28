@@ -2,7 +2,7 @@
 
 reportVersion(){
     set -euf -o pipefail
-    $1 -v 2>&1|grep ' version '|awk -F 'version ' '{print $2}'|awk '{print $1}'
+    $1 dumpversion 2>&1
 }
 
 die(){
