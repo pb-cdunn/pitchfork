@@ -19,7 +19,7 @@ cache:
     - $HOME/.ccache
 
 install:
-  - make -j2 GenomicConsensus ConsensusCore2
+  - make -j CC=gcc-4.8 CXX=g++-4.8 FC=gfortran-4.8 CCACHE_DIR=$HOME/.ccache GenomicConsensus ConsensusCore2
   #- cat /proc/cpuinfo
   #- make -j2 CC=gcc-4.8 CXX=g++-4.8 FC=gfortran-4.8 CCACHE_DIR=$HOME/.ccache blasr
   #- make -j2 CC=gcc-4.8 CXX=g++-4.8 FC=gfortran-4.8 CCACHE_DIR=$HOME/.ccache pbfalcon
