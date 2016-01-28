@@ -5,6 +5,9 @@ _NAME            = nim-0.12.0
 _URL             = http://nim-lang.org/download
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
+# Local check
+_tmpvar:=$(if $(shell which unzip),exists,$(error "unable to run unzip, consider doing yum install unzip"))
+
 # Local works
 do-fetch:
 	@test -e $(_NAME).zip || curl -O -L $(_URL)/$(_NAME).zip
