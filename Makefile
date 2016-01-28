@@ -46,7 +46,7 @@ htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
 blasr:        ccache blasr_libcpp hdf5
 pbbam:        ccache samtools cmake boost htslib gtest
-pbccs:        ccache pbbam htslib cmake boost gtest
+pbccs:        ccache pbbam htslib cmake boost gtest seqan
 dazzdb:       ccache
 daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
@@ -60,6 +60,7 @@ pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
 #
 ConsensusCore: numpy boost swig
+ConsensusCore2: numpy boost swig
 #
 world: \
        pbccs blasr pbcore pbdoctorb \
@@ -192,6 +193,8 @@ pypeFLOW:
 pbdoctorb:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 ConsensusCore:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+ConsensusCore2:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils
