@@ -9,8 +9,9 @@ _CFLAGS = $(CFLAGS)
 # Local works
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
-	@tar zxf $(_FILE) -C $(WORKSPACE)
+	@tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
 do-fetch: | $(_NAME).tar.gz
+	@$(MD5SUM) -c MD5SUM
 $(_NAME).tar.gz:
 	@$(CURL) -L -O $(_URL)/$(_NAME).tar.gz
 do-config: | $(_WRKSRC)/config.log
