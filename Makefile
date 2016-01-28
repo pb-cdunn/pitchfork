@@ -57,6 +57,7 @@ pbcommand:    xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 falcon_kit:   networkx
 pbfalcon:     falcon_kit pbsmrtpipe pypeFLOW
+pbreports:    matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
 pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
 #
@@ -201,6 +202,8 @@ ConsensusCore:
 ConsensusCore2:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 GenomicConsensus:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pbreports:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils

@@ -2,7 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME            = pbreports
-_URL             = https://github.com/dalexander/pbreports
+_URL             = https://github.com/PacificBiosciences/pbreports
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
@@ -14,7 +14,7 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@$(PREFIX)/bin/pip install --no-deps $(_WRKSRC)/
+	@pip install --no-index $(_WRKSRC)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

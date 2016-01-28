@@ -17,7 +17,7 @@ do-fetch:
 	@test "$(ConsensusCore2_VERSION)" && (cd $(_WRKSRC)/ConsensusCore2 && git checkout $(ConsensusCore2_VERSION)) || true
 do-config: | $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile:
-	mkdir -p $(_WRKSRC)/_build && \
+	@mkdir -p $(_WRKSRC)/_build && \
 	cd $(_WRKSRC)/_build  && \
         $(CMAKE) \
               -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
