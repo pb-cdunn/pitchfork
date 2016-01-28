@@ -17,8 +17,6 @@ do-fetch:
 do-extract:
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
 	@$(SED) -i -e "s|@@PREFIX@@|$(PREFIX)|g" $(_WRKSRC)/Lib/cgi.py $(_WRKSRC)/Lib/ctypes/macholib/dyld.py
-do-clean:
-	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config:
 	@test -e $(_WRKSRC)/config.log \
      || (cd $(_WRKSRC) \
@@ -35,3 +33,5 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+do-clean:
+	@rm -rf $(_WRKSRC) || true

@@ -16,8 +16,6 @@ do-fetch: | v0.2.15.tar.gz
 	@$(MD5SUM) -c MD5SUM
 v0.2.15.tar.gz:
 	@$(CURL) -O -L $(_URL)/$@
-do-clean:
-	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
@@ -28,3 +26,5 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+do-clean:
+	@rm -rf $(_WRKSRC) || true

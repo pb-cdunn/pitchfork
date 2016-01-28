@@ -14,8 +14,6 @@ do-extract:
 	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
 do-clean-distfile:
 	@rm -f $(_FILE)
-do-clean:
-	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	@(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --with-shared 2>&1) \
@@ -30,3 +28,5 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+do-clean:
+	@rm -rf $(_WRKSRC) || true

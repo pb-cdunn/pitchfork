@@ -12,8 +12,6 @@ do-extract:
 do-fetch:
 	@test -e $(_FILE) || curl -O $(_URL)/$(_FILE)
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-do-clean:
-	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-config:
 	@test -e $(_WRKSRC)/config.log \
      || (cd $(_WRKSRC) && ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) | tee config.log | $(PFHOME)/bin/activity
@@ -33,3 +31,5 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+do-clean:
+	@rm -rf $(_WRKSRC) || true

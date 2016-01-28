@@ -12,8 +12,6 @@ do-fetch:
 	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
 do-extract:
 	@test -d $(_WRKSRC) || (mkdir -p test $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC))
-do-clean:
-	@test -d $(_WRKSRC) && rm -rf $(_WRKSRC) || true
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
@@ -22,3 +20,5 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
 	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 	@echo "done"
+do-clean:
+	@rm -rf $(_WRKSRC) || true
