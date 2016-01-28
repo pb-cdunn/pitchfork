@@ -36,6 +36,7 @@ avro:         pip
 requests:     pip
 docopt:       pip
 rdflib:       pip
+matplotlib:   pip numpy
 # TODO add six
 rdfextras:    pip rdflib
 pyxb:         pip
@@ -150,6 +151,8 @@ pysam:
 rdflib:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 rdfextras:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+matplotlib:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection
