@@ -5,10 +5,16 @@ die(){
     exit 1
 }
 
-test -f /usr/bin/python || die "ERROR: system python missing"
-$(/usr/bin/python -V 2>&1 | awk '{print $2}' | awk -F \. '{
-if ((10*$1+$2)<27) print "ERROR: system python is too old";
-}')
-$(/usr/bin/python -V 2>&1 | awk '{print $2}' | awk -F \. '{
-if ((10*$1+$2)>29) print "ERROR: system python3 is not supported";
-}')
+if [ "_${1}" != "_" ]; then
+    test -e $1 && PYTHON=$1 || die "ERROR: $1 missing"
+else
+    PYTHON=/usr/bin/python
+fi
+
+test -e ${PYTHON} || die "ERROR: system python missing"
+`${PYTHON} -V 2>&1 | awk '{print $2}' | awk -F \. '{
+if ((10*$1+$2)<27) print "die ERROR: system python is too old";
+}'`
+`${PYTHON} -V 2>&1 | awk '{print $2}' | awk -F \. '{
+if ((10*$1+$2)>29) print "die ERROR: system python3 is not supported";
+}'`
