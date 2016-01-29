@@ -23,7 +23,7 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@$(PREFIX)/bin/pip install --no-index --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(PREFIX)/include" $(_WRKSRC)/
+	@pip install --no-index --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(PREFIX)/include" $(_WRKSRC)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

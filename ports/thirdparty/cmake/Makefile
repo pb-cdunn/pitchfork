@@ -14,11 +14,13 @@ export CXXFLAGS
 export LDFLAGS
 
 # Local works
-do-fetch:
-	@test -e $(_FILE) || curl -O $(_URL)/$(_FILE)
-	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-do-extract:
-	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_FILE)
+	@$(MD5SUM) -c MD5SUM
+$(_FILE):
+	@$(CURL) -L -O $(_URL)/$@
+do-extract: | $(_WRKSRC)
+$(_WRKSRC):
+	@tar zxf $(_FILE) -C $(WORKSPACE)
 do-config:
 	@test -e $(_WRKSRC)/Makefile \
       || (cd $(_WRKSRC) && ./bootstrap --prefix=$(STAGING)/$(_NAME) 2>&1) | tee config.log | $(PFHOME)/bin/activity

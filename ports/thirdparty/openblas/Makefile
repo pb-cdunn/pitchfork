@@ -7,15 +7,16 @@ include ../../../mk/chkfc.mk
 _NAME   = OpenBLAS-0.2.15
 _URL    = http://github.com/xianyi/OpenBLAS/archive
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+_FILE   = v0.2.15.tar.gz
 
 # Local works
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
-	@tar zxf v0.2.15.tar.gz -C $(WORKSPACE)
-do-fetch: | v0.2.15.tar.gz
+	@tar zxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_FILE)
 	@$(MD5SUM) -c MD5SUM
-v0.2.15.tar.gz:
-	@$(CURL) -O -L $(_URL)/$@
+$(_FILE):
+	@$(CURL) -L -O $(_URL)/$@
 do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

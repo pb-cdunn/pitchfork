@@ -4,13 +4,16 @@ include ../../../mk/config.mk
 _NAME   = samtools-1.3
 _URL    = https://github.com/samtools/samtools/releases/download/1.3
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+_FILE   = $(_NAME).tar.bz2
 
 # Local works
-do-extract:
-	@test -d $(_WRKSRC) || tar jxf $(_NAME).tar.bz2 -C $(WORKSPACE)
-do-fetch:
-	@test -e $(_NAME).tar.bz2 || $(CURL) -L -O $(_URL)/$(_NAME).tar.bz2
-	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
+do-extract: | $(_WRKSRC)
+$(_WRKSRC):
+	@tar jxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_FILE)
+	@$(MD5SUM) -c MD5SUM
+$(_FILE):
+	@$(CURL) -L -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 ifeq ($(OPSYS),Darwin)

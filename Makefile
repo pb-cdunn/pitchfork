@@ -36,6 +36,7 @@ avro:         pip
 requests:     pip
 docopt:       pip
 rdflib:       pip
+matplotlib:   pip numpy
 # TODO add six
 rdfextras:    pip rdflib
 pyxb:         pip
@@ -56,6 +57,7 @@ pbcommand:    xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 falcon_kit:   networkx
 pbfalcon:     falcon_kit pbsmrtpipe pypeFLOW
+pbreports:    matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
 pypeFLOW:     rdflib rdfextras
 pbdoctorb:    docopt pbcore
 #
@@ -65,7 +67,7 @@ GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
 world: \
        pbccs blasr pbcore pbdoctorb \
-       ipython biopython
+       ipython biopython pbreports GenomicConsensus ConsensusCore2 pbfalcon
 
 # rules
 openssl:
@@ -151,6 +153,8 @@ rdflib:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 rdfextras:
 	$(MAKE) -j1 -C ports/python/$@ do-install
+matplotlib:
+	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection
 ipython:
@@ -198,6 +202,8 @@ ConsensusCore:
 ConsensusCore2:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 GenomicConsensus:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pbreports:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils

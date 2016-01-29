@@ -1,15 +1,15 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME            = falcon_kit
-$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/FALCON
+_NAME            = pbreports
+_URL             = https://github.com/PacificBiosciences/pbreports
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
 do-fetch:
-	@test -d $(_WRKSRC) || $(GIT) clone $($(_NAME)_REPO) $(_WRKSRC)
-	@@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
+	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
