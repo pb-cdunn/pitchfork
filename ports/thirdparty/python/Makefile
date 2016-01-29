@@ -19,6 +19,7 @@ do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 	@$(SED) -i -e "s|@@PREFIX@@|$(PREFIX)|g" $(_WRKSRC)/Lib/cgi.py $(_WRKSRC)/Lib/ctypes/macholib/dyld.py
+	@$(SED)    -e "s|@@PREFIX@@|$(PREFIX)|g" patch-01 | (cd $(_WRKSRC) && patch -p0)
 do-config:
 	@test -e $(_WRKSRC)/config.log \
      || (cd $(_WRKSRC) \
