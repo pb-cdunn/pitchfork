@@ -17,6 +17,7 @@ gtest:        ccache
 openblas:     ccache
 hdf5:         ccache zlib
 swig:         ccache python
+libpng:       ccache zlib
 #
 pip:          python
 cython:       pip
@@ -36,7 +37,7 @@ avro:         pip
 requests:     pip
 docopt:       pip
 rdflib:       pip six
-matplotlib:   pip numpy
+matplotlib:   pip numpy libpng
 six:          pip
 rdfextras:    pip rdflib
 pyxb:         pip
@@ -108,6 +109,8 @@ nim:
 ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 swig:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
