@@ -109,7 +109,7 @@ swig:
 
 ifneq ($(origin PYVE),undefined)
 python:
-	@bin/chkSysPython
+	@bin/chkSysPython $(PYVE)
 	$(MAKE) -j1 -C ports/python/virtualenv do-install
 pip: ;
 else
