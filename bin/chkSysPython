@@ -18,3 +18,4 @@ if ((10*$1+$2)<27) print "die ERROR: system python is too old";
 `${PYTHON} -V 2>&1 | awk '{print $2}' | awk -F \. '{
 if ((10*$1+$2)>29) print "die ERROR: system python3 is not supported";
 }'`
+echo $PYTHON
