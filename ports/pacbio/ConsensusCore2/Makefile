@@ -31,7 +31,7 @@ $(PREFIX)/var/pkg/$(_NAME):
         Boost_INCLUDE_DIRS=$(PREFIX)/include \
               SWIG_COMMAND=$(shell . $(PREFIX)/setup-env.sh && which swig) \
                    VERBOSE=1 \
-        pip install --verbose --upgrade --no-index $(_WRKSRC)/
+        $(PIP) install --verbose --upgrade --no-deps $(_WRKSRC)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
