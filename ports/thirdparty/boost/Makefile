@@ -10,11 +10,13 @@ _FILE    = boost_1_60_0.tar.gz
 _WRKSRC  = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-fetch:
-	@test -e $(_FILE) || $(CURL) -L -O $(_URL)/$(_FILE)
-	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-do-extract:
-	@test -d $(_WRKSRC) || (mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC))
+do-fetch: | $(_FILE)
+	@$(MD5SUM) -c MD5SUM
+$(_FILE):
+	@$(CURL) -L -O $(_URL)/$@
+do-extract: | $(_WRKSRC)
+$(_WRKSRC):
+	@mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 ifneq ($(origin DO_BOOST_LIB),undefined)
 do-build:

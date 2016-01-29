@@ -4,16 +4,19 @@ include ../../../mk/config.mk
 _NAME            = nim-0.12.0
 _URL             = http://nim-lang.org/download
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
+_FILE            = $(_NAME).zip
 
 # Local check
 _tmpvar:=$(if $(shell which unzip),exists,$(error "unable to run unzip, consider doing yum install unzip"))
 
 # Local works
-do-fetch:
-	@test -e $(_NAME).zip || curl -O -L $(_URL)/$(_NAME).zip
-	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-do-extract:
-	@test -d $(_WRKSRC) || unzip $(_NAME).zip -d $(WORKSPACE)
+do-fetch: | $(_FILE)
+	@$(MD5SUM) -c MD5SUM
+$(_FILE):
+	@$(CURL) -L -O $(_URL)/$@
+do-extract: | $(_WRKSRC)
+$(_WRKSRC):
+	@unzip $(_FILE) -d $(WORKSPACE)
 do-build: | $(_WRKSRC)/bin/nim
 $(_WRKSRC)/bin/nim:
 	@cd $(_WRKSRC) && sh build.sh

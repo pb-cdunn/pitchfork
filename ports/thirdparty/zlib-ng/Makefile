@@ -9,8 +9,9 @@ _CFLAGS  = $(CFLAGS)
 _CFLAGS += -march=native -O3
 
 # Local works
-do-fetch:
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+do-fetch: | $(_WRKSRC)
+$(_WRKSRC):
+	@$(GIT) clone $(_URL) $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-config: | $(_WRKSRC)/configure.log
 $(_WRKSRC)/configure.log:

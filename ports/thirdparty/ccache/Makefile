@@ -7,11 +7,13 @@ _FILE	= $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract:
-	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
-do-fetch:
-	@test -e $(_FILE) || curl -O $(_URL)/$(_FILE)
-	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
+do-extract: | $(_WRKSRC)
+$(_WRKSRC):
+	@tar zxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_FILE)
+	@$(MD5SUM) -c MD5SUM
+$(_FILE):
+	@$(CURL) -O $(_URL)/$@
 do-config:
 	@test -e $(_WRKSRC)/config.log \
      || (cd $(_WRKSRC) && ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) | tee config.log | $(PFHOME)/bin/activity

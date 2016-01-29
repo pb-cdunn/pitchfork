@@ -5,15 +5,16 @@ _NAME   = readline-6.3
 _URL    = ftp://ftp.gnu.org/gnu/readline
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = $(CFLAGS)
+_FILE   = $(_NAME).tar.gz
 
 # Local works
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
-	@tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
-do-fetch: | $(_NAME).tar.gz
+	@tar zxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_FILE)
 	@$(MD5SUM) -c MD5SUM
-$(_NAME).tar.gz:
-	@$(CURL) -L -O $(_URL)/$(_NAME).tar.gz
+$(_FILE):
+	@$(CURL) -L -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	@(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \

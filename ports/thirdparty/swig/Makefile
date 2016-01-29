@@ -4,13 +4,16 @@ include ../../../mk/config.mk
 _NAME   = swig-3.0.8
 _URL    = http://prdownloads.sourceforge.net/swig
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+_FILE   = $(_NAME).tar.gz
 
 # Local works
-do-extract:
-	@test -d $(_WRKSRC) || tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
-do-fetch:
-	@test -e $(_NAME).tar.gz || $(CURL) -L -O $(_URL)/$(_NAME).tar.gz
-	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
+do-extract: | $(_WRKSRC)
+$(_WRKSRC):
+	@tar zxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_FILE)
+	@$(MD5SUM) -c MD5SUM
+$(_FILE):
+	@$(CURL) -L -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	@(cd $(_WRKSRC) && \
