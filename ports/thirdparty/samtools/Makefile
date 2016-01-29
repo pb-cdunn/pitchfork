@@ -8,6 +8,7 @@ _FILE   = $(_NAME).tar.bz2
 
 # Local works
 do-extract: | $(_WRKSRC)
+$(_WRKSRC):
 	@tar jxf $(_FILE) -C $(WORKSPACE)
 do-fetch: | $(_FILE)
 	@$(MD5SUM) -c MD5SUM
