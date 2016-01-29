@@ -6,7 +6,7 @@ die(){
 }
 
 if [ "_${1}" != "_" ]; then
-    test -e $1 && PYTHON=$1 || die "ERROR: $1 missing"
+    test -e $1 && PYTHON=$1 || PYTHON=/usr/bin/python
 else
     PYTHON=/usr/bin/python
 fi
