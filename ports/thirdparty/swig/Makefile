@@ -10,27 +10,34 @@ _FILE   = $(_NAME).tar.gz
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	@tar zxf $(_FILE) -C $(WORKSPACE)
-do-fetch: | $(_FILE)
+do-fetch: | $(_FILE) pcre-8.38.tar.gz
 	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
+pcre-8.38.tar.gz:
+	@$(CURL) -L -O http://downloads.sourceforge.net/pcre/pcre-8.38.tar.gz
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	@(cd $(_WRKSRC) && \
-          CFLAGS="$(CFLAGS)" \
-          LDFLAGS="$(LDFLAGS)" \
-            ./configure \
-              --prefix=$(PREFIX) \
-              --without-java \
-              --without-lua \
-              --without-perl5 \
-              --without-php \
-              --without-ruby \
-              --without-tcl \
-          2>&1) \
-        | tee config.log | $(PFHOME)/bin/activity
+	@cp pcre-8.38.tar.gz $(_WRKSRC)/
+	@cd $(_WRKSRC) && \
+        Tools/pcre-build.sh | tee config.log | $(PFHOME)/bin/activity && \
+        CFLAGS="$(CFLAGS)" \
+        CC="$(CC) -L$(PREFIX)/lib" \
+        CXX="$(CXX) -L$(PREFIX)/lib" \
+        LDFLAGS="$(LDFLAGS)" \
+          ./configure \
+            --prefix=$(PREFIX) \
+            --without-java \
+            --without-lua \
+            --without-perl5 \
+            --without-php \
+            --without-ruby \
+            --without-tcl \
+            --without-r \
+        2>&1 \
+        | tee -a config.log | $(PFHOME)/bin/activity
 do-build:
-	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
+	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
