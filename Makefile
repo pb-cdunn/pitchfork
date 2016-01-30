@@ -70,8 +70,9 @@ ConsensusCore2: numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
 world: \
-       pbccs blasr pbcore pbdoctorb \
-       ipython biopython pbreports GenomicConsensus ConsensusCore2 pbfalcon
+       pbccs     blasr            kineticsTools  \
+       pbreports GenomicConsensus ConsensusCore2 pbfalcon \
+       pbdoctorb ipython          biopython      cogent
 
 # rules
 openssl:
