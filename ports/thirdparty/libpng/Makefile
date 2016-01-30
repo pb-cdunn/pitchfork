@@ -19,7 +19,11 @@ do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	@(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
+ifeq ($(OPSYS),Darwin)
+	@cp /usr/include/zlib.h /usr/include/zconf.h $(_WRKSRC)/
+else
 	@cp $(PREFIX)/include/zlib.h $(PREFIX)/include/zconf.h $(_WRKSRC)/
+endif
 do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
