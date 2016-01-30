@@ -1,16 +1,20 @@
 include ../../../mk/config.mk
 
 # Local variables
-_VER    = 0.6.2
-_NAME   = docopt-$(_VER)
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_NAME            = kineticsTools
+$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC          = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION?= HEAD
 
 # Local works
+do-fetch:
+	@test -d $(_WRKSRC) || $(GIT) clone $($(_NAME)_REPO) $(_WRKSRC)
+	@@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@$(PIP) install --no-deps docopt==$(_VER)
+	@$(PIP) install --no-deps $(_WRKSRC)/
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

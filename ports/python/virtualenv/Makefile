@@ -5,6 +5,11 @@ _NAME   = virtualenv-13.1.2
 _URL    = https://pypi.python.org/packages/source/v/virtualenv
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+PYTHON  = /usr/bin/python
+ifneq ($(origin PYVE),undefined)
+    PYTHON := $(shell ../../../bin/chkSysPython $(PYVE))
+    $(info $(PYTHON))
+endif
 
 # Local works
 do-extract: | $(_WRKSRC)/virtualenv.py
@@ -18,7 +23,7 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@python $(_WRKSRC)/virtualenv.py $(PREFIX)
+	@$(PYTHON) $(_WRKSRC)/virtualenv.py $(PREFIX)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

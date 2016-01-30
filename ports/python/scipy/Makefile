@@ -1,8 +1,8 @@
 include ../../../mk/config.mk
 
 # Local variables
-_VER    = 0.6.2
-_NAME   = docopt-$(_VER)
+_VER    = 0.17.0
+_NAME   = scipy-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
@@ -10,7 +10,7 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@$(PIP) install --no-deps docopt==$(_VER)
+	@$(PIP) install --no-deps scipy==$(_VER)
 	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
 	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
 	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \

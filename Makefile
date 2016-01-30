@@ -17,6 +17,7 @@ gtest:        ccache
 openblas:     ccache
 hdf5:         ccache zlib
 swig:         ccache python
+libpng:       ccache zlib
 #
 pip:          python
 cython:       pip
@@ -35,12 +36,14 @@ fabric:       pip
 avro:         pip
 requests:     pip
 docopt:       pip
-rdflib:       pip
-matplotlib:   pip numpy
-# TODO add six
+rdflib:       pip six
+matplotlib:   pip numpy libpng
+six:          pip
 rdfextras:    pip rdflib
 pyxb:         pip
+scipy:        pip numpy
 # pyxb is required by smrttools-python
+cogent:       pip numpy
 biopython:    pip
 #
 htslib:       ccache zlib
@@ -52,14 +55,15 @@ dazzdb:       ccache
 daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
 #
-pbcore:       pysam h5py
-pbcommand:    xmlbuilder jsonschema avro requests iso8601
-pbsmrtpipe:   pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
-falcon_kit:   networkx
-pbfalcon:     falcon_kit pbsmrtpipe pypeFLOW
-pbreports:    matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
-pypeFLOW:     rdflib rdfextras
-pbdoctorb:    docopt pbcore
+pbcore:        pysam h5py
+pbcommand:     xmlbuilder jsonschema avro requests iso8601
+pbsmrtpipe:    pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
+falcon_kit:    networkx
+pbfalcon:      falcon_kit pbsmrtpipe pypeFLOW
+pbreports:     matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
+kineticsTools: pbcore pbcommand scipy numpy h5py
+pypeFLOW:      rdflib rdfextras
+pbdoctorb:     docopt pbcore
 #
 ConsensusCore: numpy boost swig cmake
 ConsensusCore2: numpy boost swig cmake
@@ -106,10 +110,11 @@ ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 swig:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+libpng:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
 python:
-	@bin/chkSysPython $(PYVE)
 	$(MAKE) -j1 -C ports/python/virtualenv do-install
 pip: ;
 else
@@ -149,11 +154,17 @@ docopt:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 pysam:
 	$(MAKE) -j1 -C ports/python/$@ do-install
+six:
+	$(MAKE) -j1 -C ports/python/$@ do-install
 rdflib:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 rdfextras:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 matplotlib:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+cogent:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+scipy:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection
@@ -204,6 +215,8 @@ ConsensusCore2:
 GenomicConsensus:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbreports:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+kineticsTools:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils
