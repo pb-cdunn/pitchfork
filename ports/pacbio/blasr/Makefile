@@ -11,7 +11,7 @@ $(_NAME)_VERSION?= HEAD
 
 # Local works
 ifneq ($(origin TRAVIS),undefined)
-do-extract: | utils/bax2bam/src/CMakeLists.txt
+do-extract: | $(_WRKSRC)/utils/bax2bam/src/CMakeLists.txt
 $(_WRKSRC)/utils/bax2bam/src/CMakeLists.txt:
 	@cat travis.patch | (cd $(_WRKSRC) && patch -p0)
 endif
