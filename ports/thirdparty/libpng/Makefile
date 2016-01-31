@@ -17,22 +17,21 @@ $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	@(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) 2>&1) \
+	@cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) 2>&1 \
         | tee config.log | $(PFHOME)/bin/activity
 ifeq ($(OPSYS),Darwin)
 	@cp /usr/include/zlib.h /usr/include/zconf.h $(_WRKSRC)/
 else
 	@cp $(PREFIX)/include/zlib.h $(PREFIX)/include/zconf.h $(_WRKSRC)/
 endif
-do-build:
-	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
+do-build: | $(_WRKSRC)/.libs/libpng16.a
+$(_WRKSRC)/.libs/libpng16.a:
+	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
+	@rm -rf $(STAGING)/$(_NAME)
 	@$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
-	@cd $(STAGING)/$(_NAME) && tar cf - *|tar xf - -C $(PREFIX)
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 do-clean:
 	@rm -rf $(_WRKSRC) || true
