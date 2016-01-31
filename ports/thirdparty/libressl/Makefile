@@ -19,8 +19,8 @@ do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	@cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) 2>&1 \
         | tee config.log | $(PFHOME)/bin/activity
-do-build: | $(_WRKSRC)/ssl/.libs/libssl.a
-$(_WRKSRC)/ssl/.libs/libssl.a:
+do-build: | $(_WRKSRC)/ssl/.libs/libssl.$(DYLIB)
+$(_WRKSRC)/ssl/.libs/libssl.$(DYLIB):
 	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):

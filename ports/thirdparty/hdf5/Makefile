@@ -23,8 +23,8 @@ $(_WRKSRC)/config.log:
         CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) --enable-cxx \
                     --with-shared --with-zlib=$(PREFIX) 2>&1 \
         | tee config.log | $(PFHOME)/bin/activity
-do-build: | $(_WRKSRC)/src/.libs/libhdf5.a
-$(_WRKSRC)/src/.libs/libhdf5.a:
+do-build: | $(_WRKSRC)/src/.libs/libhdf5.$(DYLIB)
+$(_WRKSRC)/src/.libs/libhdf5.$(DYLIB):
 	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):

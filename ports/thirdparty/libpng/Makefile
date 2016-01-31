@@ -24,8 +24,8 @@ ifeq ($(OPSYS),Darwin)
 else
 	@cp $(PREFIX)/include/zlib.h $(PREFIX)/include/zconf.h $(_WRKSRC)/
 endif
-do-build: | $(_WRKSRC)/.libs/libpng16.a
-$(_WRKSRC)/.libs/libpng16.a:
+do-build: | $(_WRKSRC)/.libs/libpng16.$(DYLIB)
+$(_WRKSRC)/.libs/libpng16.$(DYLIB):
 	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
