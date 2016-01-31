@@ -12,7 +12,8 @@ $(_NAME)_VERSION?= HEAD
 # Local works
 ifneq ($(origin TRAVIS),undefined)
 do-extract:
-	@test -e $(_WRKSRC)/defines.mk || (cat travis.patch | (cd $(_WRKSRC) && patch -p0))
+	@cat travis.patch | (cd $(_WRKSRC) && patch -p0)
+	# it always does git checkout
 endif
 do-fetch: | $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
