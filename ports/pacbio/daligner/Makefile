@@ -10,9 +10,10 @@ export CC
 export CFLAGS
 
 # Local works
-do-fetch:
-	@test -d $(_WRKSRC) || $(GIT) clone $($(_NAME)_REPO) $(_WRKSRC)
+do-fetch: | $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+$(_WRKSRC):
+	@$(GIT) clone $($(_NAME)_REPO) $@
 do-config:
 	@mkdir -p $(_WRKSRC)/build $(STAGING)/$(_NAME)
 	@echo PREFIX:=$(STAGING)/$(_NAME) > $(_WRKSRC)/build/Makefile

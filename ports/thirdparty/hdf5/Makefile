@@ -17,10 +17,11 @@ $(_FILE):
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	@tar zxf $(_FILE) -C $(WORKSPACE)
-do-config:
-	@test -e $(_WRKSRC)/config.log || ( cd $(_WRKSRC) && \
+do-config: | $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log:
+	@cd $(_WRKSRC) && \
         CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --enable-cxx \
-                    --with-shared --with-zlib=$(PREFIX)) 2>&1 \
+                    --with-shared --with-zlib=$(PREFIX) 2>&1 \
         | tee config.log | $(PFHOME)/bin/activity
 do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity

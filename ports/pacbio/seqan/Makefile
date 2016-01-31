@@ -10,9 +10,10 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 #export CFLAGS
 
 # Local works
-do-fetch:
-	@test -d $(_WRKSRC) || $(GIT) clone $(_URL) $(_WRKSRC)
+do-fetch: | $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+$(_WRKSRC):
+	@$(GIT) clone $(_URL) $@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list

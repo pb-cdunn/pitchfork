@@ -10,13 +10,16 @@ _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract:
-	@test -d $(_WRKSRC) || tar zxf $(_FILE) -C $(WORKSPACE)
-do-fetch:
-	@test -e $(_FILE) || curl -L -O $(_URL)/$(_FILE)
-	@which $(MD5SUM) >& /dev/null && $(MD5SUM) -c MD5SUM
-do-config:
-	@test -e $(_WRKSRC)/site.cfg || $(SED) -e 's@_PREFIX_@$(PREFIX)@g' site.cfg.template > $(_WRKSRC)/site.cfg
+do-extract: | $(_WRKSRC)
+$(_WRKSRC):
+	@tar zxf $(_FILE) -C $(WORKSPACE)
+do-fetch: | $(_FILE)
+	@$(MD5SUM) -c MD5SUM
+$(_FILE):
+	@$(CURL) -L -O $(_URL)/$@
+do-config: | $(_WRKSRC)/site.cfg
+$(_WRKSRC)/site.cfg:
+	@$(SED) -e 's@_PREFIX_@$(PREFIX)@g' site.cfg.template > $(_WRKSRC)/site.cfg
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list

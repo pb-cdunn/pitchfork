@@ -8,8 +8,9 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 _FILE            = get-pip.py
 
 # Local works
-do-fetch:
-	@test -e $(_FILE) || $(CURL) -O $(_URL)/$(_REV)/contrib/$(_FILE)
+do-fetch: | $(_FILE)
+$(_FILE):
+	@$(CURL) -O $(_URL)/$(_REV)/contrib/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list

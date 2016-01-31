@@ -10,10 +10,12 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-do-fetch:
-	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
-	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-do-config:
+do-fetch: | $(_WRKSRC)
+	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+$(_WRKSRC):
+	@$(GIT) clone $($(_NAME)_REPO) $@
+do-config: | $(_WRKSRC)/build/Makefile
+$(_WRKSRC)/build/Makefile:
 	@cd $(_WRKSRC) && mkdir -p build
 	@cd $(_WRKSRC)/build \
      && $(CMAKE) \
