@@ -10,14 +10,14 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-do-extract:
-	@perl -pi -e 's/"Unable to convert RegionType to VirtualRegionType." == false/"Unable to convert RegionType to VirtualRegionType." == NULL/' $(_WRKSRC)/utils/bam2bax/src/RegionTypeAdapter.h
 ifneq ($(origin TRAVIS),undefined)
-	@cat travis.patch | (cd $(_WRKSRC) && patch -p0)
+do-extract:
+	@test -e $(_WRKSRC)/defines.mk || (cat travis.patch | (cd $(_WRKSRC) && patch -p0))
 endif
-do-fetch:
-	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
-	@test $($(_NAME)_VERSION) && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
+do-fetch: | $(_WRKSRC)
+	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+$(_WRKSRC):
+	@$(GIT) clone $($(_NAME)_REPO) $@
 do-config: | $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \

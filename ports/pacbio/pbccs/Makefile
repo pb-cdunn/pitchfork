@@ -10,11 +10,13 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-do-fetch:
-	@test -d $(_WRKSRC) || git clone $($(_NAME)_REPO) $(_WRKSRC)
-	@test "$($(_NAME)_VERSION)" && (cd $(_WRKSRC) && git checkout $($(_NAME)_VERSION)) || true
-	@test -d $(_WRKSRC)/ConsensusCore2 || git clone https://github.com/PacificBiosciences/ConsensusCore2.git $(_WRKSRC)/ConsensusCore2
-	@test "$(ConsensusCore2_VERSION)" && (cd $(_WRKSRC)/ConsensusCore2 && git checkout $(ConsensusCore2_VERSION)) || true
+do-fetch: | $(_WRKSRC) $(_WRKSRC)/ConsensusCore2
+	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+	@cd $(_WRKSRC)/ConsensusCore2 && $(GIT) checkout $(ConsensusCore2_VERSION)
+$(_WRKSRC):
+	@$(GIT) clone $($(_NAME)_REPO) $@
+$(_WRKSRC)/ConsensusCore2: | $(_WRKSRC)
+	@$(GIT) clone https://github.com/PacificBiosciences/ConsensusCore2.git $@
 do-config: | $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile:
 	@mkdir -p $(_WRKSRC)/_build && \

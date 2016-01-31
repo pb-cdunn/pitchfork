@@ -21,9 +21,9 @@ $(_FILE):
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	@tar zxf $(_FILE) -C $(WORKSPACE)
-do-config:
-	@test -e $(_WRKSRC)/Makefile \
-      || (cd $(_WRKSRC) && ./bootstrap --prefix=$(STAGING)/$(_NAME) 2>&1) | tee config.log | $(PFHOME)/bin/activity
+do-config: | $(_WRKSRC)/Makefile
+$(_WRKSRC)/Makefile:
+	@cd $(_WRKSRC) && ./bootstrap --prefix=$(STAGING)/$(_NAME) 2>&1 | tee config.log | $(PFHOME)/bin/activity
 do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

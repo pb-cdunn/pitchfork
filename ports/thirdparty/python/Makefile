@@ -20,10 +20,10 @@ $(_WRKSRC):
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 	@$(SED) -i -e "s|@@PREFIX@@|$(PREFIX)|g" $(_WRKSRC)/Lib/cgi.py $(_WRKSRC)/Lib/ctypes/macholib/dyld.py
 	@$(SED)    -e "s|@@PREFIX@@|$(PREFIX)|g" patch-01 | (cd $(_WRKSRC) && patch -p0)
-do-config:
-	@test -e $(_WRKSRC)/config.log \
-     || (cd $(_WRKSRC) \
-         && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure $(_CONFIGURE_ARGS) 2>&1) \
+do-config: | $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log:
+	@cd $(_WRKSRC) \
+         && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure $(_CONFIGURE_ARGS) 2>&1 \
         | tee config.log | $(PFHOME)/bin/activity
 do-build:
 	@test -e $(PREFIX)/var/pkg/$(_NAME) \

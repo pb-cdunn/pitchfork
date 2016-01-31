@@ -14,27 +14,25 @@ do-fetch: | $(_FILE)
 	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -O $(_URL)/$@
-do-config:
-	@test -e $(_WRKSRC)/config.log \
-     || (cd $(_WRKSRC) && ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) | tee config.log | $(PFHOME)/bin/activity
-do-build:
-	@test -f $(_WRKSRC)/config.log
-	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
+do-config: | $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log:
+	@cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) 2>&1 | tee config.log | $(PFHOME)/bin/activity
+do-build: | $(_WRKSRC)/ccache
+$(_WRKSRC)/ccache:
+	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@$(MAKE) -C $(_WRKSRC) install >& install.log
-	@cd $(STAGING)/$(_NAME) && tar cf - *|tar xf - -C $(PREFIX)
-	@cd $(PREFIX)/bin && ln -s ccache `basename $(CC)`
-	@cd $(PREFIX)/bin && ln -s ccache `basename $(CXX)`
-	@cd $(PREFIX)/bin && ln -s ccache `basename $(FC)`
-	@cd $(PREFIX)/bin && ln -s ccache cpp
-	@cd $(PREFIX)/bin && ln -s ccache CC
+	@rm -rf $(STAGING)/$(_NAME)
+	@$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
+	@cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CC)`
+	@cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CXX)`
+	@cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(FC)`
+	@cd $(STAGING)/$(_NAME)/bin && ln -s ccache cpp
+	@cd $(STAGING)/$(_NAME)/bin && ln -s ccache CC
 ifeq ($(OPSYS),Darwin)
-	@cd $(PREFIX)/bin && ln -s ccache clang
+	@cd $(STAGING)/$(_NAME)/bin && ln -s ccache clang
 endif
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 do-clean:
 	@rm -rf $(_WRKSRC) || true

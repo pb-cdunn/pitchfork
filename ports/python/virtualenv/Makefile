@@ -18,7 +18,7 @@ $(_WRKSRC)/virtualenv.py:
 do-fetch: | $(_FILE)
 	@$(MD5SUM) -c MD5SUM
 $(_FILE):
-	@curl -L -O $(_URL)/$(_FILE)
+	@$(CURL) -L -O $(_URL)/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list

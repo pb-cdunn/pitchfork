@@ -10,10 +10,12 @@ export CC
 export CXX
 
 # Local works
-do-fetch:
-	@test -d $(_WRKSRC) || $(GIT) clone $($(_NAME)_REPO) $(_WRKSRC)
+do-fetch: | $(_WRKSRC)
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
-do-config:
+$(_WRKSRC):
+	@$(GIT) clone $($(_NAME)_REPO) $@
+do-config: | $(_WRKSRC)/build/defines.mk
+$(_WRKSRC)/build/defines.mk:
 	@mkdir -p $(_WRKSRC)/build
 	@cd $(_WRKSRC) \
      &&     BOOST_INCLUDE=$(PREFIX)/include \
