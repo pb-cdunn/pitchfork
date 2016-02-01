@@ -8,12 +8,8 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@$(PIP) install --no-deps avro==$(_VER)
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >  $(PREFIX)/var/pkg/$(_NAME)
-	@diff -u $(_WRKSRC).before.dlist $(_WRKSRC).after.dlist | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+	@rm -rf $(STAGING)/$(_NAME)
+	@mkdir -p $(STAGING)/$(_NAME)
+	@$(PIP) install --root $(STAGING)/$(_NAME) --no-deps avro==$(_VER)
+	@cd $(STAGING)/$(_NAME)/$(PREFIX) && tar cf - * | tar xf - -C $(PREFIX)
+	@find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)$(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $(PREFIX)/var/pkg/$(_NAME)
