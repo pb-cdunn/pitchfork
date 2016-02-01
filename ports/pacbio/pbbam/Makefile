@@ -34,12 +34,8 @@ do-build:
 	@cd $(_WRKSRC)/build && $(MAKE)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
-	@cd $(_WRKSRC) && tar cf - bin lib include | tar xf - -C $(PREFIX)
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >  $(PREFIX)/var/pkg/$(_NAME)
-	@diff -u $(_WRKSRC).before.dlist $(_WRKSRC).after.dlist | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+	@rm -rf $(STAGING)/$(_NAME)
+	@mkdir -p $(STAGING)/$(_NAME)
+	@cd $(_WRKSRC) && tar cf - bin lib include | tar xf - -C $(STAGING)/$(_NAME)
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)

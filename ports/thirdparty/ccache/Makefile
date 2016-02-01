@@ -32,7 +32,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 ifeq ($(OPSYS),Darwin)
 	@cd $(STAGING)/$(_NAME)/bin && ln -s ccache clang
 endif
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-clean:
 	@rm -rf $(_WRKSRC) || true

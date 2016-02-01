@@ -1,5 +1,5 @@
 # Global overrides
-SHELL      = /bin/bash
+SHELL      = /bin/bash -e
 CC         = gcc
 CXX        = g++
 FC         = gfortran

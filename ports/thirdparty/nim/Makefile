@@ -22,18 +22,14 @@ $(_WRKSRC)/bin/nim:
 	@cd $(_WRKSRC) && sh build.sh
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@mkdir -p $(STAGING)/$(_NAME)
+	@rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)
 	@mkdir -p $(PREFIX)/share/doc
 	@cd $(_WRKSRC) && sh install.sh $(STAGING)/$(_NAME)
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
 	@cp -a $(STAGING)/$(_NAME)/nim/bin/nim  $(PREFIX)/bin/
 	@cp -a $(STAGING)/$(_NAME)/nim/lib      $(PREFIX)/lib/nim
 	@cp -a $(STAGING)/$(_NAME)/nim/doc      $(PREFIX)/share/doc/nim
 	@cp -a $(STAGING)/$(_NAME)/nim/config/* $(PREFIX)/etc/
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >  $(PREFIX)/var/pkg/$(_NAME)
-	@diff -u $(_WRKSRC).before.dlist $(_WRKSRC).after.dlist | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+	@echo bin/nim >  $(PREFIX)/var/pkg/$(_NAME)
+	@echo lib/nim >> $(PREFIX)/var/pkg/$(_NAME)
+	@echo share/doc/nim >> $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME)/nim/config ! -type d | awk -F "$(STAGING)/$(_NAME)/nim/config/" '{print "etc/"$$2}' >> $(PREFIX)/var/pkg/$(_NAME)

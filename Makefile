@@ -40,11 +40,12 @@ rdflib:       pip six
 matplotlib:   pip numpy libpng
 six:          pip
 rdfextras:    pip rdflib
-pyxb:         pip
 scipy:        pip numpy
+pyxb:         pip
 # pyxb is required by smrttools-python
 cogent:       pip numpy
 biopython:    pip
+nim:          ccache
 #
 htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
@@ -63,6 +64,7 @@ pbfalcon:      falcon_kit pbsmrtpipe pypeFLOW
 pbreports:     matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
 kineticsTools: pbcore pbcommand scipy numpy h5py
 pypeFLOW:      rdflib rdfextras
+pbalign:       pbcore samtools blasr
 pbdoctorb:     docopt pbcore
 #
 ConsensusCore: numpy boost swig cmake
@@ -105,8 +107,6 @@ else
 cmake:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
-nim:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 swig:
@@ -175,6 +175,8 @@ biopython:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 pyxb:
 	$(MAKE) -j1 -C ports/python/$@ do-install
+nim:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 #
 blasr_libcpp:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
@@ -218,6 +220,8 @@ GenomicConsensus:
 pbreports:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 kineticsTools:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pbalign:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils

@@ -16,11 +16,7 @@ $(_WRKSRC):
 	@mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@mkdir -p $(PREFIX)/src && cp -a $(_WRKSRC) $(PREFIX)/src/gtest
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
-	@echo "done"
+	@find $(_WRKSRC) ! -type d|awk -F $(_WRKSRC)/ '{print "src/gtest/"$$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-clean:
 	@rm -rf $(_WRKSRC) || true

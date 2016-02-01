@@ -18,17 +18,14 @@ do-build:
 	@$(MAKE) -C $(_WRKSRC) ZLIB_ROOT=$(PREFIX) CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" LDFLAGS=$(LDFLAGS)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@mkdir -p $(PREFIX)/src/htslib
+	@rm -rf $(STAGING)/$(_NAME)
+	@mkdir -p $(STAGING)/$(_NAME)/src/htslib
+	@mkdir -p $(STAGING)/$(_NAME)/lib
 	@cd $(_WRKSRC) && \
-        tar cf - Makefile *.cmake *.mk */*.[c,h] *.[a,c,h]|tar xf - -C $(PREFIX)/src/htslib
+        tar cf - Makefile *.cmake *.mk */*.[c,h] *.[a,c,h]|tar xf - -C $(STAGING)/$(_NAME)/src/htslib/
+	@cd $(_WRKSRC) && tar cf - *.$(DYLIB)   | tar xf - -C $(STAGING)/$(_NAME)/lib/
 ifeq ($(OPSYS),Darwin)
-	@cd $(_WRKSRC) && \
-        tar cf - *.$(DYLIB)              | tar xf - -C $(PREFIX)/lib
-else
-	@cd $(_WRKSRC) && \
-        tar cf - *.$(DYLIB) *.$(DYLIB).* | tar xf - -C $(PREFIX)/lib
+	@cd $(_WRKSRC) && tar cf - *.$(DYLIB).* | tar xf - -C $(STAGING)/$(_NAME)/lib/
 endif
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)

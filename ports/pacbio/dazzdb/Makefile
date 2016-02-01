@@ -24,10 +24,12 @@ do-build:
 	@$(MAKE) -C $(_WRKSRC)/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@cd $(_WRKSRC)/build && tar cf - DBrm DBshow DBsplit DBstats fasta2DB|tar xf - -C $(PREFIX)/bin
-	@cd $(_WRKSRC)/build && tar cf - *.a|tar xf - -C $(PREFIX)/lib
-	@cd $(_WRKSRC) && tar cf - *.h|tar xf - -C $(PREFIX)/include
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@rm -rf $(STAGING)/$(_NAME)
+	@mkdir -p $(STAGING)/$(_NAME)/bin 
+	@mkdir -p $(STAGING)/$(_NAME)/lib
+	@mkdir -p $(STAGING)/$(_NAME)/include 
+	@cd $(_WRKSRC)/build && tar cf - DBrm DBshow DBsplit DBstats fasta2DB|tar xf - -C $(STAGING)/$(_NAME)/bin/
+	@cd $(_WRKSRC)/build && tar cf - *.a|tar xf - -C $(STAGING)/$(_NAME)/lib/
+	@cd $(_WRKSRC) && tar cf - *.h|tar xf - -C $(STAGING)/$(_NAME)/include/
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
