@@ -65,15 +65,12 @@ do-build:
 	@$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
 	@cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(PREFIX)/bin
 	@cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(PREFIX)/bin
 	@cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
 	@cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(PREFIX)/
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >  $(PREFIX)/var/pkg/$(_NAME)
-	@diff -u $(_WRKSRC).before.dlist $(_WRKSRC).after.dlist | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+	@echo bin/blasr > $(PREFIX)/var/pkg/$(_NAME)
+	@echo bin/loadPulses >> $(PREFIX)/var/pkg/$(_NAME)
+	@echo bin/sawriter >> $(PREFIX)/var/pkg/$(_NAME)
+	@find $(_WRKSRC)/utils/bax2bam/bin ! -type d | awk -F "$(_WRKSRC)/utils/bax2bam/" '{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+	@find $(_WRKSRC)/utils/bam2bax/bin ! -type d | awk -F "$(_WRKSRC)/utils/bam2bax/" '{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
