@@ -16,9 +16,8 @@ $(_WRKSRC):
 	@$(GIT) clone $(_URL) $@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@cd $(_WRKSRC) && \
-        tar cf - include|tar xf - -C $(PREFIX)
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@rm -rf $(STAGING)/$(_NAME)
+	@mkdir -p $(STAGING)/$(_NAME)
+	@cd $(_WRKSRC) && tar cf - include|tar xf - -C $(STAGING)/$(_NAME)/
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)

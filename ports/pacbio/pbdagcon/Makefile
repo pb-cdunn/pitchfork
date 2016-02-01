@@ -38,10 +38,10 @@ do-build:
 	@$(MAKE) -C $(_WRKSRC)/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
+	@rm -rf $(STAGING)/$(_NAME)
+	@mkdir -p $(STAGING)/$(_NAME)/bin
 	@cd $(_WRKSRC)/build/src/cpp \
       && tar cf - pbdagcon dazcon \
-                  | tar xf - -C $(PREFIX)/bin
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+                  | tar xf - -C $(STAGING)/$(_NAME)/bin/
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)

@@ -65,12 +65,10 @@ do-build:
 	@$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(PREFIX)/bin
-	@cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(PREFIX)/bin
-	@cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
-	@cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(PREFIX)/
-	@echo bin/blasr > $(PREFIX)/var/pkg/$(_NAME)
-	@echo bin/loadPulses >> $(PREFIX)/var/pkg/$(_NAME)
-	@echo bin/sawriter >> $(PREFIX)/var/pkg/$(_NAME)
-	@find $(_WRKSRC)/utils/bax2bam/bin ! -type d | awk -F "$(_WRKSRC)/utils/bax2bam/" '{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
-	@find $(_WRKSRC)/utils/bam2bax/bin ! -type d | awk -F "$(_WRKSRC)/utils/bam2bax/" '{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+	@rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)/bin
+	@cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(STAGING)/$(_NAME)/bin/
+	@cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(STAGING)/$(_NAME)/bin/
+	@cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
+	@cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
+	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
