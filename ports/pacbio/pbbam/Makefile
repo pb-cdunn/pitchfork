@@ -11,9 +11,9 @@ $(_NAME)_VERSION?= HEAD
 
 # Local works
 do-fetch: | $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 $(_WRKSRC):
 	@$(GIT) clone $($(_NAME)_REPO) $@
+	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 do-config: | $(_WRKSRC)/build/Makefile
 $(_WRKSRC)/build/Makefile:
 	@cd $(_WRKSRC) && mkdir -p build

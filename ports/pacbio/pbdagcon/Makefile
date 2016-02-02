@@ -11,9 +11,9 @@ export CXX
 
 # Local works
 do-fetch: | $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 $(_WRKSRC):
 	@$(GIT) clone $($(_NAME)_REPO) $@
+	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-config: | $(_WRKSRC)/build/defines.mk
 $(_WRKSRC)/build/defines.mk:
 	@mkdir -p $(_WRKSRC)/build

@@ -11,9 +11,9 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
 do-fetch: | $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 $(_WRKSRC):
 	@$(GIT) clone $(_URL) $@
+	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@rm -rf $(STAGING)/$(_NAME)
