@@ -1,0 +1,20 @@
+include ../../../mk/config.mk
+
+# Local variables
+_NAME            = pbcoretools
+$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC          = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION?= HEAD
+
+# Local works
+do-fetch: | $(_WRKSRC)
+	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+$(_WRKSRC):
+	@$(GIT) clone $($(_NAME)_REPO) $@
+do-install: | $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
+	@mkdir -p $(STAGING)/$(_NAME)
+	@$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
+	@cd $(STAGING)/$(_NAME)/$(PREFIX) && tar cf - * | tar xf - -C $(PREFIX)
+	@find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)$(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $(PREFIX)/var/pkg/$(_NAME)

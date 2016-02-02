@@ -57,6 +57,7 @@ daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
 #
 pbcore:        pysam h5py
+pbcoretools:   pbcore
 pbcommand:     xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:    pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 falcon_kit:    networkx
@@ -77,8 +78,6 @@ world: \
        pbdoctorb ipython          biopython      cogent
 
 # rules
-openssl:
-	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
 ifeq ($(OPSYS),Darwin)
 readline: ;
 zlib: ;
@@ -115,10 +114,13 @@ libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
+openssl: ;
 python:
 	$(MAKE) -j1 -C ports/python/virtualenv do-install
 pip: ;
 else
+openssl:
+	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
 python:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 pip:
@@ -222,6 +224,8 @@ pbreports:
 kineticsTools:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbalign:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pbcoretools:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils
