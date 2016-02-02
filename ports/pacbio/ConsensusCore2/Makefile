@@ -26,16 +26,12 @@ do-build:
 	@cd $(_WRKSRC)/_build && $(MAKE)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
+	@rm -rf $(STAGING)/$(_NAME)
+	@mkdir -p $(STAGING)/$(_NAME)
 	@    CMAKE_COMMAND=$(CMAKE) \
         Boost_INCLUDE_DIRS=$(PREFIX)/include \
               SWIG_COMMAND=$(shell . $(PREFIX)/setup-env.sh && which swig) \
                    VERBOSE=1 \
-        $(PIP) install --verbose --upgrade --no-deps $(_WRKSRC)/
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >  $(PREFIX)/var/pkg/$(_NAME)
-	@diff -u $(_WRKSRC).before.dlist $(_WRKSRC).after.dlist | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+        $(PIP) install --root $(STAGING)/$(_NAME) --verbose --upgrade --no-deps $(_WRKSRC)/
+	@cd $(STAGING)/$(_NAME)/$(PREFIX) && tar cf - * | tar xf - -C $(PREFIX)
+	@find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)$(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $(PREFIX)/var/pkg/$(_NAME)
