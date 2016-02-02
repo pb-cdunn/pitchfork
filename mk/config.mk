@@ -53,14 +53,16 @@ wscheck:
 	@mkdir -p $(WORKSPACE) || exit 1
 _stcheck:
 	@mkdir -p "$(STAGING)"              || exit 1
+# Problem: on centos 7, virtualenv python will use lib64 instead, and tar will screwup symbolic links
 pfcheck: _stcheck
 	@mkdir -p "$(PREFIX)/bin"           || exit 1
+	@mkdir -p "$(PREFIX)/etc"           || exit 1
+	@mkdir -p "$(PREFIX)/include"       || exit 1
 	@mkdir -p "$(PREFIX)/lib"           || exit 1
 	@mkdir -p "$(PREFIX)/lib/pkgconfig" || exit 1
+	@mkdir -p "$(PREFIX)/lib64"         || exit 1
 	@mkdir -p "$(PREFIX)/share"         || exit 1
-	@mkdir -p "$(PREFIX)/include"       || exit 1
 	@mkdir -p "$(PREFIX)/var/pkg"       || exit 1
-	@mkdir -p "$(PREFIX)/etc"           || exit 1
 ifeq ($(OPSYS),Darwin)
 	@echo "export DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH) PATH=$(PATH)" > "$(PREFIX)/setup-env.sh"
 else

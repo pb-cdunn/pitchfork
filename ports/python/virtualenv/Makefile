@@ -21,12 +21,10 @@ $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
-	@find $(PREFIX) -type d > $(_WRKSRC).before.dlist
 	@$(PYTHON) $(_WRKSRC)/virtualenv.py $(PREFIX)
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@find $(PREFIX) -type d > $(_WRKSRC).after.dlist
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >  $(PREFIX)/var/pkg/$(_NAME)
-	@diff -u $(_WRKSRC).before.dlist $(_WRKSRC).after.dlist | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+	@cd $(PREFIX) && \
+        if [ -e lib64/python2.7 ]; then mv lib64/python* lib/; fi
+	@cd $(PREFIX) && \
+        find lib/python* include/python* .Python bin/pip* bin/python* \
+             bin/activate* bin/easy_install* bin/wheel | sort -r \
+        > $(PREFIX)/var/pkg/$(_NAME)

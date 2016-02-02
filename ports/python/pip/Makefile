@@ -13,8 +13,14 @@ $(_FILE):
 	@$(CURL) -O $(_URL)/$(_REV)/contrib/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
 	@$(PREFIX)/bin/python $(_FILE)
-	@find $(PREFIX) ! -type d > $(_WRKSRC).after.list
-	@diff -u $(_WRKSRC).before.list $(_WRKSRC).after.list | \
-	grep -v '^\++'|awk -F $(PREFIX)/ '/^\+/{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@cd $(PREFIX) && \
+        find bin/easy_install* \
+             bin/pip* \
+             bin/wheel \
+             lib/python2.7/site-packages/_markerlib    \
+             lib/python2.7/site-packages/easy_install* \
+             lib/python2.7/site-packages/pip*          \
+             lib/python2.7/site-packages/pkg_resources \
+             lib/python2.7/site-packages/setuptools*   \
+             lib/python2.7/site-packages/wheel* | sort -r > $(PREFIX)/var/pkg/$(_NAME)

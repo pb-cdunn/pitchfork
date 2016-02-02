@@ -1,7 +1,7 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME            = pypeFLOW
+_NAME            = pbcoretools
 $(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD

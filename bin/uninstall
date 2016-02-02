@@ -29,7 +29,7 @@ cd ${PREFIX} || die "[ERROR] Sum Ting Wong, Wi Tu Lo."
 IFS=$(echo -en "\n\b")
 for thisFile in `cat var/pkg/${1}`; do
     test "$thisFile" || continue
-    test -d $thisFile && find $thidFile -empty -delete || true
+    test -d $thisFile && find ${PREFIX}/$thisFile -empty -delete || true
     test -f $thisFile && rm -f $thisFile || true
 done
 unset IFS
