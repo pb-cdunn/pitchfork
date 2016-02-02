@@ -13,7 +13,7 @@ $(_WRKSRC):
 	@$(GIT) clone $($(_NAME)_REPO) $@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@find $(PREFIX) ! -type d > $(_WRKSRC).before.list
+	@rm -rf $(STAGING)/$(_NAME)
 	@mkdir -p $(STAGING)/$(_NAME)
 	@$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
 	@cd $(STAGING)/$(_NAME)/$(PREFIX) && tar cf - * | tar xf - -C $(PREFIX)
