@@ -23,8 +23,6 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@$(PYTHON) $(_WRKSRC)/virtualenv.py $(PREFIX)
 	@cd $(PREFIX) && \
-        if [ -e lib64/python2.7 ]; then mv lib64/python* lib/; fi
-	@cd $(PREFIX) && \
-        find lib/python* include/python* .Python bin/pip* bin/python* \
+        find lib/python* include/python* bin/pip* bin/python* \
              bin/activate* bin/easy_install* bin/wheel | sort -r \
         > $(PREFIX)/var/pkg/$(_NAME)
