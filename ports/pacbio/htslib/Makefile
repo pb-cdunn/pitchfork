@@ -11,9 +11,9 @@ export CFLAGS
 
 # Local works
 do-fetch: | $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 $(_WRKSRC):
 	@$(GIT) clone $(_URL) $@
+	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-build:
 	@$(MAKE) -C $(_WRKSRC) ZLIB_ROOT=$(PREFIX) CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" LDFLAGS=$(LDFLAGS)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

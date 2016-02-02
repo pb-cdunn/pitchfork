@@ -16,9 +16,9 @@ do-extract:
 	# it always does git checkout
 endif
 do-fetch: | $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 $(_WRKSRC):
 	@$(GIT) clone $($(_NAME)_REPO) $@
+	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 do-config: | $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \

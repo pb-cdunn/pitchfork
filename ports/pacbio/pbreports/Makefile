@@ -8,9 +8,9 @@ $(_NAME)_VERSION?= HEAD
 
 # Local works
 do-fetch: | $(_WRKSRC)
-	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 $(_WRKSRC):
 	@$(GIT) clone $(_URL) $@
+	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@rm -rf $(STAGING)/$(_NAME)
