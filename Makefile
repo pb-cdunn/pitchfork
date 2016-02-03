@@ -24,7 +24,7 @@ pip:          python
 cython:       pip
 numpy:        pip cython openblas
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
-h5py:         pip hdf5 numpy
+h5py:         pip hdf5 numpy six
 pysam:        pip
 xmlbuilder:   pip
 jsonschema:   pip
@@ -48,7 +48,6 @@ pickleshare:  pip
 paramiko:     pip
 ecdsa:        pip
 pycrypto:     pip
-# pyxb is required by smrttools-python
 cogent:       pip numpy
 biopython:    pip
 nim:          ccache
@@ -62,7 +61,7 @@ dazzdb:       ccache
 daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
 #
-pbcore:        pysam h5py
+pbcore:        pysam h5py pyxb
 pbcoretools:   pbcore
 pbcommand:     xmlbuilder jsonschema avro requests iso8601
 pbsmrtpipe:    pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
