@@ -19,10 +19,11 @@ hdf5:         ccache zlib
 swig:         ccache python
 libpng:       ccache zlib
 #
+
 pip:          python
 cython:       pip
 numpy:        pip cython openblas
-ipython:      pip
+ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 h5py:         pip hdf5 numpy
 pysam:        pip
 xmlbuilder:   pip
@@ -32,16 +33,21 @@ jinja2:       pip
 networkx:     pip
 pyparsing:    pip
 pydot:        pip pyparsing
-fabric:       pip
+fabric:       pip paramiko ecdsa pycrypto
 avro:         pip
 requests:     pip
 docopt:       pip
-rdflib:       pip six
+rdflib:       pip six isodate html5lib
 matplotlib:   pip numpy libpng
 six:          pip
 rdfextras:    pip rdflib
 scipy:        pip numpy
 pyxb:         pip
+traitlets:    pip
+pickleshare:  pip
+paramiko:     pip
+ecdsa:        pip
+pycrypto:     pip
 # pyxb is required by smrttools-python
 cogent:       pip numpy
 biopython:    pip
@@ -168,6 +174,36 @@ matplotlib:
 cogent:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 scipy:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+traitlets:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+pickleshare:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+appnope:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+decorator:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+gnureadline:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+pexpect:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+ipython_genutils:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+path.py:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+ptyprocess:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+simplegeneric:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+paramiko:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+ecdsa:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+pycrypto:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+isodate:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+html5lib:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection

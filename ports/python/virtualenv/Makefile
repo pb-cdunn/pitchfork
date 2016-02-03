@@ -22,6 +22,7 @@ $(_FILE):
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@$(PYTHON) $(_WRKSRC)/virtualenv.py $(PREFIX)
+	@$(PIP) install -U pip
 	@cd $(PREFIX) && \
         find lib/python* include/python* bin/pip* bin/python* \
              bin/activate* bin/easy_install* bin/wheel | sort -r \
