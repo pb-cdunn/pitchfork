@@ -1,0 +1,31 @@
+#!/bin/bash
+case $OSTYPE in
+  darwin15)
+    myOS="darwin_15"
+    ;;
+  darwin14)
+    myOS="darwin_14"
+    ;;
+  linux*)
+    myOS="linux"
+    if [ -f /etc/redhat-release ] ; then
+       myOS=`awk '{print $1$4}' /etc/redhat-release|sed -e 's/\..*$//;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+    elif [ -f /etc/lsb-release ]; then
+       myOS=`awk -F = '/^DISTRIB_ID/{printf("%s",$2)}/^DISTRIB_RELEASE/{print $2}' /etc/lsb-release|sed -e 's/\..*$//;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+    fi
+    ;;
+  *)
+    myOS="unsupported"
+    ;;
+esac
+
+case $(uname -m) in
+  x86_64)
+    myArch="x86_64"
+    ;;
+  *)
+    echo "unsupported"
+    ;;
+esac
+
+echo ${myOS}.${myArch}
