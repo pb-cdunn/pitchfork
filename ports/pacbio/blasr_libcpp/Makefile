@@ -33,7 +33,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cp -a $(_WRKSRC)/alignment/libblasr.$(DYLIB) $(PREFIX)/lib/
 	@cp -a $(_WRKSRC)/hdf/libpbihdf.$(DYLIB) $(PREFIX)/lib/
 	@cp -a $(_WRKSRC)/pbdata/libpbdata.$(DYLIB) $(PREFIX)/lib/
-	@cd $(_WRKSRC) && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $@
+	@cd $(_WRKSRC) && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
 	@echo $(PREFIX)/lib/alignment/libblasr.$(DYLIB) > $@
 	@echo $(PREFIX)/lib/hdf/libpbihdf.$(DYLIB) >> $@
 	@echo $(PREFIX)/pbdata/libpbdata.$(DYLIB) >> $@
