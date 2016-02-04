@@ -2,7 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME   = libpng-1.6.21
-_URL    = http://downloads.sourceforge.net/libpng
+_URL    = https://prdownloads.sourceforge.net/libpng
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 _FILE   = $(_NAME).tar.gz

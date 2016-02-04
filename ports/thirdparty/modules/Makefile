@@ -2,7 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME            = modules-3.2.10
-_URL             = http://prdownloads.sourceforge.net/modules
+_URL             = https://prdownloads.sourceforge.net/modules
 _FILE            = modules-3.2.10.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 

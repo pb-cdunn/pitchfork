@@ -5,7 +5,7 @@ include ../../../mk/chkfc.mk
 
 # Local variables
 _NAME   = OpenBLAS-0.2.15
-_URL    = http://github.com/xianyi/OpenBLAS/archive
+_URL    = https://github.com/xianyi/OpenBLAS/archive
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _FILE   = v0.2.15.tar.gz
 

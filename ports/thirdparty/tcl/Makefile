@@ -2,7 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME            = tcl8.6.4
-_URL             = http://prdownloads.sourceforge.net/tcl
+_URL             = https://prdownloads.sourceforge.net/tcl
 _FILE            = tcl-core8.6.4-src.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
