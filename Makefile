@@ -25,7 +25,7 @@ numpy:        pip cython openblas
 h5py:         pip hdf5 numpy six
 pysam:        pip
 xmlbuilder:   pip
-jsonschema:   pip
+jsonschema:   pip functools32
 iso8601:      pip
 jinja2:       pip
 networkx:     pip
@@ -46,6 +46,7 @@ pickleshare:  pip
 paramiko:     pip
 ecdsa:        pip
 pycrypto:     pip
+functools32:  pip
 
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
@@ -208,6 +209,8 @@ pycrypto:
 isodate:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 html5lib:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+functools32:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection
