@@ -19,9 +19,9 @@ $(_WRKSRC):
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	@cd $(_WRKSRC) && \
-        CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --enable-cxx \
-                    --with-shared --with-zlib=$(PREFIX) 2>&1 \
+	@(cd $(_WRKSRC) && \
+          CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) --enable-cxx \
+                    --with-shared --with-zlib=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/src/.libs/libhdf5.$(DYLIB)
 $(_WRKSRC)/src/.libs/libhdf5.$(DYLIB):

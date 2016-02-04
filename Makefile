@@ -18,16 +18,14 @@ openblas:     ccache
 hdf5:         ccache zlib
 swig:         ccache python
 libpng:       ccache zlib
-#
 
 pip:          python
 cython:       pip
 numpy:        pip cython openblas
-ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 h5py:         pip hdf5 numpy six
 pysam:        pip
 xmlbuilder:   pip
-jsonschema:   pip
+jsonschema:   pip functools32
 iso8601:      pip
 jinja2:       pip
 networkx:     pip
@@ -48,9 +46,16 @@ pickleshare:  pip
 paramiko:     pip
 ecdsa:        pip
 pycrypto:     pip
+functools32:  pip
+
+#
+ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 cogent:       pip numpy
 biopython:    pip
 nim:          ccache
+tcl:          ccache zlib
+modules:      ccache tcl
+
 #
 htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
@@ -87,12 +92,15 @@ ifeq ($(OPSYS),Darwin)
 readline: ;
 zlib: ;
 ncurses: ;
+tcl: ;
 else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 zlib:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ncurses:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+tcl:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
 openblas:
@@ -204,6 +212,8 @@ isodate:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 html5lib:
 	$(MAKE) -j1 -C ports/python/$@ do-install
+functools32:
+	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection
 ipython:
@@ -213,6 +223,8 @@ biopython:
 pyxb:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 nim:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+modules:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 #
 blasr_libcpp:

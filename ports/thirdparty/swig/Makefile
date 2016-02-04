@@ -19,8 +19,8 @@ pcre-8.38.tar.gz:
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	@cp pcre-8.38.tar.gz $(_WRKSRC)/
-	@cd $(_WRKSRC) && \
-        Tools/pcre-build.sh | tee config.log | $(PFHOME)/bin/activity && \
+	@(cd $(_WRKSRC) && \
+        Tools/pcre-build.sh && \
         CFLAGS="$(CFLAGS)" \
         CC="$(CC) -L$(PREFIX)/lib" \
         CXX="$(CXX) -L$(PREFIX)/lib" \
@@ -34,7 +34,7 @@ $(_WRKSRC)/config.log:
             --without-ruby \
             --without-tcl \
             --without-r \
-        2>&1 \
+        2>&1) \
         | tee -a config.log | $(PFHOME)/bin/activity
 do-build:
 	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity

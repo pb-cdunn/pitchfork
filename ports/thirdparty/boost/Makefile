@@ -21,7 +21,7 @@ $(_WRKSRC):
 ifneq ($(origin DO_BOOST_LIB),undefined)
 do-config: | $(_WRKSRC)/project-config.jam
 $(_WRKSRC)/project-config.jam:
-	@cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(PREFIX) 2>&1 | tee config.log | $(PFHOME)/bin/activity
+	@(cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(PREFIX) 2>&1) | tee config.log | $(PFHOME)/bin/activity
 endif
 
 do-build: | $(STAGING)/$(_NAME)

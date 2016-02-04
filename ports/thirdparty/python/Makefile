@@ -22,8 +22,8 @@ $(_WRKSRC):
 	@$(SED)    -e "s|@@PREFIX@@|$(PREFIX)|g" patch-01 | (cd $(_WRKSRC) && patch -p0)
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	@cd $(_WRKSRC) \
-         && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure $(_CONFIGURE_ARGS) 2>&1 \
+	@(cd $(_WRKSRC) && \
+          CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure $(_CONFIGURE_ARGS) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/python.exe
 $(_WRKSRC)/python.exe:

@@ -20,8 +20,8 @@ ifeq ($(OPSYS),Darwin)
 	@cat patch-01 | (cd $(_WRKSRC) && patch -p0)
 	@$(SED) -i -e 's/-rdynamic//g' $(_WRKSRC)/Makefile $(_WRKSRC)/htslib-*/configure*
 endif
-	@cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-                           ./configure --prefix=$(PREFIX) 2>&1 \
+	@(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+                           ./configure --prefix=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools:
