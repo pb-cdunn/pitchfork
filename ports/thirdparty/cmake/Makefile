@@ -23,7 +23,7 @@ $(_WRKSRC):
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 do-config: | $(_WRKSRC)/Makefile
 $(_WRKSRC)/Makefile:
-	@cd $(_WRKSRC) && ./bootstrap --prefix=$(STAGING)/$(_NAME) 2>&1 | tee config.log | $(PFHOME)/bin/activity
+	@(cd $(_WRKSRC) && ./bootstrap --prefix=$(STAGING)/$(_NAME) 2>&1) | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/bin/cmake
 $(_WRKSRC)/bin/cmake:
 	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity

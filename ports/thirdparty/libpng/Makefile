@@ -17,7 +17,7 @@ $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	@cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) 2>&1 \
+	@(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 ifeq ($(OPSYS),Darwin)
 	@cp /usr/include/zlib.h /usr/include/zconf.h $(_WRKSRC)/

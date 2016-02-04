@@ -18,12 +18,10 @@ openblas:     ccache
 hdf5:         ccache zlib
 swig:         ccache python
 libpng:       ccache zlib
-#
 
 pip:          python
 cython:       pip
 numpy:        pip cython openblas
-ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 h5py:         pip hdf5 numpy six
 pysam:        pip
 xmlbuilder:   pip
@@ -48,9 +46,14 @@ pickleshare:  pip
 paramiko:     pip
 ecdsa:        pip
 pycrypto:     pip
+
+#
+ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 cogent:       pip numpy
 biopython:    pip
 nim:          ccache
+tcl:          ccache zlib
+
 #
 htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
@@ -131,6 +134,8 @@ python:
 pip:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 endif
+tcl:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 numpy:
 	$(MAKE) -j1 -C ports/python/$@ do-install
