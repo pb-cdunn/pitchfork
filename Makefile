@@ -95,6 +95,7 @@ readline: ;
 zlib: ;
 ncurses: ;
 tcl: ;
+libpng: ;
 else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -103,6 +104,8 @@ zlib:
 ncurses:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 tcl:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
 openblas:
@@ -124,8 +127,6 @@ endif
 ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 swig:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
