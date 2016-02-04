@@ -54,6 +54,7 @@ cogent:       pip numpy
 biopython:    pip
 nim:          ccache
 tcl:          ccache zlib
+modules:      ccache tcl
 
 #
 htslib:       ccache zlib
@@ -91,12 +92,15 @@ ifeq ($(OPSYS),Darwin)
 readline: ;
 zlib: ;
 ncurses: ;
+tcl: ;
 else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 zlib:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ncurses:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+tcl:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
 openblas:
@@ -135,8 +139,6 @@ python:
 pip:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 endif
-tcl:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 numpy:
 	$(MAKE) -j1 -C ports/python/$@ do-install
@@ -221,6 +223,8 @@ biopython:
 pyxb:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 nim:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+modules:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 #
 blasr_libcpp:
