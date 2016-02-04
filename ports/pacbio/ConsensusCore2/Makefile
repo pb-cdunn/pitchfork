@@ -34,4 +34,4 @@ $(PREFIX)/var/pkg/$(_NAME):
                    VERBOSE=1 \
         $(PIP) install --root $(STAGING)/$(_NAME) --verbose --upgrade --no-deps $(_WRKSRC)/
 	@rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	@find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)$(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)$(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $@

@@ -46,6 +46,8 @@ pickleshare:  pip
 paramiko:     pip
 ecdsa:        pip
 pycrypto:     pip
+html5lib:     pip
+isodate:      pip
 functools32:  pip
 
 #

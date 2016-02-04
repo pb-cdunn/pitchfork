@@ -32,4 +32,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cd $(_WRKSRC)/build && tar cf - *.a|tar xf - -C $(STAGING)/$(_NAME)/lib/
 	@cd $(_WRKSRC) && tar cf - *.h|tar xf - -C $(STAGING)/$(_NAME)/include/
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@

@@ -16,13 +16,14 @@ do-config: | $(_WRKSRC)/configure.log
 $(_WRKSRC)/configure.log:
 	@(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
-do-build:
-	@test -e $(PREFIX)/var/pkg/$(_NAME) || $(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
+do-build: | $(_WRKSRC)/libz.$(DYLIB)
+$(_WRKSRC)/libz.$(DYLIB):
+	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@rm -rf $(STAGING)/$(_NAME)
 	@$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
 do-clean:
 	@rm -rf $(_WRKSRC) || true

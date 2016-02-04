@@ -28,6 +28,6 @@ $(_WRKSRC)/modulecmd:
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
-	@find $(PREFIX)/Modules|awk -F $(PREFIX)/ '{print $$2}'|sort -r > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(PREFIX)/Modules|awk -F $(PREFIX)/ '{print $$2}'|sort -r > $@
 do-clean:
 	@rm -rf $(_WRKSRC) || true
