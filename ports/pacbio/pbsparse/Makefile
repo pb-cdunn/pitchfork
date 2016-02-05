@@ -1,0 +1,22 @@
+include ../../../mk/config.mk
+
+# Local variables
+_NAME            = pbsparse
+$(_NAME)_REPO   ?= https://$(GHTOKEN)@github.com/PacificBiosciences/$(_NAME)
+_WRKSRC          = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION?= HEAD
+_REV            := $(shell $(GIT) ls-remote $($(_NAME)_REPO) $($(_NAME)_VERSION)|cut -c 1-7)
+
+ifeq ($(origin GHTOKEN),undefined)
+    $(error "You need to set GHTOKEN")
+endif
+
+# Local works
+do-fetch: | $(_WRKSRC)
+$(_WRKSRC):
+	@$(GIT) clone $($(_NAME)_REPO) $@
+	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+do-install: | $(PREFIX)/var/pkg/$(_NAME)-$(_REV)
+$(PREFIX)/var/pkg/$(_NAME)-$(_REV):
+	@rsync -aKx $(_WRKSRC)/include/pacbio/ $(PREFIX)/include/pacbio/
+	@find $(PREFIX)/include/pacbio/sparse|awk -F $(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $@

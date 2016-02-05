@@ -278,9 +278,13 @@ pbalign:
 pbcoretools:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
-# I hate our cluster
+#
+pbsparse:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+
+# zlib-cloudflare hates Mac's clang and VMs without PCLMUL/SSE4.2
 zlib-cloudflare:
-	$(MAKE) -j1 -C ports/thirdparty/zlib-cloudflare do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 # utils
 _startover:
 	rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log
