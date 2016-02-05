@@ -79,6 +79,8 @@ kineticsTools: pbcore pbcommand scipy numpy h5py
 pypeFLOW:      rdflib rdfextras
 pbalign:       pbcore samtools blasr
 pbdoctorb:     docopt pbcore
+pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
+pbchimera:     seqan cmake
 #
 ConsensusCore: numpy boost swig cmake
 ConsensusCore2: numpy boost swig cmake
@@ -279,7 +281,11 @@ pbcoretools:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 #
+pbchimera:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbsparse:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pblaa:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # zlib-cloudflare hates Mac's clang and VMs without PCLMUL/SSE4.2
