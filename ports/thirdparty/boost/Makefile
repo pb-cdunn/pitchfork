@@ -5,7 +5,7 @@ include ../../../mk/chkcxx.mk
 
 # Local variables
 _NAME    = boost-1.60.0
-_URL     = http://sourceforge.net/projects/boost/files/boost/1.60.0
+_URL     = https://prdownloads.sourceforge.net/boost
 _FILE    = boost_1_60_0.tar.gz
 _WRKSRC  = $(WORKSPACE)/$(_NAME)
 
@@ -39,6 +39,6 @@ endif
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
 do-clean:
 	@rm -rf $(_WRKSRC) || true

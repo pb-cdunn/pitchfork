@@ -37,6 +37,9 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@rm -rf $(STAGING)/$(_NAME)
 	@mkdir -p $(STAGING)/$(_NAME)/bin
-	@cd $(_WRKSRC)/bin && tar cf - ccs task_pbccs_ccs | tar xf - -C $(STAGING)/$(_NAME)/bin
+	@rsync -ax $(_WRKSRC)/bin/ $(STAGING)/$(_NAME)/bin/
+	@rsync -ax $(_WRKSRC)/lib/ $(STAGING)/$(_NAME)/lib/
+	@rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
+	@rsync -ax $(_WRKSRC)/third-party/ $(STAGING)/$(_NAME)/src/
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@

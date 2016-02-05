@@ -29,7 +29,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cp -a $(STAGING)/$(_NAME)/nim/lib      $(PREFIX)/lib/nim
 	@cp -a $(STAGING)/$(_NAME)/nim/doc      $(PREFIX)/share/doc/nim
 	@cp -a $(STAGING)/$(_NAME)/nim/config/* $(PREFIX)/etc/
-	@echo bin/nim >  $(PREFIX)/var/pkg/$(_NAME)
-	@echo lib/nim >> $(PREFIX)/var/pkg/$(_NAME)
-	@echo share/doc/nim >> $(PREFIX)/var/pkg/$(_NAME)
-	@find $(STAGING)/$(_NAME)/nim/config ! -type d | awk -F "$(STAGING)/$(_NAME)/nim/config/" '{print "etc/"$$2}' >> $(PREFIX)/var/pkg/$(_NAME)
+	@echo bin/nim >  $@
+	@echo lib/nim >> $@
+	@echo share/doc/nim >> $@
+	@find $(STAGING)/$(_NAME)/nim/config ! -type d | awk -F "$(STAGING)/$(_NAME)/nim/config/" '{print "etc/"$$2}' >> $@

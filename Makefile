@@ -46,6 +46,8 @@ pickleshare:  pip
 paramiko:     pip
 ecdsa:        pip
 pycrypto:     pip
+html5lib:     pip
+isodate:      pip
 functools32:  pip
 
 #
@@ -77,6 +79,8 @@ kineticsTools: pbcore pbcommand scipy numpy h5py
 pypeFLOW:      rdflib rdfextras
 pbalign:       pbcore samtools blasr
 pbdoctorb:     docopt pbcore
+pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
+pbchimera:     seqan cmake
 #
 ConsensusCore: numpy boost swig cmake
 ConsensusCore2: numpy boost swig cmake
@@ -93,6 +97,7 @@ readline: ;
 zlib: ;
 ncurses: ;
 tcl: ;
+libpng: ;
 else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -101,6 +106,8 @@ zlib:
 ncurses:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 tcl:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
 openblas:
@@ -122,8 +129,6 @@ endif
 ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 swig:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
@@ -275,9 +280,17 @@ pbalign:
 pbcoretools:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
-# I hate our cluster
+#
+pbchimera:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pbsparse:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+pblaa:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+
+# zlib-cloudflare hates Mac's clang and VMs without PCLMUL/SSE4.2
 zlib-cloudflare:
-	$(MAKE) -j1 -C ports/thirdparty/zlib-cloudflare do-install
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 # utils
 _startover:
 	rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log

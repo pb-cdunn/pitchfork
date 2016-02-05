@@ -2,7 +2,7 @@ include ../../../mk/config.mk
 
 # Local variables
 _NAME   = swig-3.0.8
-_URL    = http://prdownloads.sourceforge.net/swig
+_URL    = https://prdownloads.sourceforge.net/swig
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _FILE   = $(_NAME).tar.gz
 
@@ -15,7 +15,7 @@ do-fetch: | $(_FILE) pcre-8.38.tar.gz
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 pcre-8.38.tar.gz:
-	@$(CURL) -L -O http://downloads.sourceforge.net/pcre/pcre-8.38.tar.gz
+	@$(CURL) -L -O https://prdownloads.sourceforge.net/pcre/pcre-8.38.tar.gz
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	@cp pcre-8.38.tar.gz $(_WRKSRC)/
@@ -44,6 +44,6 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@mkdir -p $(STAGING)/$(_NAME)
 	@$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
 do-clean:
 	@rm -rf $(_WRKSRC) || true

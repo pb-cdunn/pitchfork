@@ -23,4 +23,4 @@ $(PREFIX)/var/pkg/$(_NAME):
              lib/python2.7/site-packages/pip*          \
              lib/python2.7/site-packages/pkg_resources \
              lib/python2.7/site-packages/setuptools*   \
-             lib/python2.7/site-packages/wheel* | sort -r > $(PREFIX)/var/pkg/$(_NAME)
+             lib/python2.7/site-packages/wheel* | sort -r > $@

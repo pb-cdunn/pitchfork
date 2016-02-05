@@ -44,4 +44,4 @@ $(PREFIX)/var/pkg/$(_NAME):
       && tar cf - pbdagcon dazcon \
                   | tar xf - -C $(STAGING)/$(_NAME)/bin/
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@

@@ -5,6 +5,7 @@ _NAME            = pbcore
 $(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
+#_REV            := $(shell $(GIT) ls-remote $($(_NAME)_REPO) $($(_NAME)_VERSION)|cut -c 1-7)
 
 # Local works
 do-fetch: | $(_WRKSRC)
@@ -17,4 +18,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@mkdir -p $(STAGING)/$(_NAME)
 	@$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
 	@rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	@find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)$(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)$(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $@

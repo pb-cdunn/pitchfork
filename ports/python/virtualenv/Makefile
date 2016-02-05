@@ -26,4 +26,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cd $(PREFIX) && \
         find lib/python* include/python* bin/pip* bin/python* \
              bin/activate* bin/easy_install* bin/wheel | sort -r \
-        > $(PREFIX)/var/pkg/$(_NAME)
+        > $@

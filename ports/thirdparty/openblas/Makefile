@@ -5,7 +5,7 @@ include ../../../mk/chkfc.mk
 
 # Local variables
 _NAME   = OpenBLAS-0.2.15
-_URL    = http://github.com/xianyi/OpenBLAS/archive
+_URL    = https://github.com/xianyi/OpenBLAS/archive
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _FILE   = v0.2.15.tar.gz
 
@@ -25,6 +25,6 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@rm -rf $(STAGING)/$(_NAME)
 	@$(MAKE) -C $(_WRKSRC) PREFIX=$(STAGING)/$(_NAME) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
 do-clean:
 	@rm -rf $(_WRKSRC) || true
