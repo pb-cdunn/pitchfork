@@ -14,8 +14,8 @@ do-fetch: | $(_FILE)
 	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
-do-config: | $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log:
+do-config: | $(_WRKSRC)/configure.log
+$(_WRKSRC)/configure.log:
 	@(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/samtools
