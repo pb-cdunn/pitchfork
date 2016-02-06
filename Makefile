@@ -23,32 +23,42 @@ pip:          python
 cython:       pip
 numpy:        pip cython openblas
 h5py:         pip hdf5 numpy six
-pysam:        pip
-xmlbuilder:   pip
 jsonschema:   pip functools32
-iso8601:      pip
-jinja2:       pip
-networkx:     pip
-pyparsing:    pip
 pydot:        pip pyparsing
 fabric:       pip paramiko ecdsa pycrypto
-avro:         pip
-requests:     pip
-docopt:       pip
 rdflib:       pip six isodate html5lib
-matplotlib:   pip numpy libpng
-six:          pip
+matplotlib:   pip numpy libpng pytz six pyparsing python-dateutil
 rdfextras:    pip rdflib
 scipy:        pip numpy
-pyxb:         pip
-traitlets:    pip
-pickleshare:  pip
-paramiko:     pip
+appnope:      pip
+avro:         pip
+decorator:    pip
+docopt:       pip
 ecdsa:        pip
-pycrypto:     pip
-html5lib:     pip
-isodate:      pip
 functools32:  pip
+gnureadline:  pip
+html5lib:     pip
+ipython_genutils: pip
+iso8601:      pip
+isodate:      pip
+jinja2:       pip
+networkx:     pip
+paramiko:     pip
+path.py:      pip
+pexpect:      pip
+pickleshare:  pip
+ptyprocess:   pip
+pycrypto:     pip
+pyparsing:    pip
+pysam:        pip
+python-dateutil: pip
+pytz:         pip
+pyxb:         pip
+requests:     pip
+simplegeneric: pip
+six:          pip
+traitlets:    pip
+xmlbuilder:   pip
 
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
@@ -218,6 +228,10 @@ isodate:
 html5lib:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 functools32:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+pytz:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+python-dateutil:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection

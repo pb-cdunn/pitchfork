@@ -19,10 +19,11 @@ do-config:
 	@mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \
         cmake \
             -DSEQAN_IncludeDir=$(PREFIX)/include \
+            -DCMAKE_CXX_FLAGS="-L$(PREFIX)/lib" \
             ..
 do-build: | $(_WRKSRC)/_build/src/ChimeraLabeler
 $(_WRKSRC)/_build/src/ChimeraLabeler:
-	@cd $(_WRKSRC)/_build && $(MAKE)
+	@cd $(_WRKSRC)/_build && $(MAKE) VERBOSE=1
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@rm -rf $(STAGING)/$(_NAME)
