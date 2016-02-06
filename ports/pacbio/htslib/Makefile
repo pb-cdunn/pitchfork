@@ -24,7 +24,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	@cd $(_WRKSRC) && \
         tar cf - Makefile *.cmake *.mk */*.[c,h] *.[a,c,h]|tar xf - -C $(STAGING)/$(_NAME)/src/htslib/
 	@cd $(_WRKSRC) && tar cf - *.$(DYLIB)   | tar xf - -C $(STAGING)/$(_NAME)/lib/
-ifeq ($(OPSYS),Darwin)
+ifneq ($(OPSYS),Darwin)
 	@cd $(_WRKSRC) && tar cf - *.$(DYLIB).* | tar xf - -C $(STAGING)/$(_NAME)/lib/
 endif
 	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/

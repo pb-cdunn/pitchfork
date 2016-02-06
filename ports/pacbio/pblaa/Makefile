@@ -20,7 +20,6 @@ $(_WRKSRC)/_build/Makefile:
 	mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \
         cmake \
             -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
-            -DZLIB_LIBRARIES_DIRS=$(PREFIX)/lib \
             -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
             -DPacBioBAM_IncludeDir=$(PREFIX)/include \
             -DPBBAM_INCLUDE_DIRS=$(PREFIX)/include \
