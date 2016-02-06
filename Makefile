@@ -307,4 +307,10 @@ zlib-cloudflare:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 # utils
 _startover:
-	rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log
+	@echo "This will erase everything in PREFIX, staging/ and workspace/ directories."
+	@read -p "Are you sure? " -n 1 -r; \
+        echo; \
+        if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
+           echo rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
+           rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
+        fi
