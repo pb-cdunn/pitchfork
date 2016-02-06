@@ -6,7 +6,7 @@ _NAME   = matplotlib-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 _tmpvar:=$(if $(shell which pkg-config),exists,$(error "unable to run pkg-config, consider doing yum install pkgconfig"))
-export PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig
+#export PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
