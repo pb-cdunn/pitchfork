@@ -316,7 +316,7 @@ zlib-cloudflare:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 # utils
 _startover:
-	@echo "This will erase everything in PREFIX, staging/ and workspace/ directories."
+	@echo "This will erase everything in $(PREFIX), staging/ and workspace/ directories."
 	@read -p "Are you sure? " -n 1 -r; \
         echo; \
         if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
