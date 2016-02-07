@@ -18,6 +18,7 @@ openblas:     ccache
 hdf5:         ccache zlib
 swig:         ccache python
 libpng:       ccache zlib
+hmmer:        ccache
 
 pip:          python
 cython:       pip
@@ -52,13 +53,15 @@ pycrypto:     pip
 pyparsing:    pip
 pysam:        pip
 python-dateutil: pip
-pytz:         pip
-pyxb:         pip
-requests:     pip
-simplegeneric: pip
-six:          pip
-traitlets:    pip
-xmlbuilder:   pip
+pytz:            pip
+pyxb:            pip
+requests:        pip
+simplegeneric:   pip
+six:             pip
+traitlets:       pip
+xmlbuilder:      pip
+nose:            pip
+cram:            pip
 
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
@@ -234,6 +237,10 @@ functools32:
 pytz:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 python-dateutil:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+nose:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+cram:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection
