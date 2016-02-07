@@ -15,7 +15,7 @@ $(_WRKSRC):
 	@$(GIT) clone $(_URL) $@
 	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-build:
-	@$(MAKE) -C $(_WRKSRC) ZLIB_ROOT=$(PREFIX) CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" LDFLAGS=$(LDFLAGS)
+	@$(MAKE) -C $(_WRKSRC) ZLIB_ROOT=$(PREFIX) CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" LDFLAGS=$(LDFLAGS) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@rm -rf $(STAGING)/$(_NAME)

@@ -140,6 +140,8 @@ ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 swig:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+hmmer:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
 openssl: ;

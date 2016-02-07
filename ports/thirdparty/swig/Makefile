@@ -9,9 +9,9 @@ _FILE   = $(_NAME).tar.gz
 # Local works
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
+	@$(MD5SUM) -c MD5SUM || exit
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 do-fetch: | $(_FILE) pcre-8.38.tar.gz
-	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 pcre-8.38.tar.gz:

@@ -11,11 +11,11 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
 do-fetch: | $(_FILE)
-	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
+	@$(MD5SUM) -c MD5SUM || exit
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:

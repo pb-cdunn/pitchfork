@@ -1,10 +1,10 @@
 include ../../../mk/config.mk
 
 # Local variables
-_NAME   = samtools-1.3
-_URL    = https://github.com/samtools/samtools/releases/download/1.3
+_NAME   = hmmer-3.1b2
+_URL    = http://eddylab.org/software/hmmer3/3.1b2
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-_FILE   = $(_NAME).tar.bz2
+_FILE   = $(_NAME).tar.gz
 
 # Local works
 do-extract: | $(_WRKSRC)
@@ -16,15 +16,10 @@ $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-ifeq ($(OPSYS),Darwin)
-	@cat patch-01 | (cd $(_WRKSRC) && patch -p0)
-	@$(SED) -i -e 's/-rdynamic//g' $(_WRKSRC)/Makefile $(_WRKSRC)/htslib-*/configure*
-endif
-	@(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-                           ./configure --prefix=$(PREFIX) 2>&1) \
+	@(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
-do-build: | $(_WRKSRC)/samtools
-$(_WRKSRC)/samtools:
+do-build: | $(_WRKSRC)/src/phmmer
+$(_WRKSRC)/src/phmmer:
 	@$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):

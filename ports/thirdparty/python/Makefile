@@ -12,11 +12,11 @@ _CFLAGS         += -I$(PREFIX)/include/ncurses
 
 # Local works
 do-fetch: | $(_FILE)
-	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
+	@$(MD5SUM) -c MD5SUM || exit
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 	@$(SED) -i -e "s|@@PREFIX@@|$(PREFIX)|g" $(_WRKSRC)/Lib/cgi.py $(_WRKSRC)/Lib/ctypes/macholib/dyld.py
 	@$(SED)    -e "s|@@PREFIX@@|$(PREFIX)|g" patch-01 | (cd $(_WRKSRC) && patch -p0)
