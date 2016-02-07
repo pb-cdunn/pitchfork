@@ -8,9 +8,9 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 # Local works
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
+	@$(MD5SUM) -c MD5SUM || exit
 	@tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
 do-fetch: | $(_NAME).tar.gz
-	@$(MD5SUM) -c MD5SUM
 $(_NAME).tar.gz:
 	@$(CURL) -O -L $(_URL)/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

@@ -14,9 +14,9 @@ endif
 # Local works
 do-extract: | $(_WRKSRC)/virtualenv.py
 $(_WRKSRC)/virtualenv.py:
+	@$(MD5SUM) -c MD5SUM || exit
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 do-fetch: | $(_FILE)
-	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
