@@ -5,16 +5,25 @@ import logging, time
 import argparse
 
 __VERSION__ = '0.0.1'
+_ownpath = os.path.realpath(__file__)
+whereami = os.path.dirname(_ownpath)
+porthome = os.path.dirname(whereami)
+
+def parseargs(args):
+    desc = 'Pacbio unofficial pitchfork building system.'
+    epil = 'This gets you a subroot-like software deployment. The deployment is unrelocatable but easier to understand.'
+    parser = argparse.ArgumentParser(
+        epilog=epil,
+        description=desc)
+    parser.add_argument('-V', '--version', help='getting version', action='version', version='%s' % __VERSION__)
+    subparsers = parser.add_subparsers(help='sub-command help')
+    parser_a = subparsers.add_parser('a', help='a help')
+    parser_a.add_argument('bar', type=int, help='bar help')
+    return parser.parse_args()
 
 def main(argv=sys.argv):
     """Main"""
-    _ownpath = os.path.realpath(__file__)
-    whereami = os.path.dirname(_ownpath)
-    porthome = os.path.dirname(whereami)
-#   print porthome
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--foo', help='foo help')
-    args = parser.parse_args()
+    pargs = parseargs(argv)
     return 0
 
 #    parser = argparse.ArgumentParser(description='Process some integers.')

@@ -320,6 +320,6 @@ _startover:
 	@read -p "Are you sure? " -n 1 -r; \
         echo; \
         if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
-           echo rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
+           echo "rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log"; \
            rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
         fi
