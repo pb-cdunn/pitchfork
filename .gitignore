@@ -1,3 +1,5 @@
-workspace/
-deployment/
-staging/
+/workspace/
+/deployment/
+/staging/
+*.log
+*.tar.gz

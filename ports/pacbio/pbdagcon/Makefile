@@ -12,12 +12,12 @@ export CXX
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
-	@$(GIT) clone $($(_NAME)_REPO) $@
-	@cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+	$(GIT) clone $($(_NAME)_REPO) $@
+	cd $(_WRKSRC) && $(GIT) checkout $(_REV)
 do-config: | $(_WRKSRC)/build/defines.mk
 $(_WRKSRC)/build/defines.mk:
-	@mkdir -p $(_WRKSRC)/build
-	@cd $(_WRKSRC) \
+	mkdir -p $(_WRKSRC)/build
+	cd $(_WRKSRC) \
      &&     BOOST_INCLUDE=$(PREFIX)/include \
         LIBPBDATA_INCLUDE=$(PREFIX)/include/pbdata \
          LIBBLASR_INCLUDE=$(PREFIX)/include/alignment \
@@ -35,13 +35,13 @@ $(_WRKSRC)/build/defines.mk:
               DAZZ_DB_SRC=$(_WRKSRC)/../dazzdb \
         ./configure.py --build-dir=$(_WRKSRC)/build
 do-build:
-	@$(MAKE) -C $(_WRKSRC)/build
+	$(MAKE) -C $(_WRKSRC)/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@rm -rf $(STAGING)/$(_NAME)
-	@mkdir -p $(STAGING)/$(_NAME)/bin
-	@cd $(_WRKSRC)/build/src/cpp \
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/bin
+	cd $(_WRKSRC)/build/src/cpp \
       && tar cf - pbdagcon dazcon \
                   | tar xf - -C $(STAGING)/$(_NAME)/bin/
-	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
