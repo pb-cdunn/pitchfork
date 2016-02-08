@@ -11,11 +11,11 @@ _WRKSRC  = $(WORKSPACE)/$(_NAME)
 
 # Local works
 do-fetch: | $(_FILE)
-	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
+	@$(MD5SUM) -c MD5SUM || exit
 	@mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC)
 
 ifneq ($(origin DO_BOOST_LIB),undefined)

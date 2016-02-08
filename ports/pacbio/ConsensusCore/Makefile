@@ -11,15 +11,19 @@ do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
 	@$(GIT) clone $($(_NAME)_REPO) $@
 	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
-do-config:
+do-config: | $(_WRKSRC)/make/Config.mk
+$(_WRKSRC)/make/Config.mk:
 	@cd $(_WRKSRC) && ./configure \
             --swig=$(PREFIX)/bin/swig \
             --swig-lib=$(PREFIX)/share/swig/3.0.8 \
             --boost=$(PREFIX)/include \
             --python-include=$(PREFIX)/include/python2.7 \
             --numpy-include=$(PREFIX)/lib/python2.7/site-packages/numpy/core/include
-do-build:
-	@$(MAKE) -C $(_WRKSRC) lib python
+do-build: | $(_WRKSRC)/build/C++/libConsensusCore.a $(_WRKSRC)/build/Python/_ConsensusCore.so
+$(_WRKSRC)/build/C++/libConsensusCore.a:
+	@$(MAKE) -C $(_WRKSRC) lib
+$(_WRKSRC)/build/Python/_ConsensusCore.so:
+	@$(MAKE) -C $(_WRKSRC) python
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	@rm -rf $(STAGING)/$(_NAME)

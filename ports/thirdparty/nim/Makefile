@@ -11,11 +11,11 @@ _tmpvar:=$(if $(shell which unzip),exists,$(error "unable to run unzip, consider
 
 # Local works
 do-fetch: | $(_FILE)
-	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
+	@$(MD5SUM) -c MD5SUM || exit
 	@unzip $(_FILE) -d $(WORKSPACE)
 do-build: | $(_WRKSRC)/bin/nim
 $(_WRKSRC)/bin/nim:

@@ -18,6 +18,7 @@ openblas:     ccache
 hdf5:         ccache zlib
 swig:         ccache python
 libpng:       ccache zlib
+hmmer:        ccache
 
 pip:          python
 cython:       pip
@@ -52,13 +53,15 @@ pycrypto:     pip
 pyparsing:    pip
 pysam:        pip
 python-dateutil: pip
-pytz:         pip
-pyxb:         pip
-requests:     pip
-simplegeneric: pip
-six:          pip
-traitlets:    pip
-xmlbuilder:   pip
+pytz:            pip
+pyxb:            pip
+requests:        pip
+simplegeneric:   pip
+six:             pip
+traitlets:       pip
+xmlbuilder:      pip
+nose:            pip
+cram:            pip
 
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
@@ -139,6 +142,8 @@ endif
 ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 swig:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+hmmer:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin PYVE),undefined)
@@ -233,6 +238,10 @@ pytz:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 python-dateutil:
 	$(MAKE) -j1 -C ports/python/$@ do-install
+nose:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+cram:
+	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection
 ipython:
@@ -307,10 +316,10 @@ zlib-cloudflare:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 # utils
 _startover:
-	@echo "This will erase everything in PREFIX, staging/ and workspace/ directories."
+	@echo "This will erase everything in $(PREFIX), staging/ and workspace/ directories."
 	@read -p "Are you sure? " -n 1 -r; \
         echo; \
         if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
-           echo rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
+           echo "rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log"; \
            rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
         fi

@@ -8,11 +8,11 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
 do-fetch: | $(_FILE)
-	@$(MD5SUM) -c MD5SUM
 $(_FILE):
 	@$(CURL) -L -O $(_URL)/$@
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
+	@$(MD5SUM) -c MD5SUM || exit
 	@tar zxf $(_FILE) -C $(WORKSPACE)
 do-clean-distfile:
 	@rm -f $(_FILE)
