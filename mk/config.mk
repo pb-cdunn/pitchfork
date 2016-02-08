@@ -12,7 +12,7 @@ MD5SUM     = md5sum
 SHA1SUM    = sha1sum
 
 PFHOME    := $(realpath ../../..)
-WORKSPACE  = $(PFHOME)/workspace
+WORKSPACE ?= $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
 STAGING   ?= $(PFHOME)/staging
 
