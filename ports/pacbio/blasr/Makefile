@@ -12,13 +12,13 @@ $(_NAME)_VERSION?= HEAD
 # Local works
 ifneq ($(origin TRAVIS),undefined)
 do-extract:
-	@cat travis.patch | (cd $(_WRKSRC) && patch -p0)
+	cat travis.patch | (cd $(_WRKSRC) && patch -p0)
 	# it always does git checkout
 endif
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
-	@$(GIT) clone $($(_NAME)_REPO) $@
-	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+	$(GIT) clone $($(_NAME)_REPO) $@
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 do-config: | $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
@@ -38,7 +38,7 @@ $(_WRKSRC)/defines.mk:
            HTSLIB_INC=$(PREFIX)/src/htslib \
            HTSLIB_LIB=$(PREFIX)/src/htslib
 $(_WRKSRC)/utils/bax2bam/build/Makefile:
-	@mkdir -p $(_WRKSRC)/utils/bax2bam/build && \
+	mkdir -p $(_WRKSRC)/utils/bax2bam/build && \
         cd $(_WRKSRC)/utils/bax2bam/build && \
         $(CMAKE) \
               -DHDF5_RootDir=$(PREFIX) \
@@ -49,7 +49,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
         ..
 $(_WRKSRC)/utils/bam2bax/build/Makefile:
-	@mkdir -p $(_WRKSRC)/utils/bam2bax/build && \
+	mkdir -p $(_WRKSRC)/utils/bam2bax/build && \
         cd $(_WRKSRC)/utils/bam2bax/build && \
         $(CMAKE) \
               -DHDF5_RootDir=$(PREFIX) \
@@ -60,15 +60,15 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
         ..
 do-build:
-	@$(MAKE) -C $(_WRKSRC) all
-	@$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
-	@$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
+	$(MAKE) -C $(_WRKSRC) all
+	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
+	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)/bin
-	@cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(STAGING)/$(_NAME)/bin/
-	@cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(STAGING)/$(_NAME)/bin/
-	@cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
-	@cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
-	@cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	@find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
+	rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)/bin
+	cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(STAGING)/$(_NAME)/bin/
+	cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(STAGING)/$(_NAME)/bin/
+	cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
+	cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@

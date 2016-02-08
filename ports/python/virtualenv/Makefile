@@ -14,16 +14,16 @@ endif
 # Local works
 do-extract: | $(_WRKSRC)/virtualenv.py
 $(_WRKSRC)/virtualenv.py:
-	@$(MD5SUM) -c MD5SUM || exit
-	@tar zxf $(_FILE) -C $(WORKSPACE)
+	$(MD5SUM) -c MD5SUM || exit
+	tar zxf $(_FILE) -C $(WORKSPACE)
 do-fetch: | $(_FILE)
 $(_FILE):
-	@$(CURL) -L -O $(_URL)/$@
+	$(CURL) -L -O $(_URL)/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@$(PYTHON) $(_WRKSRC)/virtualenv.py $(PREFIX)
-	@$(PIP) install -U pip
-	@cd $(PREFIX) && \
+	$(PYTHON) $(_WRKSRC)/virtualenv.py $(PREFIX)
+	$(PIP) install -U pip
+	cd $(PREFIX) && \
         find lib/python* include/python* bin/pip* bin/python* \
              bin/activate* bin/easy_install* bin/wheel | sort -r \
         > $@

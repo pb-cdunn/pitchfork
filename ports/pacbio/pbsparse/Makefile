@@ -13,9 +13,9 @@ $(_NAME)_VERSION?= HEAD
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
-	@$(GIT) clone $($(_NAME)_REPO) $@
-	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+	$(GIT) clone $($(_NAME)_REPO) $@
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@rsync -aKx $(_WRKSRC)/include/pacbio/ $(PREFIX)/include/pacbio/
-	@find $(PREFIX)/include/pacbio/sparse|awk -F $(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $@
+	rsync -aKx $(_WRKSRC)/include/pacbio/ $(PREFIX)/include/pacbio/
+	find $(PREFIX)/include/pacbio/sparse|awk -F $(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $@
