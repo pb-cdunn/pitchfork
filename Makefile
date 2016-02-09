@@ -1,4 +1,5 @@
 include mk/osdetect.mk
+SHELL   = /bin/bash
 PREFIX ?= deployment
 
 default:
