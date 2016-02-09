@@ -10,12 +10,11 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-do-extract:
-	cat patch-01 | (cd $(_WRKSRC) && patch -p0)
+do-extract: patch.log
+patch.log:
+	cat patch-01 | (cd $(_WRKSRC) && patch -p0) > patch.log || exit 1
 ifneq ($(origin TRAVIS),undefined)
-do-extract:
-	cat travis.patch | (cd $(_WRKSRC) && patch -p0)
-	# it always does git checkout
+	cat travis.patch | (cd $(_WRKSRC) && patch -p0) >> patch.log || exit 1
 endif
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
