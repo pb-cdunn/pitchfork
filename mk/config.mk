@@ -55,7 +55,7 @@ wscheck: sanity
 _stcheck:
 	@mkdir -p "$(STAGING)"              || exit 1
 # Problem: on centos 7, virtualenv python will use lib64 instead, and tar will screwup symbolic links
-pfcheck:
+pfcheck: _stcheck
 	@mkdir -p "$(PREFIX)/bin"           || exit 1
 	@mkdir -p "$(PREFIX)/etc"           || exit 1
 	@mkdir -p "$(PREFIX)/include"       || exit 1
