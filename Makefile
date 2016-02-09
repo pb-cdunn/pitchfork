@@ -1,4 +1,5 @@
 include mk/osdetect.mk
+SHELL   = /bin/bash
 PREFIX ?= deployment
 
 default:
@@ -73,7 +74,7 @@ modules:      ccache tcl
 
 #
 htslib:       ccache zlib
-blasr_libcpp: ccache boost hdf5 pbbam
+blasr_libcpp: ccache boost hdf5 pbbam python
 blasr:        ccache blasr_libcpp hdf5 cmake
 pbbam:        ccache samtools cmake boost htslib gtest
 pbccs:        ccache pbbam htslib cmake boost gtest seqan

@@ -1,0 +1,26 @@
+diff --git alignment/statistics/StatUtils.cpp alignment/statistics/StatUtils.cpp
+index cc6bf79..c1e01fc 100644
+--- alignment/statistics/StatUtils.cpp
++++ alignment/statistics/StatUtils.cpp
+@@ -1,4 +1,7 @@
+ #include "StatUtils.hpp" 
++#ifndef __WORDSIZE
++#  include <bits/user.h>
++#endif
+ 
+ void InitializeRandomGenerator(int value) {
+   srandom((unsigned) value);
+diff --git pbdata/reads/HoleXY.hpp pbdata/reads/HoleXY.hpp
+index 5386c72..fa96d13 100644
+--- pbdata/reads/HoleXY.hpp
++++ pbdata/reads/HoleXY.hpp
+@@ -2,6 +2,9 @@
+ #define _BLASR_HOLE_XY_HPP_
+ 
+ #include <stdlib.h>
++#ifndef int16_t
++#  include <stdint.h>
++#endif
+ 
+ class HoleXY {
+ public:
