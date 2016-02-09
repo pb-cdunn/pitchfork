@@ -13,7 +13,7 @@ $(_NAME)_VERSION?= HEAD
 do-extract:
 	cat patch-01 | (cd $(_WRKSRC) && patch -p0)
 ifneq ($(origin TRAVIS),undefined)
-	cat travis.patch | (cd $(_WRKSRC) && patch -p0)
+	@cat travis.patch | (cd $(_WRKSRC) && patch -p0)
 	# it always does git checkout
 endif
 do-fetch: | $(_WRKSRC)
