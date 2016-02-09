@@ -3,3 +3,4 @@
 /staging/
 *.log
 *.tar.gz
+*.tar.bz2

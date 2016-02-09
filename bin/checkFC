@@ -1,0 +1,31 @@
+#!/bin/bash
+
+reportVersion(){
+    set -euf -o pipefail
+    $1 -dumpversion 2>&1
+}
+
+die(){
+    test "$*" && echo "$*" || true
+    exit 1
+}
+
+FC=`echo $* | awk '{print $1}'`
+
+which $FC || die "[ERROR] $FC is not on your PATH env variable"
+
+# check the c++11 availability
+case $FC in
+gfortran*)
+  myVersion=`reportVersion $FC`
+  exit 0
+  ;;
+g95*)
+  myVErsion=`reportVersion $FC|sed -n -e 's/.*(//;s/).*//;s/!//;s/g95//;s/ //g;1p'`
+  exit 0
+  ;;
+*)
+  echo "[WARNING] unrecognized FC, please send us info if you think this FC is valid"
+  exit 0
+  ;;
+esac
