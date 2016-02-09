@@ -18,7 +18,7 @@ STAGING   ?= $(PFHOME)/staging
 
 CCACHE_DIR?= $(WORKSPACE)/.ccache
 
-PIP        = $(PREFIX)/bin/pip --no-cache-dir --no-use-wheel
+PIP        = $(PREFIX)/bin/pip --no-cache-dir
 
 include $(PFHOME)/mk/osdetect.mk
 

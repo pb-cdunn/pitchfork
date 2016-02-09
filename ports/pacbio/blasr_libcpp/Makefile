@@ -10,6 +10,8 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
+do-extract:
+	@cat patch-01 | (cd $(_WRKSRC) && patch -p0)
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
 	@$(GIT) clone $($(_NAME)_REPO) $@
