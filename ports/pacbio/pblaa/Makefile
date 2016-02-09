@@ -13,8 +13,8 @@ $(_NAME)_VERSION?= HEAD
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
-	@$(GIT) clone $($(_NAME)_REPO) $@
-	@cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+	$(GIT) clone $($(_NAME)_REPO) $@
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 do-config: | $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile:
 	mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \
@@ -39,13 +39,13 @@ $(_WRKSRC)/_build/Makefile:
             ..
 do-build: | $(_WRKSRC)/bin/laa
 $(_WRKSRC)/bin/laa:
-	@cd $(_WRKSRC)/_build && $(MAKE)
+	cd $(_WRKSRC)/_build && $(MAKE)
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	@rm -rf $(STAGING)/$(_NAME)
-	@mkdir -p $(STAGING)/$(_NAME)
-	@rsync -ax $(_WRKSRC)/bin/ $(STAGING)/$(_NAME)/bin/
-	@rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
-	@rsync -ax $(_WRKSRC)/third-party/ $(STAGING)/$(_NAME)/src/
-	@rsync -aKx $(STAGING)/$(_NAME)/ $(PREFIX)/
-	@find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)/ '{print $$2}'|grep -v '^$$'|sort -r > $@
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)
+	rsync -ax $(_WRKSRC)/bin/ $(STAGING)/$(_NAME)/bin/
+	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
+	rsync -ax $(_WRKSRC)/third-party/ $(STAGING)/$(_NAME)/src/
+	rsync -aKx $(STAGING)/$(_NAME)/ $(PREFIX)/
+	find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)/ '{print $$2}'|grep -v '^$$'|sort -r > $@
