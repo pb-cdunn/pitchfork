@@ -1,0 +1,17 @@
+#!/bin/bash
+
+die(){
+    test "$*" && echo "$*" || true
+    exit 1
+}
+which uname >& /dev/null || die "[ERROR] unable to run uname, consider doing yum install coreutils"
+which curl  >& /dev/null || die "[ERROR] unable to run curl, consider doing yum install curl"
+which git   >& /dev/null || die "[ERROR] unable to run git, consider doing yum install git"
+which rsync >& /dev/null || die "[ERROR] unable to run rsync, consider doing yum install rsync"
+
+#if [ "_$(uname -s)" = "_Darwin" ]; then
+#    which md5sum >& /dev/null || die "[ERROR] unable to run md5sum, consider doing brew install md5sha1sum"
+#else
+#    which md5sum >& /dev/null || die "[ERROR] unable to run md5sum, consider doing yum install coreutils"
+#fi
+

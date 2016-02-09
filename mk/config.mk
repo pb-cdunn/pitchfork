@@ -50,12 +50,12 @@ include $(PFHOME)/mk/sanity.mk
 
 default:
 	@echo "[INFO] nothing is done."
-wscheck:
+wscheck: sanity
 	@mkdir -p $(WORKSPACE) || exit 1
 _stcheck:
 	@mkdir -p "$(STAGING)"              || exit 1
 # Problem: on centos 7, virtualenv python will use lib64 instead, and tar will screwup symbolic links
-pfcheck: _stcheck
+pfcheck:
 	@mkdir -p "$(PREFIX)/bin"           || exit 1
 	@mkdir -p "$(PREFIX)/etc"           || exit 1
 	@mkdir -p "$(PREFIX)/include"       || exit 1
