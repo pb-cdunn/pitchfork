@@ -107,9 +107,11 @@ ConsensusCore2: numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
 world: \
-       pbccs     blasr            kineticsTools  \
+       pbccs     blasr            kineticsTools  pblaa    \
        pbreports GenomicConsensus ConsensusCore2 pbfalcon \
-       pbdoctorb ipython          biopython      cogent
+       pbdoctorb ipython          biopython      cogent   \
+       nim       modules          cram           nose     \
+       hmmer
 
 # rules
 ifeq ($(OPSYS),Darwin)
@@ -261,6 +263,7 @@ nim:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 modules:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+
 #
 blasr_libcpp:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
@@ -309,7 +312,6 @@ pbalign:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbcoretools:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
-
 #
 pbchimera:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
@@ -318,9 +320,6 @@ pbsparse:
 pblaa:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
-# zlib-cloudflare hates Mac's clang and VMs without PCLMUL/SSE4.2
-zlib-cloudflare:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 # utils
 _startover:
 	@echo "This will erase everything in $(PREFIX), staging/ and workspace/ directories."
@@ -330,3 +329,6 @@ _startover:
            echo "rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log"; \
            rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
         fi
+# zlib-cloudflare hates Mac's clang and VMs without PCLMUL/SSE4.2
+zlib-cloudflare:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
