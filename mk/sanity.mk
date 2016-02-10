@@ -6,5 +6,5 @@ _tmpvar:=$(if $(shell which $(MD5SUM)),exists,$(error "unable to run md5sum, con
 endif
 
 sanity:
-	$(PFHOME)/bin/checkSystem
-	$(PFHOME)/bin/checkCC $(CC)
+	@$(PFHOME)/bin/checkSystem
+	@$(PFHOME)/bin/checkCC $(CC)

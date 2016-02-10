@@ -1,4 +1,10 @@
-include mk/osdetect.mk
+ifneq ("$(wildcard settings.mk)","")
+   include settings.mk
+endif
+
+UNAME   = uname
+ARCH   := $(shell $(UNAME) -m)
+OPSYS  := $(shell $(UNAME) -s)
 SHELL   = /bin/bash
 PREFIX ?= deployment
 

@@ -1,4 +1,4 @@
-include ../../../mk/config.mk
+include ../../../mk/pitchfork.mk
 
 # CXX check
 include ../../../mk/chkcxx.mk
@@ -12,9 +12,9 @@ $(_NAME)_VERSION?= HEAD
 # Local works
 do-extract: patch.log
 patch.log:
-	cat patch-01 | (cd $(_WRKSRC) && patch -p0) > patch.log || exit 1
+	cat patch-01 | (cd $(_WRKSRC) && patch -p0) | tee patch.log || exit 1
 ifneq ($(origin TRAVIS),undefined)
-	cat travis.patch | (cd $(_WRKSRC) && patch -p0) >> patch.log || exit 1
+	cat travis.patch | (cd $(_WRKSRC) && patch -p0) | tee -a patch.log || exit 1
 endif
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
