@@ -14,9 +14,7 @@ SHA1SUM    = sha1sum
 
 PFHOME    := $(realpath ../../..)
 
-ifneq ("$(wildcard $(PFHOME)/settings.mk)","")
-   include $(PFHOME)/settings.mk
-endif
+-include $(PFHOME)/settings.mk
 
 WORKSPACE ?= $(PFHOME)/workspace
 PREFIX    ?= $(PFHOME)/deployment
@@ -39,6 +37,10 @@ LDFLAGS    = -L$(PREFIX)/lib
 CFLAGS     = -fPIC
 CFLAGS    += -I$(PREFIX)/include
 CXXFLAGS   = $(CFLAGS)
+
+ifneq ("$(wildcard $(HAVE_BOOST))","")
+    BOOST_INCLUDE = $(HAVE_BOOST)
+endif
 
 BOOST_INCLUDE ?= $(PREFIX)/include
 

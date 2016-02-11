@@ -1,6 +1,4 @@
-ifneq ("$(wildcard settings.mk)","")
-   include settings.mk
-endif
+-include settings.mk
 
 UNAME   = uname
 ARCH   := $(shell $(UNAME) -m)
@@ -139,8 +137,12 @@ hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+ifneq ($(origin HAVE_BOOST),undefined)
 boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+boost: ;
+endif
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ifneq ($(origin HAVE_CMAKE),undefined)
