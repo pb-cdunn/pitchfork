@@ -6,8 +6,8 @@ _URL    = https://pypi.python.org/packages/source/v/virtualenv
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 PYTHON  = /usr/bin/python
-ifneq ($(origin PYVE),undefined)
-    PYTHON := $(shell ../../../bin/chkSysPython $(PYVE))
+ifneq ($(origin HAVE_PYTHON),undefined)
+    PYTHON := $(shell ../../../bin/chkSysPython $(HAVE_PYTHON))
     $(info $(PYTHON))
 endif
 

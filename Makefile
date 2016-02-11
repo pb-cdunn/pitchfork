@@ -142,7 +142,7 @@ boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-ifneq ($(origin HAVECMAKE),undefined)
+ifneq ($(origin HAVE_CMAKE),undefined)
 cmake: ;
 else
 cmake:
@@ -155,7 +155,7 @@ swig:
 hmmer:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
-ifneq ($(origin PYVE),undefined)
+ifneq ($(origin HAVE_PYTHON),undefined)
 openssl: ;
 python:
 	$(MAKE) -j1 -C ports/python/virtualenv do-install
