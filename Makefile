@@ -112,7 +112,7 @@ world: \
        pbreports GenomicConsensus ConsensusCore2 pbfalcon \
        pbdoctorb ipython          biopython      cogent   \
        nim       modules          cram           nose     \
-       hmmer
+       hmmer     gmap
 
 # rules
 ifeq ($(OPSYS),Darwin)
@@ -154,6 +154,8 @@ ccache:
 swig:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 hmmer:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+gmap:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifneq ($(origin HAVE_PYTHON),undefined)
