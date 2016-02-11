@@ -138,10 +138,10 @@ hdf5:
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ifneq ($(origin HAVE_BOOST),undefined)
+boost: ;
+else
 boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-else
-boost: ;
 endif
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
