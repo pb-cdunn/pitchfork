@@ -37,4 +37,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)$(PREFIX)/include/
 	rsync -ax $(_WRKSRC)/third-party/ $(STAGING)/$(_NAME)$(PREFIX)/src/
 	rsync -aKx $(STAGING)/$(_NAME)$(PREFIX)/ $(PREFIX)/
-	find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)$(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $@
+	find $(STAGING)/$(_NAME)|awk -F '$(STAGING)/$(_NAME)$(PREFIX)/' '{print $$2}'|grep -v '^$$'|sort -r > $@

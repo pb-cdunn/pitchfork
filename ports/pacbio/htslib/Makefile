@@ -28,4 +28,4 @@ ifneq ($(OPSYS),Darwin)
 	cd $(_WRKSRC) && tar cf - *.$(DYLIB).* | tar xf - -C $(STAGING)/$(_NAME)/lib/
 endif
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
-	find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@

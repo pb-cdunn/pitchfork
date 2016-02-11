@@ -42,4 +42,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
 	rsync -ax $(_WRKSRC)/third-party/ $(STAGING)/$(_NAME)/src/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
