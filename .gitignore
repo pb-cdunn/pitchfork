@@ -1,5 +1,8 @@
+/settings.mk
 /workspace/
 /deployment/
 /staging/
 *.log
 *.tar.gz
+*.tar.bz2
+*.zip

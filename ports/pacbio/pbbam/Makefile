@@ -1,4 +1,4 @@
-include ../../../mk/config.mk
+include ../../../mk/pitchfork.mk
 
 # CXX check
 include ../../../mk/chkcxx.mk
@@ -24,7 +24,7 @@ $(_WRKSRC)/build/Makefile:
             -DPacBioBAM_build_tests=OFF \
             -DHTSLIB_ROOTDIR=$(PREFIX)/src/htslib \
             -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
-            -DBoost_INCLUDE_DIRS=$(PREFIX)/include \
+            -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..

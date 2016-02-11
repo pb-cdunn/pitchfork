@@ -1,4 +1,10 @@
-include mk/osdetect.mk
+ifneq ("$(wildcard settings.mk)","")
+   include settings.mk
+endif
+
+UNAME   = uname
+ARCH   := $(shell $(UNAME) -m)
+OPSYS  := $(shell $(UNAME) -s)
 SHELL   = /bin/bash
 PREFIX ?= deployment
 
@@ -20,6 +26,7 @@ hdf5:         ccache zlib
 swig:         ccache python
 libpng:       ccache zlib
 hmmer:        ccache
+gmap:         ccache
 
 pip:          python
 cython:       pip
@@ -101,9 +108,11 @@ ConsensusCore2: numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
 world: \
-       pbccs     blasr            kineticsTools  \
+       pbccs     blasr            kineticsTools  pblaa    \
        pbreports GenomicConsensus ConsensusCore2 pbfalcon \
-       pbdoctorb ipython          biopython      cogent
+       pbdoctorb ipython          biopython      cogent   \
+       nim       modules          cram           nose     \
+       hmmer     gmap
 
 # rules
 ifeq ($(OPSYS),Darwin)
@@ -134,7 +143,7 @@ boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-ifneq ($(origin HAVECMAKE),undefined)
+ifneq ($(origin HAVE_CMAKE),undefined)
 cmake: ;
 else
 cmake:
@@ -146,8 +155,10 @@ swig:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 hmmer:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+gmap:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
-ifneq ($(origin PYVE),undefined)
+ifneq ($(origin HAVE_PYTHON),undefined)
 openssl: ;
 python:
 	$(MAKE) -j1 -C ports/python/virtualenv do-install
@@ -255,6 +266,7 @@ nim:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 modules:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+
 #
 blasr_libcpp:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
@@ -303,7 +315,6 @@ pbalign:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbcoretools:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
-
 #
 pbchimera:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
@@ -312,9 +323,6 @@ pbsparse:
 pblaa:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
-# zlib-cloudflare hates Mac's clang and VMs without PCLMUL/SSE4.2
-zlib-cloudflare:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 # utils
 _startover:
 	@echo "This will erase everything in $(PREFIX), staging/ and workspace/ directories."
@@ -324,3 +332,6 @@ _startover:
            echo "rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log"; \
            rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
         fi
+# zlib-cloudflare hates Mac's clang and VMs without PCLMUL/SSE4.2
+zlib-cloudflare:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install

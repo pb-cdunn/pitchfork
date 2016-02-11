@@ -1,4 +1,4 @@
-include ../../../mk/config.mk
+include ../../../mk/pitchfork.mk
 
 ifeq ($(origin GHTOKEN),undefined)
     $(error "You need to set GHTOKEN")

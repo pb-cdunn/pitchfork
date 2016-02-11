@@ -1,4 +1,4 @@
-include ../../../mk/config.mk
+include ../../../mk/pitchfork.mk
 
 # CXX check
 include ../../../mk/chkcxx.mk

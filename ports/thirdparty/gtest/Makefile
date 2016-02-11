@@ -1,4 +1,4 @@
-include ../../../mk/config.mk
+include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME            = gtest-1.7.0

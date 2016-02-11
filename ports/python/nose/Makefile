@@ -1,4 +1,4 @@
-include ../../../mk/config.mk
+include ../../../mk/pitchfork.mk
 
 # Local variables
 _VER    = 1.3.7

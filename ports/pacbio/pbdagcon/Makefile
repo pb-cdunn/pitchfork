@@ -1,4 +1,4 @@
-include ../../../mk/config.mk
+include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME          = pbdagcon
@@ -18,7 +18,7 @@ do-config: | $(_WRKSRC)/build/defines.mk
 $(_WRKSRC)/build/defines.mk:
 	mkdir -p $(_WRKSRC)/build
 	cd $(_WRKSRC) \
-     &&     BOOST_INCLUDE=$(PREFIX)/include \
+     &&     BOOST_INCLUDE=$(BOOST_INCLUDE) \
         LIBPBDATA_INCLUDE=$(PREFIX)/include/pbdata \
          LIBBLASR_INCLUDE=$(PREFIX)/include/alignment \
         LIBPBIHDF_INCLUDE=$(PREFIX)/include \
