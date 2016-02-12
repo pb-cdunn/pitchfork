@@ -42,6 +42,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
 	mkdir -p $(_WRKSRC)/utils/bax2bam/build && \
         cd $(_WRKSRC)/utils/bax2bam/build && \
         $(CMAKE) \
+              -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
               -DHDF5_RootDir=$(PREFIX) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
@@ -53,6 +54,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
 	mkdir -p $(_WRKSRC)/utils/bam2bax/build && \
         cd $(_WRKSRC)/utils/bam2bax/build && \
         $(CMAKE) \
+              -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
               -DHDF5_RootDir=$(PREFIX) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
