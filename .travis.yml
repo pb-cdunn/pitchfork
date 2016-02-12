@@ -9,12 +9,14 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - ppa:george-edison55/precise-backports
     packages:
       - gcc-4.8
       - g++-4.8
       - gfortran-4.8
       - graphviz
       - python-dev
+      - cmake-data
       - cmake
 cache:
   directories:
