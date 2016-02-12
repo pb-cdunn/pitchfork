@@ -23,12 +23,7 @@ cache:
     - $HOME/.ccache
 
 install:
-  - echo CC          = gcc-4.8 > settings.mk
-  - echo CXX         = g++-4.8 >> settings.mk
-  - echo FC          = gfortran-4.8 >> settings.mk
-  - echo CCACHE_DIR  = $HOME/.ccache >> settings.mk
-  - echo HAVE_PYTHON = >> settings.mk
-  - echo HAVE_CMAKE  = >> settings.mk
+  - cp mk/travis.mk settings.mk
   - make -j blasr
 
 script:
