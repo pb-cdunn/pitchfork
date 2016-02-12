@@ -25,6 +25,7 @@ install:
   - echo FC         = gfortran-4.8 >> settings.mk
   - echo CCACHE_DIR = $HOME/.ccache >> settings.mk
   - echo HAVE_BOOST = /usr/include >> settings.mk
+  - echo HAVE_PYTHON = >> settings.mk
   - make -j blasr
 
 script:
