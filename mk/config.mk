@@ -16,12 +16,15 @@ PFHOME    := $(realpath ../../..)
 
 -include $(PFHOME)/settings.mk
 
-WORKSPACE ?= $(PFHOME)/workspace
-PREFIX    ?= $(PFHOME)/deployment
-STAGING   ?= $(PFHOME)/staging
+WORKSPACE  ?= $(PFHOME)/workspace
+PREFIX     ?= $(PFHOME)/deployment
+STAGING    ?= $(PFHOME)/staging
 CCACHE_DIR ?= $(WORKSPACE)/.ccache
-PIP        = $(PREFIX)/bin/pip --no-cache-dir
+PIP         = $(PREFIX)/bin/pip --no-cache-dir
 
+ifneq ($(origin DEBUG),undefined)
+    export DEBUG
+endif
 
 ARCH      := $(shell $(UNAME) -m)
 OPSYS     := $(shell $(UNAME) -s)
@@ -39,10 +42,11 @@ CFLAGS    += -I$(PREFIX)/include
 CXXFLAGS   = $(CFLAGS)
 
 ifneq ("$(wildcard $(HAVE_BOOST))","")
-    BOOST_INCLUDE = $(HAVE_BOOST)
+    BOOST_INCLUDE ?= $(HAVE_BOOST)/include
 endif
 
-BOOST_INCLUDE ?= $(PREFIX)/include
+BOOST_INCLUDE   ?= $(PREFIX)/include
+BOOST_LIBRARIES ?= $(PREFIX)/lib
 
 export CC
 export CXX

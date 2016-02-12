@@ -17,9 +17,11 @@ $(_WRKSRC):
 do-fetch: | $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
+ifneq ($(OPSYS),Darwin)
 do-config: | $(_WRKSRC)/site.cfg
 $(_WRKSRC)/site.cfg:
 	$(SED) -e 's@_PREFIX_@$(PREFIX)@g' site.cfg.template > $(_WRKSRC)/site.cfg
+endif
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)

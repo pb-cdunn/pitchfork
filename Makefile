@@ -119,6 +119,7 @@ zlib: ;
 ncurses: ;
 tcl: ;
 libpng: ;
+openblas: ;
 else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -130,9 +131,9 @@ tcl:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-endif
 openblas:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+endif
 hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 gtest:
