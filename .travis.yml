@@ -19,7 +19,7 @@ addons:
       - python-dev
       - cmake-data
       - cmake
-      - libboost-dev
+      - libboost-all-dev
 cache:
   directories:
     - $HOME/.ccache
