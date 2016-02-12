@@ -9,7 +9,7 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 _WRKSRCP4        = $(shell hostname)
 _P4CLIENTNAME    = pitchfork-$(_WRKSRCP4)
 _P4CLIENT        = P4CLIENT=$(_P4CLIENTNAME)
-_BUILD			 = $(_WRKSRC)/Sequel/ppa/build
+_BUILD           = $(_WRKSRC)/Sequel/ppa/build
 
 # Local works
 do-fetch: | $(_WRKSRC) 
