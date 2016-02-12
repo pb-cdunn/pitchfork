@@ -105,6 +105,8 @@ ConsensusCore: numpy boost swig cmake
 ConsensusCore2: numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
+ppa: ;
+#
 world: \
        pbccs     blasr            kineticsTools  pblaa    \
        pbreports GenomicConsensus ConsensusCore2 pbfalcon \
@@ -324,6 +326,9 @@ pbchimera:
 pbsparse:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pblaa:
+	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+#
+ppa:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 
 # utils
