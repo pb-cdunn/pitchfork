@@ -14,33 +14,35 @@ SHA1SUM    = sha1sum
 
 PFHOME    := $(realpath ../../..)
 
-ifneq ("$(wildcard $(PFHOME)/settings.mk)","")
-   include $(PFHOME)/settings.mk
+-include $(PFHOME)/settings.mk
+
+WORKSPACE  ?= $(PFHOME)/workspace
+PREFIX     ?= $(PFHOME)/deployment
+STAGING    ?= $(PFHOME)/staging
+CCACHE_DIR ?= $(WORKSPACE)/.ccache
+PIP         = $(PREFIX)/bin/pip --no-cache-dir
+
+ifneq ($(origin DEBUG),undefined)
+    export DEBUG
 endif
-
-WORKSPACE ?= $(PFHOME)/workspace
-PREFIX    ?= $(PFHOME)/deployment
-STAGING   ?= $(PFHOME)/staging
-CCACHE_DIR?= $(WORKSPACE)/.ccache
-PIP        = $(PREFIX)/bin/pip --no-cache-dir
-
 
 ARCH      := $(shell $(UNAME) -m)
 OPSYS     := $(shell $(UNAME) -s)
-
-ifeq ($(OPSYS),Darwin)
-    DYLIB  = dylib
-endif
-ifeq ($(OPSYS),Linux)
-    DYLIB  = so
-endif
 
 LDFLAGS    = -L$(PREFIX)/lib
 CFLAGS     = -fPIC
 CFLAGS    += -I$(PREFIX)/include
 CXXFLAGS   = $(CFLAGS)
 
-BOOST_INCLUDE ?= $(PREFIX)/include
+ifneq ("$(wildcard $(HAVE_BOOST))","")
+    BOOST_INCLUDE ?= $(HAVE_BOOST)/include
+else ifneq ($(origin HAVE_BOOST),undefined)
+    BOOST_INCLUDE  = /usr/include
+    BOOST_LIBRARIES = /usr/lib
+endif
+
+BOOST_INCLUDE   ?= $(PREFIX)/include
+BOOST_LIBRARIES ?= $(PREFIX)/lib
 
 export CC
 export CXX
@@ -48,9 +50,11 @@ export FC
 export CCACHE_DIR
 export PATH              := $(PREFIX)/bin:$(PFHOME)/bin:${PATH}
 ifeq ($(OPSYS),Darwin)
-export DYLD_LIBRARY_PATH := $(PREFIX)/lib:${DYLD_LIBRARY_PATH}
+    DYLIB  = dylib
+    export DYLD_LIBRARY_PATH := $(PREFIX)/lib:${DYLD_LIBRARY_PATH}
 else
-export LD_LIBRARY_PATH   := $(PREFIX)/lib:${LD_LIBRARY_PATH}
+    DYLIB  = so
+    export LD_LIBRARY_PATH   := $(PREFIX)/lib:${LD_LIBRARY_PATH}
 endif
 export PKG_CONFIG_PATH   := $(PREFIX)/lib/pkgconfig
 

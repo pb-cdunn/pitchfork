@@ -31,4 +31,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cp -a $(_WRKSRC)/_build/src/ChimeraLabeler $(STAGING)/$(_NAME)/bin/
 	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
 	rsync -aKx $(STAGING)/$(_NAME)/ $(PREFIX)/
-	find $(STAGING)/$(_NAME)|awk -F $(STAGING)/$(_NAME)/ '{print $$2}'|grep -v '^$$'|sort -r > $@
+	find $(STAGING)/$(_NAME)|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}'|grep -v '^$$'|sort -r > $@

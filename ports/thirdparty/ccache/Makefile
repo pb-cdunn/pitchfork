@@ -33,6 +33,6 @@ ifeq ($(OPSYS),Darwin)
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache clang
 endif
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
 	rm -rf $(_WRKSRC) || true

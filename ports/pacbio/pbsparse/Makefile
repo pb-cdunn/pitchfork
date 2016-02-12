@@ -18,4 +18,4 @@ $(_WRKSRC):
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rsync -aKx $(_WRKSRC)/include/pacbio/ $(PREFIX)/include/pacbio/
-	find $(PREFIX)/include/pacbio/sparse|awk -F $(PREFIX)/ '{print $$2}'|grep -v '^$$'|sort -r > $@
+	find $(PREFIX)/include/pacbio/sparse|awk -F '$(PREFIX)/' '{print $$2}'|grep -v '^$$'|sort -r > $@

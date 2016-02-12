@@ -30,4 +30,4 @@ $(PREFIX)/var/pkg/$(_NAME):
                   HPCdaligner LAshow     LAcheck LAcat   LA4Falcon \
                   DB2Falcon   daligner_p | tar xf - -C $(STAGING)/$(_NAME)/bin
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@

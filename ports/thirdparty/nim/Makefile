@@ -32,4 +32,4 @@ $(PREFIX)/var/pkg/$(_NAME):
 	echo bin/nim >  $@
 	echo lib/nim >> $@
 	echo share/doc/nim >> $@
-	find $(STAGING)/$(_NAME)/nim/config ! -type d | awk -F "$(STAGING)/$(_NAME)/nim/config/" '{print "etc/"$$2}' >> $@
+	find $(STAGING)/$(_NAME)/nim/config ! -type d | awk -F '$(STAGING)/$(_NAME)/nim/config/' '{print "etc/"$$2}' >> $@

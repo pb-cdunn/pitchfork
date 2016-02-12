@@ -1,6 +1,4 @@
-ifneq ("$(wildcard settings.mk)","")
-   include settings.mk
-endif
+-include settings.mk
 
 UNAME   = uname
 ARCH   := $(shell $(UNAME) -m)
@@ -121,6 +119,7 @@ zlib: ;
 ncurses: ;
 tcl: ;
 libpng: ;
+openblas: ;
 else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -132,15 +131,19 @@ tcl:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-endif
 openblas:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+endif
 hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+ifneq ($(origin HAVE_BOOST),undefined)
+boost: ;
+else
 boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+endif
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ifneq ($(origin HAVE_CMAKE),undefined)
