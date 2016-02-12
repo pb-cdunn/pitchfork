@@ -7,17 +7,17 @@ include ../../../mk/chkcxx.mk
 _NAME            = ppa
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 _WRKSRCP4        = $(shell hostname)
-_P4CLIENT        = P4CLIENT=pitchfork-$(_WRKSRCP4)
-_P4              = $(_P4CLIENT) p4
-_BUILD           = $(_WRKSRC)/Sequel/ppa/build
+_P4CLIENTNAME    = pitchfork-$(_WRKSRCP4)
+_P4CLIENT        = P4CLIENT=$(_P4CLIENTNAME)
+_BUILD			 = $(_WRKSRC)/Sequel/ppa/build
 
 # Local works
 do-fetch: | $(_WRKSRC) 
-	cd $(_WRKSRC) && $(_P4) sync
+	cd $(_WRKSRC) && $(_P4CLIENT) p4 sync
 $(_WRKSRC):
 	mkdir -p $(_WRKSRC) && \
 	cd $(_WRKSRC) && \
-	p4 client -d pitchfork-$(_WRKSRCP4)-003 && \
+	if [[ `p4 clients | grep $(_P4CLIENTNAME)` ]]; then p4 client -d $(_P4CLIENTNAME); fi && \
 	$(_P4CLIENT) P4EDITOR=cat p4 client -S //PrimaryAnalysis/pparmin
 do-config: | $(_BUILD)/Makefile
 $(_BUILD)/Makefile:
