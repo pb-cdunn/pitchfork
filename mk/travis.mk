@@ -4,3 +4,6 @@ FC          = gfortran-4.8
 CCACHE_DIR  = ${HOME}/.ccache
 HAVE_PYTHON =
 HAVE_CMAKE  =
+HAVE_BOOST  =
+DEBUG       =
+export DEBUG
