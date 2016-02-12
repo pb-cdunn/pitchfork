@@ -14,6 +14,7 @@ addons:
       - g++-4.8
       - gfortran-4.8
       - graphviz
+      - libboost-dev
 cache:
   directories:
     - $HOME/.ccache
@@ -23,10 +24,8 @@ install:
   - echo CXX        = g++-4.8 >> settings.mk
   - echo FC         = gfortran-4.8 >> settings.mk
   - echo CCACHE_DIR = $HOME/.ccache >> settings.mk
+  - echo HAVE_BOOST = /usr/include >> settings.mk
   - make -j blasr
-  #- make -j CC=gcc-4.8 CXX=g++-4.8 FC=gfortran-4.8 CCACHE_DIR=$HOME/.ccache GenomicConsensus ConsensusCore2
-  #- cat /proc/cpuinfo
-  #- make -j2 CC=gcc-4.8 CXX=g++-4.8 FC=gfortran-4.8 CCACHE_DIR=$HOME/.ccache pbfalcon
 
 script:
   - echo "success!"
