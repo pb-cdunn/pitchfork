@@ -14,7 +14,7 @@ addons:
       - g++-4.8
       - gfortran-4.8
       - graphviz
-      - libboost-dev
+      - python-dev
       - cmake
 cache:
   directories:
@@ -25,7 +25,6 @@ install:
   - echo CXX         = g++-4.8 >> settings.mk
   - echo FC          = gfortran-4.8 >> settings.mk
   - echo CCACHE_DIR  = $HOME/.ccache >> settings.mk
-  - echo HAVE_BOOST  = /usr/include >> settings.mk
   - echo HAVE_PYTHON = >> settings.mk
   - echo HAVE_CMAKE  = >> settings.mk
   - make -j blasr
