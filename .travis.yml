@@ -23,7 +23,7 @@ addons:
 cache:
   directories:
     - $HOME/.ccache
-    - $HOME/.
+    - $HOME/distfiles
 
 install:
   - mkdir -p distfiles
