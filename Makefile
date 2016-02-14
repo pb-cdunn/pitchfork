@@ -3,7 +3,7 @@
 UNAME   = uname
 ARCH   := $(shell $(UNAME) -m)
 OPSYS  := $(shell $(UNAME) -s)
-SHELL   = /bin/bash
+SHELL   = /bin/bash -e
 PREFIX ?= deployment
 
 default:
@@ -87,25 +87,24 @@ dazzdb:       ccache
 daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
 #
-pbcore:        pysam h5py pyxb
-pbcoretools:   pbcore
-pbcommand:     xmlbuilder jsonschema avro requests iso8601
-pbsmrtpipe:    pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
-falcon_kit:    networkx
-pbfalcon:      falcon_kit pbsmrtpipe pypeFLOW
-pbreports:     matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
-kineticsTools: pbcore pbcommand scipy numpy h5py
-pypeFLOW:      rdflib rdfextras
-pbalign:       pbcore samtools blasr
-pbdoctorb:     docopt pbcore
-pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
-pbchimera:     seqan cmake
-#
-ConsensusCore: numpy boost swig cmake
-ConsensusCore2: numpy boost swig cmake
+pbcore:           pysam h5py pyxb
+pbcoretools:      pbcore
+pbcommand:        xmlbuilder jsonschema avro requests iso8601
+pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
+falcon_kit:       networkx
+pbfalcon:         falcon_kit pbsmrtpipe pypeFLOW
+pbreports:        matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
+kineticsTools:    pbcore pbcommand scipy numpy h5py
+pypeFLOW:         rdflib rdfextras
+pbalign:          pbcore samtools blasr
+pbdoctorb:        docopt pbcore
+ConsensusCore:    numpy boost swig cmake
+ConsensusCore2:   numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
-ppa: ;
+pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
+pbchimera:     seqan cmake
+ppa:           boost cmake
 #
 world: \
        pbccs     blasr            kineticsTools  pblaa    \

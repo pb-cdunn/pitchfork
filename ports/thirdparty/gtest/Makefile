@@ -18,5 +18,5 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	mkdir -p $(PREFIX)/src && cp -a $(_WRKSRC) $(PREFIX)/src/gtest
 	find $(_WRKSRC) ! -type d|awk -F '$(_WRKSRC)/' '{print "src/gtest/"$$2}' > $@
-do-clean:
+do-flush:
 	rm -rf $(_WRKSRC) || true

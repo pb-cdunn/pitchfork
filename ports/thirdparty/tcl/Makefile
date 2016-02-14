@@ -29,7 +29,17 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC)/unix install 2>&1 | tee install.log | $(PFHOME)/bin/activity
+	$(PERL) -pi -e 's[$(STAGING)/$(_NAME)][$(PREFIX)]g;s[$(_WRKSRC)/unix][$(PREFIX)/lib];s[$(_WRKSRC)][$(PREFIX)/lib]' \
+            $(STAGING)/$(_NAME)/lib/pkgconfig/*.pc \
+            $(STAGING)/$(_NAME)/lib/tclConfig.sh
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME)|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}'|sort -r > $@
 do-clean:
+	$(MAKE) -C $(_WRKSRC) clean
+	rm -f build.log install.log
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	$(MAKE) -C $(_WRKSRC) distclean
+	rm -f $(_WRKSRC)/config.log config.log
+do-flush:
 	rm -rf $(_WRKSRC) || true
