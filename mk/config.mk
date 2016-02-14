@@ -25,6 +25,7 @@ PIP         = $(PREFIX)/bin/pip --no-cache-dir
 
 ifneq ($(origin DEBUG),undefined)
     export DEBUG=yes
+    VERBOSE=1
 endif
 
 ARCH      := $(shell $(UNAME) -m)

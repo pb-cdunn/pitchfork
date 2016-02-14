@@ -44,7 +44,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
         $(CMAKE) \
               -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
               -DHDF5_RootDir=$(HDF5_ROOT) \
-              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
+              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.$(DYLIB) \
@@ -56,7 +56,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
         $(CMAKE) \
               -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
               -DHDF5_RootDir=$(HDF5_ROOT) \
-              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
+              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/libhts.$(DYLIB) \
