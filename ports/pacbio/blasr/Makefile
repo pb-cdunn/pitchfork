@@ -25,8 +25,8 @@ $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
         ./configure.py --shared \
                PREFIX=$(PREFIX) \
-             HDF5_INC=$(PREFIX)/include \
-             HDF5_LIB=$(PREFIX)/lib \
+             HDF5_INC=$(HDF5_ROOT)/include \
+             HDF5_LIB=$(HDF5_ROOT)/lib \
              ZLIB_LIB=$(PREFIX) \
         LIBPBDATA_INC=$(PREFIX)/include/pbdata \
         LIBPBIHDF_INC=$(PREFIX)/include/hdf \
@@ -43,7 +43,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
         cd $(_WRKSRC)/utils/bax2bam/build && \
         $(CMAKE) \
               -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
-              -DHDF5_RootDir=$(PREFIX) \
+              -DHDF5_RootDir=$(HDF5_ROOT) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \
@@ -55,7 +55,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
         cd $(_WRKSRC)/utils/bam2bax/build && \
         $(CMAKE) \
               -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
-              -DHDF5_RootDir=$(PREFIX) \
+              -DHDF5_RootDir=$(HDF5_ROOT) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib \

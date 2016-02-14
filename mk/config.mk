@@ -35,15 +35,23 @@ CFLAGS     = -fPIC
 CFLAGS    += -I$(PREFIX)/include
 CXXFLAGS   = $(CFLAGS)
 
-ifneq ("$(wildcard $(HAVE_BOOST))","")
-    BOOST_INCLUDE ?= $(HAVE_BOOST)/include
-else ifneq ($(origin HAVE_BOOST),undefined)
+ifeq ($(origin HAVE_BOOST),undefined)
+    BOOST_INCLUDE = $(PREFIX)/include
+    #BOOST_LIBRARIES = $(PREFIX)/lib
+else ifneq ("$(wildcard $(HAVE_BOOST))","")
+    BOOST_INCLUDE = $(HAVE_BOOST)/include
+else
     BOOST_INCLUDE  = /usr/include
-    BOOST_LIBRARIES = /usr/lib
+    #BOOST_LIBRARIES = /usr/lib
 endif
 
-BOOST_INCLUDE   ?= $(PREFIX)/include
-BOOST_LIBRARIES ?= $(PREFIX)/lib
+ifeq ($(origin HAVE_HDF5),undefined)
+    HDF5_ROOT = $(PREFIX)
+else ifneq ("$(wildcard $(HAVE_HDF5))","")
+    HDF5_ROOT = $(HAVE_HDF5)
+else
+    HDF5_ROOT = /usr
+endif
 
 export CC
 export CXX

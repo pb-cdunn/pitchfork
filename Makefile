@@ -135,8 +135,12 @@ libpng:
 openblas:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
+ifneq ($(origin HAVE_HDF5),undefined)
+hdf5: ;
+else
 hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+endif
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ifneq ($(origin HAVE_BOOST),undefined)

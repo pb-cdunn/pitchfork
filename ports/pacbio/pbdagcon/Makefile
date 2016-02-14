@@ -24,13 +24,13 @@ $(_WRKSRC)/build/defines.mk:
         LIBPBIHDF_INCLUDE=$(PREFIX)/include \
             PBBAM_INCLUDE=$(PREFIX)/include \
            HTSLIB_INCLUDE=$(PREFIX)/src/htslib \
-             HDF5_INCLUDE=$(PREFIX)/include \
+             HDF5_INCLUDE=$(HDF5_ROOT)/include \
             LIBPBDATA_LIB=$(PREFIX)/lib \
              LIBBLASR_LIB=$(PREFIX)/lib \
             LIBPBIHDF_LIB=$(PREFIX)/lib \
                 PBBAM_LIB=$(PREFIX)/lib \
                HTSLIB_LIB=$(PREFIX)/lib \
-                 HDF5_LIB=$(PREFIX)/lib \
+                 HDF5_LIB=$(HDF5_ROOT)/lib \
              DALIGNER_SRC=$(_WRKSRC)/../daligner \
               DAZZ_DB_SRC=$(_WRKSRC)/../dazzdb \
         ./configure.py --build-dir=$(_WRKSRC)/build

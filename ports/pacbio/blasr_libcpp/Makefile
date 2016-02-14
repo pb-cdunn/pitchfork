@@ -22,7 +22,8 @@ $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \
         ./configure.py \
             PREFIX=$(PREFIX) \
-          HDF5_INC=$(PREFIX)/include HDF5_LIB=$(PREFIX)/lib \
+          HDF5_INC=$(HDF5_ROOT)/include \
+          HDF5_LIB=$(HDF5_ROOT)/lib \
           ZLIB_LIB=$(PREFIX) \
          PBBAM_INC=$(PREFIX)/include PBBAM_LIB=$(PREFIX)/lib \
         HTSLIB_INC=$(PREFIX)/src/htslib \
