@@ -11,6 +11,7 @@ CMAKE      = cmake
 UNAME      = uname
 MD5SUM     = md5sum
 SHA1SUM    = sha1sum
+PERL       = perl
 
 PFHOME    := $(realpath ../../..)
 

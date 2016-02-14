@@ -10,7 +10,7 @@ _FILE   = $(_NAME).tar.gz
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	$(MD5SUM) -c MD5SUM || exit
-	tar jxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKSPACE)
 do-fetch: | $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
