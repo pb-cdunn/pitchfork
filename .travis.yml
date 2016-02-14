@@ -23,8 +23,12 @@ addons:
 cache:
   directories:
     - $HOME/.ccache
+    - $HOME/.
 
 install:
+  - mkdir -p distfiles
+  - test -e distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz || curl -s -L https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.13/bin/linux-x86_64/hdf5-1.8.13-linux-x86_64-shared.tar.gz -o distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz
+  - tar zxf hdf5-1.8.13-linux-x86_64-shared.tar.gz
   - cp mk/travis.mk settings.mk
   - make -j blasr
 

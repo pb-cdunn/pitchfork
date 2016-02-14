@@ -24,7 +24,7 @@ CCACHE_DIR ?= $(WORKSPACE)/.ccache
 PIP         = $(PREFIX)/bin/pip --no-cache-dir
 
 ifneq ($(origin DEBUG),undefined)
-    export DEBUG
+    export DEBUG=yes
 endif
 
 ARCH      := $(shell $(UNAME) -m)
