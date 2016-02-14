@@ -22,23 +22,28 @@ ifneq ($(origin DO_BOOST_LIB),undefined)
 do-config: | $(_WRKSRC)/project-config.jam
 $(_WRKSRC)/project-config.jam:
 	(cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(PREFIX) 2>&1) | tee config.log | $(PFHOME)/bin/activity
-endif
 
-do-build: | $(STAGING)/$(_NAME)
-$(STAGING)/$(_NAME):
-	mkdir -p $(STAGING)/$(_NAME)/include
-	cd $(_WRKSRC) && tar cf - boost | tar xf - -C $(STAGING)/$(_NAME)/include
-ifneq ($(origin DO_BOOST_LIB),undefined)
-	cd $(_WRKSRC) && ./bjam --without-python \
+do-build: | $(STAGING)/$(_NAME)/lib/libboost_system.a
+$(STAGING)/$(_NAME)/lib/libboost_system.a:
+	(cd $(_WRKSRC) && ./bjam --without-python \
                                  --without-mpi \
                                  --without-iostreams \
                                  --stagedir=$(STAGING)/$(_NAME) \
-                                 stage 2>&1 | tee build.log | $(PFHOME)/bin/activity
+                                 stage 2>&1) | tee build.log | $(PFHOME)/bin/activity
+do-clean:
+	rm -f build.log
+	cd $(_WRKSRC) && ./bjam --clean
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	rm -f config.log $(_WRKSRC)/bootstrap.log
+	cd $(_WRKSRC) && rm -rf bin.v2 project-config.jam b2 bjam
 endif
 
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
+	mkdir -p $(STAGING)/$(_NAME)/include
+	cd $(_WRKSRC) && tar cf - boost | tar xf - -C $(STAGING)/$(_NAME)/include
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
-do-clean:
+do-flush:
 	rm -rf $(_WRKSRC) || true

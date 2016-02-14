@@ -3,7 +3,7 @@
 UNAME   = uname
 ARCH   := $(shell $(UNAME) -m)
 OPSYS  := $(shell $(UNAME) -s)
-SHELL   = /bin/bash
+SHELL   = /bin/bash -e
 PREFIX ?= deployment
 
 default:

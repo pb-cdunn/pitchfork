@@ -30,4 +30,11 @@ $(PREFIX)/var/pkg/$(_NAME):
 	$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
 	find $(PREFIX)/Modules|awk -F '$(PREFIX)/' '{print $$2}'|sort -r > $@
 do-clean:
+	$(MAKE) -C $(_WRKSRC) clean
+	rm -f build.log install.log
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	$(MAKE) -C $(_WRKSRC) distclean
+	rm -f $(_WRKSRC)/config.log config.log
+do-flush:
 	rm -rf $(_WRKSRC) || true

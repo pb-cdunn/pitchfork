@@ -30,3 +30,4 @@ do-build: do-config
 do-install: do-build pfcheck
 do-uninstall:
 	@PREFIX=$(PREFIX) $(PFHOME)/bin/uninstall $(_NAME)
+do-distclean: do-clean
