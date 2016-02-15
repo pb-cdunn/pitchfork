@@ -27,3 +27,10 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cd $(_WRKSRC) && tar cf - *.a | tar xf - -C $(STAGING)/$(_NAME)/src/htslib/lib/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+do-clean:
+	$(MAKE) -C $(_WRKSRC) clean
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	$(MAKE) -C $(_WRKSRC) distclean
+do-flash:
+	rm -rf $(_WRKSRC)

@@ -16,7 +16,7 @@ do-fetch: | $(_WRKSRC)
 	cd $(_WRKSRC) && $(_P4CLIENT) p4 sync
 $(_WRKSRC):
 	mkdir -p $(_WRKSRC) && \
-	cd $(_WRKSRC) && \
+        cd $(_WRKSRC) && \
 	if [[ `p4 clients | grep $(_P4CLIENTNAME)` ]]; then p4 client -d $(_P4CLIENTNAME); fi && \
 	$(_P4CLIENT) P4EDITOR=cat p4 client -S //PrimaryAnalysis/pparmin
 do-config: | $(_BUILD)/Makefile
@@ -26,6 +26,11 @@ $(_BUILD)/Makefile:
     $(CMAKE) \
     	-DSECONDARY_BUILD=T \
     	-DPPA_build_tests=OFF \
+	-DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
+        -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
+        -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+        -DHtslib_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
+        -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
     	..
 do-build:
 	$(MAKE) -j -C $(_BUILD)
@@ -36,3 +41,10 @@ $(PREFIX)/var/pkg/$(_NAME):
 	rsync -ax $(_BUILD)/ba* $(STAGING)/$(_NAME)/bin/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
+do-clean:
+	-$(MAKE) -C $(_BUILD) clean
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	rm -rf $(_BUILD)
+do-flush:
+	rm -rf $(STAGING)/$(_NAME)

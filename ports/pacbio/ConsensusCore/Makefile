@@ -31,3 +31,10 @@ $(PREFIX)/var/pkg/$(_NAME):
 	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(BOOST_INCLUDE)" $(_WRKSRC)/
 	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
 	find $(STAGING)/$(_NAME)|awk -F '$(STAGING)/$(_NAME)$(PREFIX)/' '{print $$2}'|grep -v '^$$'|sort -r > $@
+do-clean:
+	$(MAKE) -C $(_WRKSRC) clean
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	rm -f $(_WRKSRC)/make/Config.mk
+do-flush:
+	rm -rf $(_WRKSRC)
