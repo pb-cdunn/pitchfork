@@ -8,6 +8,8 @@ PREFIX ?= deployment
 
 default:
 	@echo no default rule
+	echo ${CCACHE_DIR}
+	echo ${PREFIX}
 
 # deps that this port would directly use
 openssl:      ccache
