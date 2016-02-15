@@ -21,7 +21,7 @@ $(_FILE):
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-                           ./configure --prefix=$(PREFIX) --with-zlib=$(ZLIB_ROOT) 2>&1) \
+                           ./configure --prefix=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools:
