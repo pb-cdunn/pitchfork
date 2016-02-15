@@ -78,10 +78,10 @@ $(PREFIX)/var/pkg/$(_NAME):
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
-	rm -rf $(_WRKSRC)/utils/bax2bam/build
-	rm -rf $(_WRKSRC)/utils/bam2bax/build
+	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build clean
+	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
-	rm -f $(_WRKSRC)/defines.mk
+	cd $(_WRKSRC) && 20 20 12 61 79 80 81 98 33 100 204 395 398 399GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)

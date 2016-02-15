@@ -47,6 +47,6 @@ do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
-	rm -f $(_WRKSRC)/defines.mk $(_WRKSRC)/*/defines.mk
+	cd $(_WRKSRC) && 20 20 12 61 79 80 81 98 33 100 204 395 398 399GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)

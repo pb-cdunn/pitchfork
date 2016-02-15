@@ -23,5 +23,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
 	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)
