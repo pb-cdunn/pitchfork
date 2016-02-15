@@ -15,7 +15,7 @@ zlib:         ccache
 boost:        ccache
 python:       ccache zlib openssl ncurses readline
 readline:     ccache ncurses
-samtools:     ccache zlib ncurses
+samtools:     ccache zlib
 cmake:        ccache zlib ncurses
 ncurses:      ccache
 gtest:        ccache
