@@ -36,8 +36,8 @@ $(_WRKSRC)/defines.mk:
          LIBBLASR_LIB=$(PREFIX)/lib \
             PBBAM_INC=$(PREFIX)/include \
             PBBAM_LIB=$(PREFIX)/lib \
-           HTSLIB_INC=$(PREFIX)/include \
-           HTSLIB_LIB=$(PREFIX)/lib
+           HTSLIB_INC=$(PREFIX)/src/htslib/include \
+           HTSLIB_LIB=$(PREFIX)/src/htslib/lib
 $(_WRKSRC)/utils/bax2bam/build/Makefile:
 	mkdir -p $(_WRKSRC)/utils/bax2bam/build && \
         cd $(_WRKSRC)/utils/bax2bam/build && \
@@ -46,8 +46,8 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
               -DHDF5_RootDir=$(HDF5_ROOT) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
-              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/include \
-              -DHTSLIB_LIBRARIES=$(PREFIX)/lib/libhts.$(DYLIB) \
+              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
         ..
 $(_WRKSRC)/utils/bam2bax/build/Makefile:
@@ -58,8 +58,8 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
               -DHDF5_RootDir=$(HDF5_ROOT) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
-              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/include \
-              -DHTSLIB_LIBRARIES=$(PREFIX)/lib/libhts.$(DYLIB) \
+              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
         ..
 do-build:

@@ -22,8 +22,8 @@ $(_WRKSRC)/build/Makefile:
             -DPacBioBAM_build_shared=ON \
             -DPacBioBAM_build_docs=OFF \
             -DPacBioBAM_build_tests=OFF \
-            -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/include \
-            -DHTSLIB_LIBRARIES=$(PREFIX)/lib/libhts.$(DYLIB) \
+            -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
+            -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
             -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
             -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
