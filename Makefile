@@ -104,7 +104,7 @@ GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 #
 pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
 pbchimera:     seqan cmake
-ppa:           boost cmake
+ppa:           boost cmake pbbam htslib
 #
 world: \
        pbccs     blasr            kineticsTools  pblaa    \

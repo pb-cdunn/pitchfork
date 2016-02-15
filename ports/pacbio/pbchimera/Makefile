@@ -32,3 +32,10 @@ $(PREFIX)/var/pkg/$(_NAME):
 	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
 	rsync -aKx $(STAGING)/$(_NAME)/ $(PREFIX)/
 	find $(STAGING)/$(_NAME)|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}'|grep -v '^$$'|sort -r > $@
+do-clean:
+	$(MAKE) -C $(_WRKSRC)/_build clean
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	rm -rf $(_WRKSRC)/_build
+do-flush:
+	rm -rf $(_WRKSRC)

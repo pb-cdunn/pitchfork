@@ -28,6 +28,7 @@ $(_WRKSRC)/defines.mk:
              HDF5_INC=$(HDF5_ROOT)/include \
              HDF5_LIB=$(HDF5_ROOT)/lib \
              ZLIB_LIB=$(ZLIB_ROOT) \
+            BOOST_INC=$(BOOST_INCLUDE) \
         LIBPBDATA_INC=$(PREFIX)/include/pbdata \
         LIBPBIHDF_INC=$(PREFIX)/include/hdf \
          LIBBLASR_INC=$(PREFIX)/include/alignment \
@@ -75,3 +76,12 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+do-clean:
+	$(MAKE) -C $(_WRKSRC) clean
+	rm -rf $(_WRKSRC)/utils/bax2bam/build
+	rm -rf $(_WRKSRC)/utils/bam2bax/build
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	rm -f $(_WRKSRC)/defines.mk
+do-flush:
+	rm -rf $(_WRKSRC)

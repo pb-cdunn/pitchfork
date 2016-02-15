@@ -38,3 +38,10 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cd $(_WRKSRC) && tar cf - bin lib include | tar xf - -C $(STAGING)/$(_NAME)
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+do-clean:
+	$(MAKE) -C $(_WRKSRC)/build clean
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	rm -rf $(_WRKSRC)/build
+do-flush:
+	rm -rf $(_WRKSRC)

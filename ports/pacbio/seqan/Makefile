@@ -21,3 +21,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cd $(_WRKSRC) && tar cf - include|tar xf - -C $(STAGING)/$(_NAME)/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+do-clean:
+	rm -rf $(STAGING)/$(_NAME)
+do-flush:
+	rm -rf $(_WRKSRC)
