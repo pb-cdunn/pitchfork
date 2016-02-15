@@ -8,3 +8,4 @@ endif
 sanity:
 	@$(PFHOME)/bin/checkSystem
 	@$(PFHOME)/bin/checkCC $(CC)
+	@$(PFHOME)/bin/checkBoost $(BOOST_INCLUDE)
