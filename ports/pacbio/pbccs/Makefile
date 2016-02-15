@@ -27,7 +27,8 @@ $(_WRKSRC)/_build/Makefile:
               -DPacBioConsensus_RootDir=$(_WRKSRC)/ConsensusCore2 \
               -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
               -DSEQAN_INCLUDE_DIRS=$(PREFIX)/include \
-              -DHTSLIB_ROOTDIR=$(PREFIX)/src/htslib \
+              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/include \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/lib/libhts.$(DYLIB) \
               -DCMAKE_BUILD_TYPE=RelWithDebInfo \
               -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..

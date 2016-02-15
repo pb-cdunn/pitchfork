@@ -23,7 +23,7 @@ $(_WRKSRC)/build/defines.mk:
          LIBBLASR_INCLUDE=$(PREFIX)/include/alignment \
         LIBPBIHDF_INCLUDE=$(PREFIX)/include \
             PBBAM_INCLUDE=$(PREFIX)/include \
-           HTSLIB_INCLUDE=$(PREFIX)/src/htslib \
+           HTSLIB_INCLUDE=$(PREFIX)/include \
              HDF5_INCLUDE=$(HDF5_ROOT)/include \
             LIBPBDATA_LIB=$(PREFIX)/lib \
              LIBBLASR_LIB=$(PREFIX)/lib \

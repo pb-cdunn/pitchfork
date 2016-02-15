@@ -38,12 +38,10 @@ CXXFLAGS   = $(CFLAGS)
 
 ifeq ($(origin HAVE_BOOST),undefined)
     BOOST_INCLUDE = $(PREFIX)/include
-    #BOOST_LIBRARIES = $(PREFIX)/lib
 else ifneq ("$(wildcard $(HAVE_BOOST))","")
     BOOST_INCLUDE = $(HAVE_BOOST)/include
 else
     BOOST_INCLUDE  = /usr/include
-    #BOOST_LIBRARIES = /usr/lib
 endif
 
 ifeq ($(origin HAVE_HDF5),undefined)
@@ -52,6 +50,18 @@ else ifneq ("$(wildcard $(HAVE_HDF5))","")
     HDF5_ROOT = $(HAVE_HDF5)
 else
     HDF5_ROOT = /usr
+endif
+
+ifeq ($(OPSYS),Darwin)
+    HAVE_ZLIB = /usr
+endif
+
+ifeq ($(origin HAVE_ZLIB),undefined)
+    ZLIB_ROOT = $(PREFIX)
+else ifneq ("$(wildcard $(HAVE_ZLIB))","")
+    ZLIB_ROOT = $(HAVE_ZLIB)
+else
+    ZLIB_ROOT = /usr
 endif
 
 export CC

@@ -24,10 +24,10 @@ $(_WRKSRC)/defines.mk:
             PREFIX=$(PREFIX) \
           HDF5_INC=$(HDF5_ROOT)/include \
           HDF5_LIB=$(HDF5_ROOT)/lib \
-          ZLIB_LIB=$(PREFIX) \
+          ZLIB_LIB=$(ZLIB_ROOT) \
          PBBAM_INC=$(PREFIX)/include PBBAM_LIB=$(PREFIX)/lib \
-        HTSLIB_INC=$(PREFIX)/src/htslib \
-        HTSLIB_LIB=$(PREFIX)/src/htslib
+        HTSLIB_INC=$(PREFIX)/include \
+        HTSLIB_LIB=$(PREFIX)/lib
 do-build:
 	$(MAKE) -C $(_WRKSRC) libpbdata LDLIBS=-lpbbam
 	$(MAKE) -C $(_WRKSRC) libpbihdf

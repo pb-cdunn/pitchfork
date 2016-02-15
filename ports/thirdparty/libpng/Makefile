@@ -19,10 +19,7 @@ do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
-ifeq ($(OPSYS),Darwin)
-	cp /usr/include/zlib.h /usr/include/zconf.h $(_WRKSRC)/
-else
-	cp $(PREFIX)/include/zlib.h $(PREFIX)/include/zconf.h $(_WRKSRC)/
+	cp $(ZLIB_ROOT)/include/zlib.h $(ZLIB_ROOT)/include/zconf.h $(_WRKSRC)/
 endif
 do-build: | $(_WRKSRC)/.libs/libpng16.$(DYLIB)
 $(_WRKSRC)/.libs/libpng16.$(DYLIB):
