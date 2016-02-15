@@ -22,14 +22,15 @@ $(_WRKSRC)/build/Makefile:
             -DPacBioBAM_build_shared=ON \
             -DPacBioBAM_build_docs=OFF \
             -DPacBioBAM_build_tests=OFF \
-            -DHTSLIB_ROOTDIR=$(PREFIX)/src/htslib \
-            -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
+            -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/include \
+            -DHTSLIB_LIBRARIES=$(PREFIX)/lib/libhts.$(DYLIB) \
+            -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
             -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..
 do-build:
-	cd $(_WRKSRC)/build && $(MAKE)
+	$(MAKE) -C $(_WRKSRC)/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
