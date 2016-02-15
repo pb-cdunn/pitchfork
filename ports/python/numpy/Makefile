@@ -29,3 +29,9 @@ $(PREFIX)/var/pkg/$(_NAME):
 	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
 	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
 	find $(STAGING)/$(_NAME)|awk -F '$(STAGING)/$(_NAME)$(PREFIX)/' '{print $$2}'|grep -v '^$$'|sort -r > $@
+do-clean:
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	rm -f $(_WRKSRC)/site.cfg
+do-flush:
+	rm -rf $(_WRKSRC)
