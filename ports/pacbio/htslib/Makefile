@@ -23,7 +23,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	mkdir -p $(STAGING)/$(_NAME)/src/htslib/include
 	mkdir -p $(STAGING)/$(_NAME)/src/htslib/lib
 	cd $(_WRKSRC) && \
-        tar cf - */*.h|tar xf - -C $(STAGING)/$(_NAME)/src/htslib
+        tar cf - */*.h|tar xf - -C $(STAGING)/$(_NAME)/src/htslib/include/
 	cd $(_WRKSRC) && tar cf - *.a | tar xf - -C $(STAGING)/$(_NAME)/src/htslib/lib/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
