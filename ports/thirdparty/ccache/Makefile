@@ -30,7 +30,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache cpp
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache CC
 ifeq ($(OPSYS),Darwin)
-	cd $(STAGING)/$(_NAME)/bin && (test -e clang ||ln -s ccache clang)
+	cd $(STAGING)/$(_NAME)/bin && ln -sf ccache clang
 endif
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
