@@ -36,6 +36,6 @@ do-clean:
 	$(MAKE) -C $(_WRKSRC)/_build clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
-	rm -rf $(_WRKSRC)/_build
+	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)

@@ -16,7 +16,7 @@ boost:        ccache
 python:       ccache zlib openssl ncurses readline
 readline:     ccache ncurses
 samtools:     ccache zlib
-cmake:        ccache zlib ncurses
+cmake:        ccache zlib
 ncurses:      ccache
 gtest:        ccache
 openblas:     ccache
@@ -79,7 +79,7 @@ modules:      ccache tcl
 
 #
 htslib:       ccache zlib
-blasr_libcpp: ccache boost hdf5 pbbam python
+blasr_libcpp: ccache boost hdf5 pbbam
 blasr:        ccache blasr_libcpp hdf5 cmake
 pbbam:        ccache samtools cmake boost htslib gtest
 pbccs:        ccache pbbam htslib cmake boost gtest seqan
@@ -143,12 +143,8 @@ hdf5:
 endif
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-ifneq ($(origin HAVE_BOOST),undefined)
-boost: ;
-else
 boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-endif
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ifneq ($(origin HAVE_CMAKE),undefined)

@@ -18,7 +18,7 @@ do-config: | $(_WRKSRC)/build/defines.mk
 $(_WRKSRC)/build/defines.mk:
 	mkdir -p $(_WRKSRC)/build
 	cd $(_WRKSRC) \
-     &&     BOOST_INCLUDE=$(BOOST_INCLUDE) \
+     &&     BOOST_INCLUDE=$(BOOST_INC) \
         LIBPBDATA_INCLUDE=$(PREFIX)/include/pbdata \
          LIBBLASR_INCLUDE=$(PREFIX)/include/alignment \
         LIBPBIHDF_INCLUDE=$(PREFIX)/include \
@@ -49,6 +49,6 @@ do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
-	rm -rf $(_WRKSRC)/build
+	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)

@@ -36,13 +36,7 @@ CFLAGS     = -fPIC
 CFLAGS    += -I$(PREFIX)/include
 CXXFLAGS   = $(CFLAGS)
 
-ifeq ($(origin HAVE_BOOST),undefined)
-    BOOST_INCLUDE = $(PREFIX)/include
-else ifneq ("$(wildcard $(HAVE_BOOST))","")
-    BOOST_INCLUDE = $(HAVE_BOOST)/include
-else
-    BOOST_INCLUDE  = /usr/include
-endif
+BOOST_INC = $(PREFIX)/include
 
 ifeq ($(origin HAVE_HDF5),undefined)
     HDF5_ROOT = $(PREFIX)

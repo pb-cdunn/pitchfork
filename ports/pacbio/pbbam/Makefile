@@ -25,7 +25,7 @@ $(_WRKSRC)/build/Makefile:
             -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
             -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
             -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
-            -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
+            -DBoost_INCLUDE_DIRS=$(BOOST_INC) \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..
@@ -42,6 +42,6 @@ do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
-	rm -rf $(_WRKSRC)/build
+	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)

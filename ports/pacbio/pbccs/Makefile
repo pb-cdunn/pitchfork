@@ -25,7 +25,7 @@ $(_WRKSRC)/_build/Makefile:
               -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DPBBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioConsensus_RootDir=$(_WRKSRC)/ConsensusCore2 \
-              -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
+              -DBoost_INCLUDE_DIRS=$(BOOST_INC) \
               -DSEQAN_INCLUDE_DIRS=$(PREFIX)/include \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
@@ -48,6 +48,6 @@ do-clean:
 	$(MAKE) -C $(_WRKSRC)/_build clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
-	rm -rf $(_WRKSRC)/_build
+	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)

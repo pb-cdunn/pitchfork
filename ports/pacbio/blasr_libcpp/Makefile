@@ -26,7 +26,7 @@ $(_WRKSRC)/defines.mk:
           HDF5_LIB=$(HDF5_ROOT)/lib \
           ZLIB_LIB=$(ZLIB_ROOT) \
          PBBAM_INC=$(PREFIX)/include PBBAM_LIB=$(PREFIX)/lib \
-         BOOST_INC=$(BOOST_INCLUDE) \
+         BOOST_INC=$(BOOST_INC) \
         HTSLIB_INC=$(PREFIX)/src/htslib/include \
         HTSLIB_LIB=$(PREFIX)/src/htslib/lib
 do-build:
@@ -47,6 +47,6 @@ do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
-	rm -f $(_WRKSRC)/defines.mk $(_WRKSRC)/*/defines.mk
+	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)
