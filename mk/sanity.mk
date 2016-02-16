@@ -9,5 +9,5 @@ sanity:
 	@$(PFHOME)/bin/checkSystem
 	@$(PFHOME)/bin/checkCC $(CC)
 ifneq ($(origin HAVE_BOOST),undefined)
-	@$(PFHOME)/bin/checkBoost $(BOOST_INCLUDE)
+	@$(PFHOME)/bin/checkBoost $(BOOST_INC)
 endif

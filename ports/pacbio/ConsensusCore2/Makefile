@@ -20,7 +20,7 @@ $(_WRKSRC)/_build/Makefile:
 	cd $(_WRKSRC)/_build \
      && $(CMAKE) \
           -DCMAKE_BUILD_TYPE=Release \
-          -DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
+          -DBoost_INCLUDE_DIRS=$(BOOST_INC) \
         ..
 do-build:
 	cd $(_WRKSRC)/_build && $(MAKE)
@@ -29,7 +29,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)
 	    CMAKE_COMMAND=$(CMAKE) \
-        Boost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
+        Boost_INCLUDE_DIRS=$(BOOST_INC) \
               SWIG_COMMAND=$(shell . $(PREFIX)/setup-env.sh && which swig) \
                    VERBOSE=1 \
         $(PIP) install --root $(STAGING)/$(_NAME) --verbose --upgrade --no-deps $(_WRKSRC)/

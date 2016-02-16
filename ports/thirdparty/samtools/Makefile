@@ -5,6 +5,8 @@ _NAME   = samtools-1.3
 _URL    = https://github.com/samtools/samtools/releases/download/1.3
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _FILE   = $(_NAME).tar.bz2
+export CFLAGS
+export LDFLAGS
 
 # Local works
 do-extract: | $(_WRKSRC)
@@ -20,8 +22,7 @@ $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-                           ./configure --prefix=$(PREFIX) --without-curses 2>&1) \
+	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) --without-curses 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools:

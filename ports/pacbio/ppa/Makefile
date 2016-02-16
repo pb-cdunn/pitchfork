@@ -26,7 +26,7 @@ $(_BUILD)/Makefile:
     $(CMAKE) \
     	-DSECONDARY_BUILD=T \
     	-DPPA_build_tests=OFF \
-	-DBoost_INCLUDE_DIRS=$(BOOST_INCLUDE) \
+	-DBoost_INCLUDE_DIRS=$(BOOST_INC) \
         -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
         -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
         -DHtslib_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
