@@ -8,6 +8,5 @@ endif
 sanity:
 	@$(PFHOME)/bin/checkSystem
 	@$(PFHOME)/bin/checkCC $(CC)
-ifneq ($(origin HAVE_BOOST),undefined)
+checkBOOST:
 	@$(PFHOME)/bin/checkBoost $(BOOST_INC)
-endif

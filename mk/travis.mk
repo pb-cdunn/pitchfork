@@ -5,4 +5,5 @@ CCACHE_DIR  = ${HOME}/.ccache
 HAVE_PYTHON =
 HAVE_CMAKE  =
 HAVE_HDF5   = ${HOME}/hdf5-1.8.13-linux-x86_64-shared
+HAVE_BOOST  = ${HOME}/boost
 DEBUG       = yes

@@ -10,7 +10,6 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
       - george-edison55-precise-backports
-#      - boost-latest
     packages:
       - gcc-4.8
       - g++-4.8
@@ -19,19 +18,13 @@ addons:
       - python-dev
       - cmake-data
       - cmake
-#      - libboost1.55-all-dev
 cache:
   directories:
     - $HOME/.ccache
     - $HOME/distfiles
 
 install:
-  - pwd
-  - mkdir -p $HOME/distfiles
-  - test -e $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz || curl -s -L https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.13/bin/linux-x86_64/hdf5-1.8.13-linux-x86_64-shared.tar.gz -o $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz
-  - tar zxf $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz -C $HOME
-  - cp mk/travis.mk settings.mk
-  - make -j blasr
+  - bin/travis.sh
 
 script:
   - echo "success!"
