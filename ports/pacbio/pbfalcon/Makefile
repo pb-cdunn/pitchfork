@@ -2,7 +2,7 @@ include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME            = pbfalcon
-$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/FALCON-pbsmrtpipe
+$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/FALCON-pbsmrtpipe
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
