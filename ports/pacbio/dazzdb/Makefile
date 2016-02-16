@@ -2,7 +2,7 @@ include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME   = dazzdb
-$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/DAZZ_DB
+$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/DAZZ_DB
 _REV    = HEAD
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 

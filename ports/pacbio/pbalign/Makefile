@@ -2,7 +2,7 @@ include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME            = pbalign
-_URL             = https://github.com/PacificBiosciences/pbalign
+_URL             = git://github.com/PacificBiosciences/pbalign
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 

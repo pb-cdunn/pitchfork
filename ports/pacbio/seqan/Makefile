@@ -2,7 +2,7 @@ include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME   = seqan
-_URL    = https://github.com/PacificBiosciences/seqan
+_URL    = git://github.com/PacificBiosciences/seqan
 _REV    = HEAD
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 

@@ -2,7 +2,7 @@ include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME          = pbdagcon
-$(_NAME)_REPO ?= https://github.com/PacificBiosciences/$(_NAME)
+$(_NAME)_REPO ?= git://github.com/PacificBiosciences/$(_NAME)
 _REV           = HEAD
 _WRKSRC        = $(WORKSPACE)/$(_NAME)
 

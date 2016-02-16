@@ -2,7 +2,7 @@ include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME   = daligner
-$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/DALIGNER
+$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/DALIGNER
 _REV    = HEAD
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 

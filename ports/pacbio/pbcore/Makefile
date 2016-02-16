@@ -2,7 +2,7 @@ include ../../../mk/pitchfork.mk
 
 # Local variables
 _NAME            = pbcore
-$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
+$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 #_REV            := $(shell $(GIT) ls-remote $($(_NAME)_REPO) $($(_NAME)_VERSION)|cut -c 1-7)

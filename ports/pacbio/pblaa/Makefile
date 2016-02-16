@@ -37,6 +37,7 @@ $(_WRKSRC)/_build/Makefile:
             -DPacBioCCS_ThirdPartyDir=$(PREFIX)/src \
             -DPacBioSparse_IncludeDir=$(PREFIX)/include \
             -DPacBioChimera_IncludeDir=$(PREFIX)/include \
+            -DBoost_INCLUDE_DIRS=$(BOOST_INC) \
             ..
 do-build: | $(_WRKSRC)/bin/laa
 $(_WRKSRC)/bin/laa:

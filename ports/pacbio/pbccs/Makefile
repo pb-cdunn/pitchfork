@@ -5,7 +5,7 @@ include ../../../mk/chkcxx.mk
 
 # Local variables
 _NAME            = pbccs
-$(_NAME)_REPO   ?= https://github.com/PacificBiosciences/$(_NAME)
+$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
@@ -16,7 +16,7 @@ do-fetch: | $(_WRKSRC) $(_WRKSRC)/ConsensusCore2
 $(_WRKSRC):
 	$(GIT) clone $($(_NAME)_REPO) $@
 $(_WRKSRC)/ConsensusCore2: | $(_WRKSRC)
-	$(GIT) clone https://github.com/PacificBiosciences/ConsensusCore2.git $@
+	$(GIT) clone git://github.com/PacificBiosciences/ConsensusCore2.git $@
 do-config: | $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile:
 	mkdir -p $(_WRKSRC)/_build && \
