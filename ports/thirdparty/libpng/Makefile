@@ -20,7 +20,6 @@ $(_WRKSRC)/config.log:
 	(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity
 	cp $(ZLIB_ROOT)/include/zlib.h $(ZLIB_ROOT)/include/zconf.h $(_WRKSRC)/
-endif
 do-build: | $(_WRKSRC)/.libs/libpng16.$(DYLIB)
 $(_WRKSRC)/.libs/libpng16.$(DYLIB):
 	$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
