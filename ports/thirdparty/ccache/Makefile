@@ -16,7 +16,7 @@ $(_FILE):
 	$(CURL) -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) 2>&1) | tee config.log | $(PFHOME)/bin/activity
+	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) --with-bundled-zlib 2>&1) | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/ccache
 $(_WRKSRC)/ccache:
 	$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
