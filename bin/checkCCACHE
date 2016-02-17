@@ -1,0 +1,18 @@
+#!/bin/bash
+die(){
+    test "$*" && echo "$*" || true
+    exit 1
+}
+
+prog="ccache"
+
+if [ $# -eq 0 ]; then
+    _PROG=`which $prog` || die "[ERROR] $prog is not in your \$PATH"
+else
+    if [ ! -x "$1" ]; then
+         die "[ERROR] $1 is not runnable"
+    fi
+    _PROG=$1
+fi
+echo $_PROG
+exit 0

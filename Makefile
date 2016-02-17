@@ -137,11 +137,11 @@ libpng:
 openblas:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
-ifneq ($(origin HAVE_HDF5),undefined)
-hdf5: ;
-else
+ifeq ($(origin HAVE_HDF5),undefined)
 hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+hdf5: ;
 endif
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -149,14 +149,20 @@ boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-ifneq ($(origin HAVE_CMAKE),undefined)
-cmake: ;
-else
+ifeq ($(origin HAVE_CMAKE),undefined)
 cmake:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+cmake: ;
 endif
+ifeq ($(origin HAVE_CCACHE),undefined)
 ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+ccache:
+	bin/checkCCACHE $(HAVE_CCACHE)
+	$(MAKE) -j1 -C ports/thirdparty/$@ useSystem CCACHE=`bin/checkCCACHE $(HAVE_CCACHE)`
+endif
 swig:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 hmmer:

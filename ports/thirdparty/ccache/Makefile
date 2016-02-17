@@ -34,6 +34,20 @@ ifeq ($(OPSYS),Darwin)
 endif
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+useSystem: pfcheck
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/bin
+	cd $(STAGING)/$(_NAME)/bin && ln -s $(CCACHE) ccache
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CC)`
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CXX)`
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(FC)`
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache cpp
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache CC
+ifeq ($(OPSYS),Darwin)
+	cd $(STAGING)/$(_NAME)/bin && ln -sf ccache clang
+endif
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 	rm -f build.log install.log
