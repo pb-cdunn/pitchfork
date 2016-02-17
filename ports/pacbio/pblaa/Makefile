@@ -19,7 +19,7 @@ do-config: | $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile:
 	mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \
         cmake \
-            -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
+            -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
             -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
             -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
             -DPacBioBAM_IncludeDir=$(PREFIX)/include \
