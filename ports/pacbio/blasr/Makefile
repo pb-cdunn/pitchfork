@@ -10,12 +10,7 @@ _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-do-extract: patch.log
-patch.log:
-	cat patch-01 | (cd $(_WRKSRC) && patch -p0) | tee patch.log || exit 1
-ifneq ($(origin TRAVIS),undefined)
-	cat travis.patch | (cd $(_WRKSRC) && patch -p0) | tee -a patch.log || exit 1
-endif
+do-extract:
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
 	$(GIT) clone $($(_NAME)_REPO) $@
