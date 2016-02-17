@@ -50,6 +50,8 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
+              -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
+              -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
         ..
 $(_WRKSRC)/utils/bam2bax/build/Makefile:
 	mkdir -p $(_WRKSRC)/utils/bam2bax/build && \
@@ -62,6 +64,8 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
+              -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
+              -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
         ..
 do-build:
 	$(MAKE) -C $(_WRKSRC) all
