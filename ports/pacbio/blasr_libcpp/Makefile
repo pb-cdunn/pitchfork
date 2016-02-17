@@ -27,8 +27,8 @@ $(_WRKSRC)/defines.mk:
           ZLIB_LIB=$(ZLIB_ROOT) \
          PBBAM_INC=$(PREFIX)/include PBBAM_LIB=$(PREFIX)/lib \
          BOOST_INC=$(BOOST_INC) \
-        HTSLIB_INC=$(PREFIX)/src/htslib/include \
-        HTSLIB_LIB=$(PREFIX)/src/htslib/lib
+        HTSLIB_INC=$(PREFIX)/include \
+        HTSLIB_LIB=$(PREFIX)/lib
 do-build:
 	$(MAKE) -C $(_WRKSRC) libpbdata LDLIBS=-lpbbam
 	$(MAKE) -C $(_WRKSRC) libpbihdf
