@@ -25,6 +25,7 @@ $(_WRKSRC)/build/Makefile:
             -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
             -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
             -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
+            -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
             -DBoost_INCLUDE_DIRS=$(BOOST_INC) \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_SKIP_BUILD_RPATH=TRUE \
