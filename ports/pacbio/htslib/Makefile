@@ -24,12 +24,11 @@ do-build:
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/src/htslib
-	mkdir -p $(STAGING)/$(_NAME)/src/htslib/include
-	mkdir -p $(STAGING)/$(_NAME)/src/htslib/lib
+	mkdir -p $(STAGING)/$(_NAME)/include
+	mkdir -p $(STAGING)/$(_NAME)/lib
 	cd $(_WRKSRC) && \
-        tar cf - */*.h|tar xf - -C $(STAGING)/$(_NAME)/src/htslib/include/
-	cd $(_WRKSRC) && tar cf - *.a | tar xf - -C $(STAGING)/$(_NAME)/src/htslib/lib/
+        tar cf - */*.h|tar xf - -C $(STAGING)/$(_NAME)/include/
+	cd $(_WRKSRC) && tar cf - *.$(DYLIB)* | tar xf - -C $(STAGING)/$(_NAME)/lib/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
