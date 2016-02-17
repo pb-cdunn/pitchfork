@@ -31,6 +31,8 @@ $(_WRKSRC)/_build/Makefile:
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DCMAKE_BUILD_TYPE=RelWithDebInfo \
               -DCMAKE_SKIP_BUILD_RPATH=TRUE \
+              -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
+              -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
             ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/_build

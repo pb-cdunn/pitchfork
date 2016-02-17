@@ -341,6 +341,3 @@ _startover:
            echo "rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log"; \
            rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
         fi
-# zlib-cloudflare hates Mac's clang and VMs without PCLMUL/SSE4.2
-zlib-cloudflare:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
