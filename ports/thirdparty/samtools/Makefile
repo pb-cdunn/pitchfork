@@ -27,7 +27,7 @@ $(_WRKSRC)/config.log:
         | tee config.log | $(PFHOME)/bin/activity
 do-build: | $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools:
-	$(MAKE) CC=$(CC) CFALGS="$(CFLAGS)" -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
+	$(MAKE) CC=$(CC) CFLAGS="-g -Wall -O2 $(CFLAGS)" -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
