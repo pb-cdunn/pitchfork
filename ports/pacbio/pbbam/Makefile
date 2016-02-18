@@ -12,7 +12,7 @@ $(_NAME)_VERSION?= HEAD
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
-ifeq ($(wildcard $($(_NAME)_REPO)),'')
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 else
