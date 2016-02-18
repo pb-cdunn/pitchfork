@@ -21,7 +21,7 @@ g++*)
   if $CXX -v 2>&1|grep ' version '|grep Apple >& /dev/null; then
       (echo 3.3.0 && echo $myVersion)|sort -t.    -k1,2|head -1|grep 3.3.0 >& /dev/null && exit 0
   else
-      (echo 5.3.1 && echo $myVersion)|sort -t. -r -k1,2|head -1|grep 5.3.1 >& /dev/null && exit 0
+      (echo 4.8.0 && echo $myVersion)|sort -t.    -k1,2|head -1|grep 4.8.0 >& /dev/null && exit 0
   fi
   ;;
 clang*)
