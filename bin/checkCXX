@@ -19,14 +19,14 @@ case $CXX in
 g++*)
   myVersion=`reportVersion $CXX`
   if $CXX -v 2>&1|grep ' version '|grep Apple >& /dev/null; then
-      (echo 3.3.0 && echo $myVersion)|sort -t.    -k1,2|head -1|grep 3.3.0 >& /dev/null && exit 0
+      (echo 3.3 && echo $myVersion)|sort -t.    -k1,2|head -1|grep 3.3 >& /dev/null && exit 0
   else
-      (echo 4.8.0 && echo $myVersion)|sort -t.    -k1,2|head -1|grep 4.8.0 >& /dev/null && exit 0
+      (echo 4.8 && echo $myVersion)|sort -t.    -k1,2|head -1|grep 4.8 >& /dev/null && exit 0
   fi
   ;;
 clang*)
   myVersion=`reportVersion $CXX`
-  (echo 3.3.0 && echo $myVersion)|sort -t. -k1,2|head -1|grep 3.3.0 >& /dev/null && exit 0
+  (echo 3.3 && echo $myVersion)|sort -t. -k1,2|head -1|grep 3.3 >& /dev/null && exit 0
   ;;
 *)
   die "[ERROR] unrecognized CXX, please send us info if you think this CXX is valid"
