@@ -29,8 +29,8 @@ $(_BUILD)/Makefile:
 	-DBoost_INCLUDE_DIRS=$(BOOST_INC) \
         -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
         -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
-        -DHtslib_INCLUDE_DIRS=$(PREFIX)/include \
-        -DHTSLIB_LIBRARIES=$(PREFIX)/lib/libhts.$(DYLIB) \
+        -DHtslib_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
+        -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
     	..
 do-build:
 	$(MAKE) -j -C $(_BUILD)

@@ -20,16 +20,16 @@ $(_WRKSRC)/build/defines.mk:
 	cd $(_WRKSRC) \
      &&     BOOST_INCLUDE=$(BOOST_INC) \
         LIBPBDATA_INCLUDE=$(PREFIX)/include/pbdata \
-         LIBBLASR_INCLUDE=$(PREFIX)/include/alignment \
-        LIBPBIHDF_INCLUDE=$(PREFIX)/include \
-            PBBAM_INCLUDE=$(PREFIX)/include \
-           HTSLIB_INCLUDE=$(PREFIX)/include \
-             HDF5_INCLUDE=$(HDF5_ROOT)/include \
             LIBPBDATA_LIB=$(PREFIX)/lib \
+         LIBBLASR_INCLUDE=$(PREFIX)/include/alignment \
              LIBBLASR_LIB=$(PREFIX)/lib \
+        LIBPBIHDF_INCLUDE=$(PREFIX)/include \
             LIBPBIHDF_LIB=$(PREFIX)/lib \
+            PBBAM_INCLUDE=$(PREFIX)/include \
                 PBBAM_LIB=$(PREFIX)/lib \
-               HTSLIB_LIB=$(PREFIX)/lib \
+           HTSLIB_INCLUDE=$(PREFIX)/src/htslib/include \
+               HTSLIB_LIB=$(PREFIX)/src/htslib/lib \
+             HDF5_INCLUDE=$(HDF5_ROOT)/include \
                  HDF5_LIB=$(HDF5_ROOT)/lib \
              DALIGNER_SRC=$(_WRKSRC)/../daligner \
               DAZZ_DB_SRC=$(_WRKSRC)/../dazzdb \
