@@ -9,7 +9,6 @@ _URL     = https://prdownloads.sourceforge.net/boost
 _FILE    = boost_1_60_0.tar.gz
 _WRKSRC  = $(WORKSPACE)/$(_NAME)
 
-ifeq ($(origin HAVE_BOOST),undefined)
 # Local works
 do-fetch: | $(_FILE)
 $(_FILE):
@@ -48,16 +47,10 @@ $(PREFIX)/var/pkg/$(_NAME):
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-flush:
 	rm -rf $(_WRKSRC) || true
-else ifneq ("$(wildcard $(HAVE_BOOST)/include/boost)","")
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
-	ln -s $(HAVE_BOOST)/include/boost $(PREFIX)/include/boost
-	$(MAKE) checkBOOST
-	echo include/boost > $@
-else
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
-	ln -s /usr/include/boost $(PREFIX)/include/boost
-	$(MAKE) checkBOOST
-	echo include/boost > $@
+
+ifneq ($(origin HAVE_BOOST),undefined)
+_BOOST = $(shell ../../../bin/checkBOOST $(HAVE_BOOST))
+provided:
+	ln -fs $(_BOOST)/include/boost $(PREFIX)/include/
+	echo include/boost > $(PREFIX)/var/pkg/$(_NAME)
 endif

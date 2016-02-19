@@ -36,3 +36,14 @@ do-distclean:
 	rm -f $(_WRKSRC)/configure.log config.log
 do-flush:
 	rm -rf $(_WRKSRC) || true
+ifneq ($(origin HAVE_ZLIB),undefined)
+_ZLIB = $(shell ../../../bin/checkZLIB $(HAVE_ZLIB))
+provided:
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/include
+	mkdir -p $(STAGING)/$(_NAME)/lib
+	cp -a $(_ZLIB)/include/zlib.h $(_ZLIB)/include/zconf.h $(STAGING)/$(_NAME)/include/
+	cp -a $(_ZLIB)/lib/libz.*                              $(STAGING)/$(_NAME)/lib/
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+endif

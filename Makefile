@@ -75,7 +75,7 @@ cram:            pip
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 cogent:       pip numpy
 biopython:    pip
-nim:          ccache
+nim:          ccache zlib
 tcl:          ccache zlib
 modules:      ccache tcl
 
@@ -109,24 +109,22 @@ pbchimera:     seqan cmake
 ppa:           boost cmake pbbam htslib
 #
 world: \
-       pbccs     blasr            kineticsTools  pblaa    \
+       pbccs     blasr            kineticsTools  \
        pbreports GenomicConsensus ConsensusCore2 pbfalcon \
        pbdoctorb ipython          biopython      cogent   \
-       nim       modules          cram           nose     \
+                 modules          cram           nose     \
        hmmer     gmap
 
 # rules
 ifeq ($(OPSYS),Darwin)
 readline: ;
-zlib: ;
 ncurses: ;
 tcl: ;
 libpng: ;
 openblas: ;
+HAVE_ZLIB ?=
 else
 readline:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-zlib:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ncurses:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -137,6 +135,13 @@ libpng:
 openblas:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
+ifeq ($(origin HAVE_ZLIB),undefined)
+zlib:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+zlib:
+	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+endif
 ifeq ($(origin HAVE_HDF5),undefined)
 hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -145,8 +150,13 @@ hdf5: ;
 endif
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+ifeq ($(origin HAVE_BOOST),undefined)
 boost:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+boost:
+	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+endif
 samtools:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ifeq ($(origin HAVE_CMAKE),undefined)
@@ -160,8 +170,7 @@ ccache:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 else
 ccache:
-	bin/checkCCACHE $(HAVE_CCACHE)
-	$(MAKE) -j1 -C ports/thirdparty/$@ useSystem CCACHE=`bin/checkCCACHE $(HAVE_CCACHE)`
+	$(MAKE) -j1 -C ports/thirdparty/$@ provided
 endif
 swig:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install

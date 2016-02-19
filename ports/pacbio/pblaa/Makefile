@@ -22,7 +22,7 @@ $(_WRKSRC)/_build/Makefile:
             -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
             -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
             -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
-            -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.$(DYLIB) \
+            -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
             -DPacBioBAM_IncludeDir=$(PREFIX)/include \
             -DPBBAM_INCLUDE_DIRS=$(PREFIX)/include \
             -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \

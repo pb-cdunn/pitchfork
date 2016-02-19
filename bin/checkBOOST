@@ -1,0 +1,24 @@
+#!/bin/bash
+die(){
+    test "$*" && echo "$*" || true
+    exit 1
+}
+
+if [ $# -eq 0 ]; then
+   _BOOST=/usr
+else
+   _BOOST=$1
+fi
+
+if [ ! -e ${_BOOST}/include/boost/version.hpp ]; then
+   die "[ERROR] version.hpp not found, check your HAVE_BOOST value"
+fi
+
+_VERSION=$(awk '/^#define BOOST_VERSION /{print $3}' ${_BOOST}/include/boost/version.hpp)
+if [ "_$_VERSION" = "_" ]; then
+   die "[ERROR] failed to parse boost version, check your HAVE_BOOST value"
+elif [ $_VERSION -lt 105600 ]; then
+   die "[ERROR] boost version too old, please don't use HAVE_BOOST"
+fi
+
+echo ${_BOOST}

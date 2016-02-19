@@ -29,25 +29,8 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(FC)`
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache cpp
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache CC
-ifeq ($(OPSYS),Darwin)
-	cd $(STAGING)/$(_NAME)/bin && ln -sf ccache clang
-endif
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
-useSystem: pfcheck
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/bin
-	cd $(STAGING)/$(_NAME)/bin && ln -s $(CCACHE) ccache
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CC)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CXX)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(FC)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache cpp
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache CC
-ifeq ($(OPSYS),Darwin)
-	cd $(STAGING)/$(_NAME)/bin && ln -sf ccache clang
-endif
-	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 	rm -f build.log install.log
@@ -57,3 +40,17 @@ do-distclean:
 	rm -f $(_WRKSRC)/config.log config.log
 do-flush:
 	rm -rf $(_WRKSRC) || true
+ifneq ($(origin HAVE_CCACHE),undefined)
+_CCACHE = $(shell ../../../bin/checkCCACHE $(HAVE_CCACHE))
+provided:
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/bin
+	cd $(STAGING)/$(_NAME)/bin && ln -s $(_CCACHE) ccache
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CC)`
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CXX)`
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(FC)`
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache cpp
+	cd $(STAGING)/$(_NAME)/bin && ln -s ccache CC
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+endif
