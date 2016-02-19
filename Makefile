@@ -75,7 +75,7 @@ cram:            pip
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 cogent:       pip numpy
 biopython:    pip
-nim:          ccache
+nim:          ccache zlib
 tcl:          ccache zlib
 modules:      ccache tcl
 
@@ -112,7 +112,7 @@ world: \
        pbccs     blasr            kineticsTools  \
        pbreports GenomicConsensus ConsensusCore2 pbfalcon \
        pbdoctorb ipython          biopython      cogent   \
-       nim       modules          cram           nose     \
+                 modules          cram           nose     \
        hmmer     gmap
 
 # rules
