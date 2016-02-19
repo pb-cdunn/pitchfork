@@ -8,5 +8,3 @@ endif
 sanity:
 	$(PFHOME)/bin/checkSystem
 	$(PFHOME)/bin/checkCC $(CC)
-checkBOOST:
-	$(PFHOME)/bin/checkBoost $(BOOST_INC)

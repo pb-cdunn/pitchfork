@@ -50,13 +50,7 @@ ifeq ($(OPSYS),Darwin)
     HAVE_ZLIB = /usr
 endif
 
-ifeq ($(origin HAVE_ZLIB),undefined)
-    ZLIB_ROOT = $(PREFIX)
-else ifneq ("$(wildcard $(HAVE_ZLIB))","")
-    ZLIB_ROOT = $(HAVE_ZLIB)
-else
-    ZLIB_ROOT = /usr
-endif
+ZLIB_ROOT = $(PREFIX)
 
 export CC
 export CXX

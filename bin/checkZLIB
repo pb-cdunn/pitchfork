@@ -1,0 +1,22 @@
+#!/bin/bash
+
+die(){
+    test "$*" && echo "$*" || true
+    exit 1
+}
+if [ $# -eq 0 ]; then
+    _ZLIB=/usr
+else
+    _ZLIB=$1
+fi
+
+if [ ! -e ${_ZLIB}/include/zlib.h ]; then
+   die "[ERROR] wrong (${_ZLIB}), check your HAVE_ZLIB value"
+fi
+if [ ! -e ${_ZLIB}/include/zconf.h ]; then
+   die "[ERROR] wrong (${_ZLIB}), check your HAVE_ZLIB value"
+fi
+if ! ls ${_ZLIB}/lib/libz.* >& /dev/null; then
+   die "[ERROR] incomplete zlib, check your HAVE_ZLIB value"
+fi
+echo ${_ZLIB}
