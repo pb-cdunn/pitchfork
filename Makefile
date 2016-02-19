@@ -109,7 +109,7 @@ pbchimera:     seqan cmake
 ppa:           boost cmake pbbam htslib
 #
 world: \
-       pbccs     blasr            kineticsTools  pblaa    \
+       pbccs     blasr            kineticsTools  \
        pbreports GenomicConsensus ConsensusCore2 pbfalcon \
        pbdoctorb ipython          biopython      cogent   \
        nim       modules          cram           nose     \
