@@ -24,8 +24,10 @@ CCACHE_DIR ?= $(WORKSPACE)/.ccache
 PIP         = $(PREFIX)/bin/pip --no-cache-dir
 
 ifneq ($(origin DEBUG),undefined)
-    export DEBUG=yes
+    DEBUG=1
     VERBOSE=1
+    export DEBUG
+    export VERBOSE
 endif
 
 ARCH      := $(shell $(UNAME) -m)
@@ -36,27 +38,23 @@ CFLAGS     = -fPIC
 CFLAGS    += -I$(PREFIX)/include
 CXXFLAGS   = $(CFLAGS)
 
-BOOST_INC = $(PREFIX)/include
-
-HDF5_ROOT = $(PREFIX)
-
-ifeq ($(OPSYS),Darwin)
-    HAVE_ZLIB = /usr
-endif
-
-ZLIB_ROOT = $(PREFIX)
+BOOST_ROOT = $(PREFIX)
+HDF5_ROOT  = $(PREFIX)
+ZLIB_ROOT  = $(PREFIX)
 
 export CC
 export CXX
 export FC
 export CCACHE_DIR
 export PATH              := $(PREFIX)/bin:$(PFHOME)/bin:${PATH}
+export PKG_CONFIG_PATH   := $(PREFIX)/lib/pkgconfig
+
 ifeq ($(OPSYS),Darwin)
+    HAVE_ZLIB ?= /usr
     DYLIB  = dylib
     export DYLD_LIBRARY_PATH := $(PREFIX)/lib:${DYLD_LIBRARY_PATH}
 else
     DYLIB  = so
     export LD_LIBRARY_PATH   := $(PREFIX)/lib:${LD_LIBRARY_PATH}
 endif
-export PKG_CONFIG_PATH   := $(PREFIX)/lib/pkgconfig
 

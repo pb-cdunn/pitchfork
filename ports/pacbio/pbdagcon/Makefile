@@ -18,7 +18,7 @@ do-config: | $(_WRKSRC)/build/defines.mk
 $(_WRKSRC)/build/defines.mk:
 	mkdir -p $(_WRKSRC)/build
 	cd $(_WRKSRC) \
-     &&     BOOST_INCLUDE=$(BOOST_INC) \
+     &&     BOOST_INCLUDE=$(BOOST_ROOT)/include \
         LIBPBDATA_INCLUDE=$(PREFIX)/include/pbdata \
             LIBPBDATA_LIB=$(PREFIX)/lib \
          LIBBLASR_INCLUDE=$(PREFIX)/include/alignment \

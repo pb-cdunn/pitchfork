@@ -23,7 +23,7 @@ $(_WRKSRC)/defines.mk:
              HDF5_INC=$(HDF5_ROOT)/include \
              HDF5_LIB=$(HDF5_ROOT)/lib \
              ZLIB_LIB=$(ZLIB_ROOT) \
-            BOOST_INC=$(BOOST_INC) \
+            BOOST_INC=$(BOOST_ROOT)/include \
         LIBPBDATA_INC=$(PREFIX)/include/pbdata \
         LIBPBIHDF_INC=$(PREFIX)/include/hdf \
          LIBBLASR_INC=$(PREFIX)/include/alignment \
@@ -38,7 +38,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
 	mkdir -p $(_WRKSRC)/utils/bax2bam/build && \
         cd $(_WRKSRC)/utils/bax2bam/build && \
         $(CMAKE) \
-              -DBoost_INCLUDE_DIRS=$(BOOST_INC) \
+              -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DHDF5_RootDir=$(HDF5_ROOT) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
@@ -52,7 +52,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
 	mkdir -p $(_WRKSRC)/utils/bam2bax/build && \
         cd $(_WRKSRC)/utils/bam2bax/build && \
         $(CMAKE) \
-              -DBoost_INCLUDE_DIRS=$(BOOST_INC) \
+              -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DHDF5_RootDir=$(HDF5_ROOT) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
               -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
