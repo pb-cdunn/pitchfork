@@ -38,13 +38,7 @@ CXXFLAGS   = $(CFLAGS)
 
 BOOST_INC = $(PREFIX)/include
 
-ifeq ($(origin HAVE_HDF5),undefined)
-    HDF5_ROOT = $(PREFIX)
-else ifneq ("$(wildcard $(HAVE_HDF5))","")
-    HDF5_ROOT = $(HAVE_HDF5)
-else
-    HDF5_ROOT = /usr
-endif
+HDF5_ROOT = $(PREFIX)
 
 ifeq ($(OPSYS),Darwin)
     HAVE_ZLIB = /usr
