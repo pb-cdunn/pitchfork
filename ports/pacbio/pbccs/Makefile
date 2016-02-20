@@ -10,9 +10,7 @@ _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
 # Local works
-do-fetch: | $(_WRKSRC) $(_WRKSRC)/ConsensusCore2
-	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
-	cd $(_WRKSRC)/ConsensusCore2 && $(GIT) checkout $(ConsensusCore2_VERSION)
+do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
@@ -20,8 +18,6 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
-$(_WRKSRC)/ConsensusCore2: | $(_WRKSRC)
-	$(GIT) clone git://github.com/PacificBiosciences/ConsensusCore2.git $@
 do-config: | $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile:
 	mkdir -p $(_WRKSRC)/_build && \
@@ -29,7 +25,8 @@ $(_WRKSRC)/_build/Makefile:
         $(CMAKE) \
               -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DPBBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
-              -DPacBioConsensus_RootDir=$(_WRKSRC)/ConsensusCore2 \
+              -DPBCONSENSUS_INCLUDE_DIRS=$(PREFIX)/include \
+              -DPBCONSENSUS_LIBRARIES=$(PREFIX)/lib/libpbconsensus.a \
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DSEQAN_INCLUDE_DIRS=$(PREFIX)/include \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
