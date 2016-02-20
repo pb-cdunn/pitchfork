@@ -4,17 +4,22 @@ include ../../../mk/pitchfork.mk
 include ../../../mk/chkcxx.mk
 
 # Local variables
-_NAME            = pbccs
-$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
-$(_NAME)_VERSION?= HEAD
+_NAME             = pbccs
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
 
 # Local works
 do-fetch: | $(_WRKSRC) $(_WRKSRC)/ConsensusCore2
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 	cd $(_WRKSRC)/ConsensusCore2 && $(GIT) checkout $(ConsensusCore2_VERSION)
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 $(_WRKSRC)/ConsensusCore2: | $(_WRKSRC)
 	$(GIT) clone git://github.com/PacificBiosciences/ConsensusCore2.git $@
 do-config: | $(_WRKSRC)/_build/Makefile

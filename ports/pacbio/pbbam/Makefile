@@ -4,10 +4,10 @@ include ../../../mk/pitchfork.mk
 include ../../../mk/chkcxx.mk
 
 # Local variables
-_NAME            = pbbam
-$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
-$(_NAME)_VERSION?= HEAD
+_NAME             = pbbam
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
 
 # Local works
 do-fetch: | $(_WRKSRC)

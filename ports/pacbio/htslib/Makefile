@@ -1,10 +1,10 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME   = htslib
-_URL    = git://github.com/PacificBiosciences/$(_NAME)
-_REV    = ea846607f3ca7f49b3fb43df76f572d3f47cc6bb
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_NAME             = htslib
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= ea846607f3ca7f49b3fb43df76f572d3f47cc6bb
 
 export CC
 export CFLAGS
@@ -12,8 +12,12 @@ export CFLAGS
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
-	$(GIT) clone $(_URL) $@
-	cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+ifeq ($(wildcard $($(_NAME)_REPO)),)
+	$(GIT) clone $($(_NAME)_REPO) $@
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-build:
 	$(MAKE) -C $(_WRKSRC) \
                    CC=$(CC) \

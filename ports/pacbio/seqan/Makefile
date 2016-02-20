@@ -1,19 +1,20 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME   = seqan
-_URL    = git://github.com/PacificBiosciences/seqan
-_REV    = HEAD
-_WRKSRC = $(WORKSPACE)/$(_NAME)
-
-#export CC
-#export CFLAGS
+_NAME             = seqan
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
 
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
-	$(GIT) clone $(_URL) $@
-	cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+ifeq ($(wildcard $($(_NAME)_REPO)),)
+	$(GIT) clone $($(_NAME)_REPO) $@
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)

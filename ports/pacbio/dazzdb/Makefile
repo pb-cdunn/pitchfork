@@ -1,10 +1,10 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME   = dazzdb
-$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/DAZZ_DB
-_REV    = HEAD
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_NAME             = dazzdb
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/DAZZ_DB
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
 
 export CC
 export CFLAGS
@@ -12,8 +12,12 @@ export CFLAGS
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
-	cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-config:
 	mkdir -p $(_WRKSRC)/build $(STAGING)/$(_NAME)
 	echo PREFIX:=$(STAGING)/$(_NAME) > $(_WRKSRC)/build/Makefile

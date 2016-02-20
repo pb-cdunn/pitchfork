@@ -5,16 +5,20 @@ ifeq ($(origin GHTOKEN),undefined)
 endif
 
 # Local variables
-_NAME            = pbsparse
-$(_NAME)_REPO   ?= https://$(GHTOKEN)@github.com/PacificBiosciences/$(_NAME)
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
-$(_NAME)_VERSION?= HEAD
+_NAME             = pbsparse
+$(_NAME)_REPO    ?= https://$(GHTOKEN)@github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
 
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rsync -aKx $(_WRKSRC)/include/pacbio/ $(PREFIX)/include/pacbio/
