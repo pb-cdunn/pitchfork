@@ -9,8 +9,12 @@ $(_NAME)_VERSION?= HEAD
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-config: | $(_WRKSRC)/make/Config.mk
 $(_WRKSRC)/make/Config.mk:
 	cd $(_WRKSRC) && ./configure \

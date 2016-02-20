@@ -15,8 +15,12 @@ patch.log:
 	@cat patch-01 | (cd $(_WRKSRC) && patch -p0) | tee patch.log || exit 1
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-config: | $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk:
 	cd $(_WRKSRC) && \

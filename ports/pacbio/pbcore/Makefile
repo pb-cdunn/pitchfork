@@ -1,17 +1,20 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME            = pbcore
-$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
-$(_NAME)_VERSION?= HEAD
-#_REV            := $(shell $(GIT) ls-remote $($(_NAME)_REPO) $($(_NAME)_VERSION)|cut -c 1-7)
+_NAME             = pbcore
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
 
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)

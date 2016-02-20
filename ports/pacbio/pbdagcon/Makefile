@@ -1,10 +1,10 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME          = pbdagcon
-$(_NAME)_REPO ?= git://github.com/PacificBiosciences/$(_NAME)
-_REV           = HEAD
-_WRKSRC        = $(WORKSPACE)/$(_NAME)
+_NAME             = pbdagcon
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
 
 export CC
 export CXX
@@ -12,8 +12,12 @@ export CXX
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
-	cd $(_WRKSRC) && $(GIT) checkout $(_REV)
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-config: | $(_WRKSRC)/build/defines.mk
 $(_WRKSRC)/build/defines.mk:
 	mkdir -p $(_WRKSRC)/build

@@ -5,16 +5,20 @@ ifeq ($(origin GHTOKEN),undefined)
 endif
 
 # Local variables
-_NAME            = pblaa
-$(_NAME)_REPO   ?= https://$(GHTOKEN)@github.com/PacificBiosciences/$(_NAME)
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
-$(_NAME)_VERSION?= HEAD
+_NAME             = pblaa
+$(_NAME)_REPO    ?= https://$(GHTOKEN)@github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKSPACE)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
 
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
 do-config: | $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile:
 	mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \

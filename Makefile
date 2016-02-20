@@ -84,7 +84,7 @@ htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
 blasr:        ccache blasr_libcpp hdf5 cmake
 pbbam:        ccache samtools cmake boost htslib gtest
-pbccs:        ccache pbbam htslib cmake boost gtest seqan
+pbccs:        ccache pbbam htslib cmake boost gtest seqan ConsensusCore2
 dazzdb:       ccache
 daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
