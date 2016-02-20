@@ -7,6 +7,7 @@ _FILE            = Python-2.7.10.tgz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 _CONFIGURE_ARGS  = --prefix=$(PREFIX)
 _CONFIGURE_ARGS += --enable-unicode=ucs4
+_CONFIGURE_ARGS += --enable-shared
 _CFLAGS          = $(CFLAGS)
 _CFLAGS         += -I$(PREFIX)/include/ncurses
 

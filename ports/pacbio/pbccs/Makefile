@@ -25,7 +25,7 @@ $(_WRKSRC)/_build/Makefile:
               -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DPBBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPacBioConsensus_RootDir=$(_WRKSRC)/ConsensusCore2 \
-              -DBoost_INCLUDE_DIRS=$(BOOST_INC) \
+              -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DSEQAN_INCLUDE_DIRS=$(PREFIX)/include \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \

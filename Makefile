@@ -11,7 +11,7 @@ default:
 	echo ${CCACHE_DIR}
 	echo ${PREFIX}
 
-# deps that this port would directly use
+# Please add dependencies after this line
 openssl:      ccache
 zlib:         ccache
 boost:        ccache
@@ -107,6 +107,7 @@ GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
 pbchimera:     seqan cmake
 ppa:           boost cmake pbbam htslib
+
 #
 world: \
        pbccs     blasr            kineticsTools  \
@@ -115,14 +116,23 @@ world: \
                  modules          cram           nose     \
        hmmer     gmap
 
+# end of dependencies
+
 # rules
+ifeq ($(origin HAVE_CCACHE),undefined)
+ccache:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+ccache:
+	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+endif
 ifeq ($(OPSYS),Darwin)
+HAVE_ZLIB ?=
 readline: ;
 ncurses: ;
 tcl: ;
 libpng: ;
 openblas: ;
-HAVE_ZLIB ?=
 else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -146,7 +156,8 @@ ifeq ($(origin HAVE_HDF5),undefined)
 hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 else
-hdf5: ;
+hdf5:
+	$(MAKE) -j1 -C ports/thirdparty/$@ provided
 endif
 gtest:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -165,13 +176,6 @@ cmake:
 else
 cmake: ;
 endif
-ifeq ($(origin HAVE_CCACHE),undefined)
-ccache:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
-else
-ccache:
-	$(MAKE) -j1 -C ports/thirdparty/$@ provided
-endif
 swig:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 hmmer:
@@ -179,18 +183,18 @@ hmmer:
 gmap:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
-ifneq ($(origin HAVE_PYTHON),undefined)
-openssl: ;
-python:
-	$(MAKE) -j1 -C ports/python/virtualenv do-install
-pip: ;
-else
+ifeq ($(origin HAVE_PYTHON),undefined)
 openssl:
 	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
 python:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 pip:
 	$(MAKE) -j1 -C ports/python/$@ do-install
+else
+openssl: ;
+python:
+	$(MAKE) -j1 -C ports/python/virtualenv do-install
+pip: ;
 endif
 
 numpy:

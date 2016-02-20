@@ -41,3 +41,15 @@ do-distclean:
 	rm -f $(_WRKSRC)/config.log config.log
 do-flush:
 	rm -rf $(_WRKSRC) || true
+
+ifneq ($(origin HAVE_HDF5),undefined)
+_HDF5 = $(shell ../../../bin/checkHDF5 $(HAVE_HDF5))
+provided:
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/include
+	mkdir -p $(STAGING)/$(_NAME)/lib
+	cp -a $(_HDF5)/include/H5*.h $(_HDF5)/include/hdf5*.h $(STAGING)/$(_NAME)/include/
+	cp -a $(_HDF5)/lib/libhdf5*                           $(STAGING)/$(_NAME)/lib/
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+endif

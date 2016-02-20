@@ -16,7 +16,7 @@ $(_WRKSRC)/make/Config.mk:
 	cd $(_WRKSRC) && ./configure \
             --swig=$(PREFIX)/bin/swig \
             --swig-lib=$(PREFIX)/share/swig/3.0.8 \
-            --boost=$(BOOST_INC) \
+            --boost=$(BOOST_ROOT)/include \
             --python-include=$(PREFIX)/include/python2.7 \
             --numpy-include=$(PREFIX)/lib/python2.7/site-packages/numpy/core/include
 do-build: | $(_WRKSRC)/build/C++/libConsensusCore.a $(_WRKSRC)/build/Python/_ConsensusCore.so
@@ -28,7 +28,7 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(BOOST_INC)" $(_WRKSRC)/
+	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(BOOST_ROOT)/include" $(_WRKSRC)/
 	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
 	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
 do-clean:
