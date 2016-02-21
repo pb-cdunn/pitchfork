@@ -35,6 +35,7 @@ $(_WRKSRC)/_build/Makefile:
               -DCMAKE_SKIP_BUILD_RPATH=TRUE \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
+              -DGMOCK_RootDir=$(PREFIX)/src/gmock \
             ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/_build
@@ -45,7 +46,6 @@ $(PREFIX)/var/pkg/$(_NAME):
 	rsync -ax $(_WRKSRC)/bin/ $(STAGING)/$(_NAME)/bin/
 	rsync -ax $(_WRKSRC)/lib/ $(STAGING)/$(_NAME)/lib/
 	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
-	rsync -ax $(_WRKSRC)/third-party/ $(STAGING)/$(_NAME)/src/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:

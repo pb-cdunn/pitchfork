@@ -20,7 +20,6 @@ readline:     ccache ncurses
 samtools:     ccache zlib
 cmake:        ccache zlib
 ncurses:      ccache
-gtest:        ccache
 openblas:     ccache
 hdf5:         ccache zlib
 swig:         ccache python
@@ -160,6 +159,8 @@ hdf5:
 	$(MAKE) -j1 -C ports/thirdparty/$@ provided
 endif
 gtest:
+	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+gmock:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 ifeq ($(origin HAVE_BOOST),undefined)
 boost:
