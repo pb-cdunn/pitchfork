@@ -39,7 +39,6 @@ $(PREFIX)/var/pkg/$(_NAME):
         $(PIP) install --root $(STAGING)/$(_NAME) --verbose --upgrade --no-deps $(_WRKSRC)/
 	rsync -ax $(_WRKSRC)/lib/ $(STAGING)/$(_NAME)$(PREFIX)/lib/
 	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)$(PREFIX)/include/
-	rsync -ax $(_WRKSRC)/third-party/ $(STAGING)/$(_NAME)$(PREFIX)/src/
 	rsync -aKx $(STAGING)/$(_NAME)$(PREFIX)/ $(PREFIX)/
 	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
 do-clean:

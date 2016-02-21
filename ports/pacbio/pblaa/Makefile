@@ -35,14 +35,14 @@ $(_WRKSRC)/_build/Makefile:
             -DPacBioConsensus_IncludeDir=$(PREFIX)/include \
             -DPBCONSENSUS_INCLUDE_DIRS=$(PREFIX)/include \
             -DPBCONSENSUS_LIBRARIES=$(PREFIX)/lib/libpbconsensus.a \
-            -DPacBioConsensus_ThirdPartyDir=$(PREFIX)/src \
             -DPacBioCCS_IncludeDir=$(PREFIX)/include \
             -DPBCCS_INCLUDE_DIRS=$(PREFIX)/include \
             -DPBCCS_LIBRARIES=$(PREFIX)/lib/libpbccs.a \
-            -DPacBioCCS_ThirdPartyDir=$(PREFIX)/src \
             -DPacBioSparse_IncludeDir=$(PREFIX)/include \
             -DPacBioChimera_IncludeDir=$(PREFIX)/include \
             -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
+            -DPacBioConsensus_ThirdPartyDir=$(PREFIX)/src \
+            -DPacBioCCS_ThirdPartyDir=$(PREFIX)/src \
             ..
 do-build: | $(_WRKSRC)/bin/laa
 $(_WRKSRC)/bin/laa:
@@ -53,7 +53,6 @@ $(PREFIX)/var/pkg/$(_NAME):
 	mkdir -p $(STAGING)/$(_NAME)
 	rsync -ax $(_WRKSRC)/bin/ $(STAGING)/$(_NAME)/bin/
 	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
-	rsync -ax $(_WRKSRC)/third-party/ $(STAGING)/$(_NAME)/src/
 	rsync -aKx $(STAGING)/$(_NAME)/ $(PREFIX)/
 	find $(STAGING)/$(_NAME)|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}'|grep -v '^$$'|sort -r > $@
 do-clean:
