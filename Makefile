@@ -12,63 +12,64 @@ default:
 	echo ${PREFIX}
 
 # Please add dependencies after this line
-openssl:      ccache
-zlib:         ccache
-boost:        ccache
-python:       ccache zlib openssl ncurses readline
-readline:     ccache ncurses
-samtools:     ccache zlib
-cmake:        ccache zlib
-ncurses:      ccache
-openblas:     ccache
-hdf5:         ccache zlib
-swig:         ccache python
-libpng:       ccache zlib
-hmmer:        ccache
-gmap:         ccache
+openssl:          ccache
+zlib:             ccache
+boost:            ccache
+python:           ccache zlib openssl ncurses readline
+readline:         ccache ncurses
+samtools:         ccache zlib
+cmake:            ccache zlib
+ncurses:          ccache
+openblas:         ccache
+hdf5:             ccache zlib
+swig:             ccache python
+libpng:           ccache zlib
+hmmer:            ccache
+gmap:             ccache
 
-pip:          python
-cython:       pip
-numpy:        pip cython openblas
-h5py:         pip hdf5 numpy six
-jsonschema:   pip functools32
-pydot:        pip pyparsing
-fabric:       pip paramiko ecdsa pycrypto
-rdflib:       pip six isodate html5lib
-matplotlib:   pip numpy libpng pytz six pyparsing python-dateutil
-rdfextras:    pip rdflib
-scipy:        pip numpy
-appnope:      pip
-avro:         pip
-decorator:    pip
-docopt:       pip
-ecdsa:        pip
-functools32:  pip
-gnureadline:  pip
-html5lib:     pip
+pip:              python
+cython:           pip
+numpy:            pip cython openblas
+h5py:             pip hdf5 numpy six
+jsonschema:       pip functools32
+pydot:            pip pyparsing
+fabric:           pip paramiko ecdsa pycrypto
+rdflib:           pip six isodate html5lib
+matplotlib:       pip numpy libpng pytz six pyparsing python-dateutil cycler
+rdfextras:        pip rdflib
+scipy:            pip numpy
+appnope:          pip
+avro:             pip
+decorator:        pip
+docopt:           pip
+ecdsa:            pip
+functools32:      pip
+gnureadline:      pip
+html5lib:         pip
 ipython_genutils: pip
-iso8601:      pip
-isodate:      pip
-jinja2:       pip
-networkx:     pip
-paramiko:     pip
-path.py:      pip
-pexpect:      pip
-pickleshare:  pip
-ptyprocess:   pip
-pycrypto:     pip
-pyparsing:    pip
-pysam:        pip
-python-dateutil: pip
-pytz:            pip
-pyxb:            pip
-requests:        pip
-simplegeneric:   pip
-six:             pip
-traitlets:       pip
-xmlbuilder:      pip
-nose:            pip
-cram:            pip
+iso8601:          pip
+isodate:          pip
+jinja2:           pip
+networkx:         pip
+paramiko:         pip
+path.py:          pip
+pexpect:          pip
+pickleshare:      pip
+ptyprocess:       pip
+pycrypto:         pip
+pyparsing:        pip
+pysam:            pip
+python-dateutil:  pip
+pytz:             pip
+pyxb:             pip
+requests:         pip
+simplegeneric:    pip
+six:              pip
+traitlets:        pip
+xmlbuilder:       pip
+nose:             pip
+cram:             pip
+cycler:           pip
 
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
@@ -279,6 +280,8 @@ python-dateutil:
 nose:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 cram:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+cycler:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection
