@@ -4,10 +4,10 @@ import os
 import argparse
 
 __VERSION__ = '0.0.1'
-_whatami  = 'dummy'
-_ownpath  = os.path.realpath(__file__)
+_whatami  = os.path.basename(sys.argv[0])
+_ownpath  = os.path.abspath(__file__)
 _whereami = os.path.dirname(_ownpath)
-_porthome = os.path.dirname(_whereami)
+_projhome = os.path.dirname(_whereami)
 
 def log(*msgs):
     sys.stderr.write(' '.join(str(m) for m in msgs) + '\n')
@@ -18,30 +18,59 @@ def parseargs(args):
     parser = argparse.ArgumentParser(
         epilog=epil,
         description=desc)
-    parser.add_argument('-V', '--version', help='getting version', action='version', version='%s' % __VERSION__)
+
+    parser.add_argument('-V', '--version', help='show version', action='version', version='%s' % __VERSION__)
+
     subparsers = parser.add_subparsers(
         dest='subcommand',
         title='subcommands',
-        help='Run %s theCommand --help for more information' % _whatami
-    )
-    sub = subparsers.add_parser('poem',
-        help='random send out poem',
-        description='just kidding.')
-    sub.add_argument('author',
-                     metavar='<nickname>',
+        help='Run %s --help for more information' % _whatami)
+
+    sub = subparsers.add_parser('configure',
+        help='prints out suggested settings.mk',
+        description='What\'s in your settings.mk?')
+    sub.add_argument('--prefix',
+                     metavar='<prefix>',
                      type=str,
-                     help='query author name')
+                     help='The path of where you want to deploy software to.')
+    sub.add_argument('--workspace',
+                     metavar='<workspace>',
+                     type=str,
+                     help='The path of where you want to build software on.')
+
     sub = subparsers.add_parser('installed',
         help='Check what\'s being installed',
         description='This will look into the PREFIX directories and list what has been installed.')
+
     return parser.parse_args()
 
 def pitchfork(args):
-    log('args:', args)
-    if args.subcommand == 'poem':
-        print vars(args)
+    import platform
+    #log('[INFO] args:', args)
+    if args.subcommand == 'configure':
+        myargs = vars(args)
+        if 'prefix' in myargs:
+            print "PREFIX      = %s" % myargs['prefix']
+        if platform.system() == 'Darwin':
+            print "HAVE_PYTHON ="
     elif args.subcommand == 'installed':
-        print "installed: "
+        from glob import glob
+        _prefix = ''
+        if len(glob('%s/settings.mk' % _projhome)) > 0:
+            for line in open('%s/settings.mk' % _projhome, 'r'):
+                if 'PREFIX' in line.strip():
+                    if line.strip().split('=')[0].strip() == 'PREFIX':
+                        _prefix = line.strip().split('=')[1].strip()
+                    break
+        if 'PREFIX' in os.environ:
+            _prefix = "%s" % os.environ['PREFIX']
+        elif len(glob(_prefix)) > 0:
+            pass
+        else:
+            if len(glob("deployment")) > 0:
+                _prefix = "%s" % os.path.abspath('deployment')
+        for mypkg in glob('%s/var/pkg/*' % _prefix):
+            print os.path.basename(mypkg)
     else:
         # theoretically impossible
         raise Exception()
