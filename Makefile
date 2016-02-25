@@ -91,7 +91,7 @@ pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
 #
 pbcore:           pysam h5py pyxb
 pbcoretools:      pbcore pbcommand
-pbcommand:        xmlbuilder jsonschema avro requests iso8601
+pbcommand:        xmlbuilder jsonschema avro requests iso8601 numpy
 pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 falcon_kit:       networkx
 pbfalcon:         falcon_kit pbsmrtpipe pypeFLOW
