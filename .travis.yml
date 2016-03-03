@@ -24,7 +24,7 @@ cache:
     - $HOME/distfiles
 
 install:
-  - bin/travis.sh
+  - bin/travisbuild.sh
 
 script:
-  - echo "success!"
+  - bin/travistest.sh
