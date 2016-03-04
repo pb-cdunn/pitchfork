@@ -1,0 +1,137 @@
+#!/usr/bin/env python
+import sys
+import os
+import argparse
+
+__VERSION__ = '0.0.1'
+_whatami  = os.path.basename(sys.argv[0])
+_ownpath  = os.path.abspath(__file__)
+_whereami = os.path.dirname(_ownpath)
+_projhome = os.path.dirname(_whereami)
+
+def log(*msgs):
+    sys.stderr.write(' '.join(str(m) for m in msgs) + '\n')
+
+def parseargs(args):
+    desc = 'Pacbio unofficial pitchfork building system.'
+    epil = 'This gets you a subroot-like software deployment. The deployment is unrelocatable but easier to understand.'
+    parser = argparse.ArgumentParser(
+        epilog=epil,
+        description=desc)
+
+    parser.add_argument('-V', '--version', help='show version', action='version', version='%s' % __VERSION__)
+
+    subparsers = parser.add_subparsers(
+        dest='subcommand',
+        title='subcommands',
+        help='Run %s --help for more information' % _whatami)
+
+    sub = subparsers.add_parser('configure',
+        help='prints out suggested settings.mk',
+        description='What\'s in your settings.mk?')
+    sub.add_argument('--prefix',
+                     metavar='<prefix>',
+                     type=str,
+                     help='The path of where you want to deploy software to.')
+    sub.add_argument('--workspace',
+                     metavar='<workspace>',
+                     type=str,
+                     help='The path of where you want to build software on.')
+    sub.add_argument('--boost',
+                     metavar='<boost>',
+                     type=str,
+                     help='The path to pre-extracted boost headers.')
+    sub.add_argument('--ccache',
+                     metavar='<ccache>',
+                     type=str,
+                     help='The path of pre-installed ccache executable.')
+    sub.add_argument('--python',
+                     metavar='<python>',
+                     type=str,
+                     help='The path of pre-installed python executable of your choice.')
+    sub.add_argument('--zlib',
+                     metavar='<zlib>',
+                     type=str,
+                     help='The parent path of pre-installed zlib headers+libraries.')
+
+    sub = subparsers.add_parser('installed',
+        help='Check what\'s being installed',
+        description='This will look into the PREFIX directories and list what has been installed.')
+
+    return parser.parse_args()
+
+def pitchfork(args):
+    #log('[INFO] args:', args)
+    if args.subcommand == 'configure':
+        from glob import glob
+        #print vars(args)
+        myargs = vars(args)
+        if myargs['prefix'] is not None:
+            print "PREFIX      = %s" % myargs['prefix']
+        if myargs['workspace'] is not None:
+            print "WORKSPACE   = %s" % myargs['workspace']
+        if myargs['boost'] is not None:
+            if len("%s" % myargs['boost']) < 1:
+                print "HAVE_BOOST  ="
+            elif len(glob("%s" % myargs['boost'])) < 1:
+                print "HAVE_BOOST  ="
+            else:
+                print "HAVE_BOOST  = %s" % myargs['boost']
+        if myargs['ccache'] is not None:
+            if len("%s" % myargs['ccache']) < 1:
+                print "HAVE_CCACHE ="
+            elif len(glob("%s" % myargs['ccache'])) < 1:
+                print "HAVE_CCACHE ="
+            else:
+                print "HAVE_CCACHE = %s" % myargs['ccache']
+        if myargs['python'] is not None:
+            if len("%s" % myargs['python']) < 1:
+                print "HAVE_PYTHON ="
+            elif len(glob("%s" % myargs['python'])) < 1:
+                print "HAVE_PYTHON ="
+            else:
+                print "HAVE_PYTHON = %s" % myargs['python']
+        if myargs['zlib'] is not None:
+            if len("%s" % myargs['zlib']) < 1:
+                print "HAVE_ZLIB   ="
+            elif len(glob("%s" % myargs['zlib'])) < 1:
+                print "HAVE_ZLIB   ="
+            else:
+                print "HAVE_ZLIB   = %s" % myargs['zlib']
+    elif args.subcommand == 'installed':
+        from glob import glob
+        _prefix = ''
+        if len(glob('%s/settings.mk' % _projhome)) > 0:
+            for line in open('%s/settings.mk' % _projhome, 'r'):
+                if 'PREFIX' in line.strip():
+                    if line.strip().split('=')[0].strip() == 'PREFIX':
+                        _prefix = line.strip().split('=')[1].strip()
+                    break
+        if 'PREFIX' in os.environ:
+            _prefix = "%s" % os.environ['PREFIX']
+        elif len(glob(_prefix)) > 0:
+            pass
+        else:
+            if len(glob("deployment")) > 0:
+                _prefix = "%s" % os.path.abspath('deployment')
+        for mypkg in glob('%s/var/pkg/*' % _prefix):
+            print os.path.basename(mypkg)
+    else:
+        # theoretically impossible
+        raise Exception()
+
+def main(argv=sys.argv):
+    """Main"""
+    pargs = parseargs(argv)
+    try:
+        pitchfork(pargs)
+    except Exception:
+        log(repr(vars(pargs)))
+        raise
+    return 0
+
+if __name__ == '__main__':
+    if sys.hexversion < 0x020700F0:
+        print "[ERROR] You are using an older system python."
+        sys.exit(1)
+    sys.exit(main())
