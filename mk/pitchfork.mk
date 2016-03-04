@@ -18,9 +18,9 @@ pfcheck: _stcheck
 	@mkdir -p "$(PREFIX)/share"         || exit 1
 	@mkdir -p "$(PREFIX)/var/pkg"       || exit 1
 ifeq ($(OPSYS),Darwin)
-	@echo "export DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH) PATH=$(PATH)" > "$(PREFIX)/setup-env.sh"
+	@echo "export DYLD_LIBRARY_PATH=$(PREFIX)/lib:\$$DYLD_LIBRARY_PATH PATH=$(PREFIX)/bin:\$$PATH"|sed -e 's/::*/:/g' > "$(PREFIX)/setup-env.sh"
 else
-	@echo "export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)     PATH=$(PATH)" > "$(PREFIX)/setup-env.sh"
+	@echo "export   LD_LIBRARY_PATH=$(PREFIX)/lib::\$$LD_LIBRARY_PATH  PATH=$(PREFIX)/bin:\$$PATH"|sed -e 's/::*/:/g' > "$(PREFIX)/setup-env.sh"
 endif
 
 do-extract: do-fetch
