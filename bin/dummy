@@ -33,14 +33,26 @@ def parseargs(args):
                      metavar='<prefix>',
                      type=str,
                      help='The path of where you want to deploy software to.')
-    sub.add_argument('--python',
-                     metavar='<python>',
-                     type=str,
-                     help='The path of pre-installed python binary that you want to use.')
     sub.add_argument('--workspace',
                      metavar='<workspace>',
                      type=str,
                      help='The path of where you want to build software on.')
+    sub.add_argument('--boost',
+                     metavar='<boost>',
+                     type=str,
+                     help='The path to pre-extracted boost headers.')
+    sub.add_argument('--ccache',
+                     metavar='<ccache>',
+                     type=str,
+                     help='The path of pre-installed ccache executable.')
+    sub.add_argument('--python',
+                     metavar='<python>',
+                     type=str,
+                     help='The path of pre-installed python executable of your choice.')
+    sub.add_argument('--zlib',
+                     metavar='<zlib>',
+                     type=str,
+                     help='The parent path of pre-installed zlib headers+libraries.')
 
     sub = subparsers.add_parser('installed',
         help='Check what\'s being installed',
@@ -51,16 +63,41 @@ def parseargs(args):
 def pitchfork(args):
     #log('[INFO] args:', args)
     if args.subcommand == 'configure':
-        import platform
+        from glob import glob
+        #print vars(args)
         myargs = vars(args)
-        if 'prefix' in myargs:
+        if myargs['prefix'] is not None:
             print "PREFIX      = %s" % myargs['prefix']
-        if 'workspace' in myargs:
+        if myargs['workspace'] is not None:
             print "WORKSPACE   = %s" % myargs['workspace']
-        if 'python' in myargs:
-            print "HAVE_PYTHON = %s" % myargs['python']
-        elif platform.system() == 'Darwin':
-            print "HAVE_PYTHON ="
+        if myargs['boost'] is not None:
+            if len("%s" % myargs['boost']) < 1:
+                print "HAVE_BOOST  ="
+            elif len(glob("%s" % myargs['boost'])) < 1:
+                print "HAVE_BOOST  ="
+            else:
+                print "HAVE_BOOST  = %s" % myargs['boost']
+        if myargs['ccache'] is not None:
+            if len("%s" % myargs['ccache']) < 1:
+                print "HAVE_CCACHE ="
+            elif len(glob("%s" % myargs['ccache'])) < 1:
+                print "HAVE_CCACHE ="
+            else:
+                print "HAVE_CCACHE = %s" % myargs['ccache']
+        if myargs['python'] is not None:
+            if len("%s" % myargs['python']) < 1:
+                print "HAVE_PYTHON ="
+            elif len(glob("%s" % myargs['python'])) < 1:
+                print "HAVE_PYTHON ="
+            else:
+                print "HAVE_PYTHON = %s" % myargs['python']
+        if myargs['zlib'] is not None:
+            if len("%s" % myargs['zlib']) < 1:
+                print "HAVE_ZLIB   ="
+            elif len(glob("%s" % myargs['zlib'])) < 1:
+                print "HAVE_ZLIB   ="
+            else:
+                print "HAVE_ZLIB   = %s" % myargs['zlib']
     elif args.subcommand == 'installed':
         from glob import glob
         _prefix = ''
