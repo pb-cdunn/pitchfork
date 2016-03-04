@@ -44,6 +44,8 @@ provided:
 	mkdir -p $(STAGING)/$(_NAME)/lib
 	cp -a $(_ZLIB)/include/zlib.h $(_ZLIB)/include/zconf.h $(STAGING)/$(_NAME)/include/
 	cp -a $(_ZLIB)/lib/libz.*                              $(STAGING)/$(_NAME)/lib/
+	mkdir -p $(STAGING)/$(_NAME)/lib/pkgconfig
+	find $(_ZLIB)/lib -name 'zlib.pc' -exec cp -a {} $(STAGING)/$(_NAME)/lib/pkgconfig/ \;
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 endif

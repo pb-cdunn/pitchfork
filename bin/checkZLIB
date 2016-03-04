@@ -11,10 +11,10 @@ else
 fi
 
 if [ ! -e ${_ZLIB}/include/zlib.h ]; then
-   die "[ERROR] wrong (${_ZLIB}), check your HAVE_ZLIB value"
+   die "[ERROR] ${_ZLIB}/include/zlib.h missing, check your HAVE_ZLIB value"
 fi
 if [ ! -e ${_ZLIB}/include/zconf.h ]; then
-   die "[ERROR] wrong (${_ZLIB}), check your HAVE_ZLIB value"
+   die "[ERROR] ${_ZLIB}/include/zconf.h missing, check your HAVE_ZLIB value"
 fi
 if ! ls ${_ZLIB}/lib/libz.* >& /dev/null; then
    die "[ERROR] incomplete zlib, check your HAVE_ZLIB value"
