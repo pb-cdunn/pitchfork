@@ -186,12 +186,8 @@ gmap:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
 ifeq ($(origin HAVE_PYTHON),undefined)
-ifneq ($(OPSYS),Darwin)
 openssl:
 	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
-else
-openssl: ;
-endif
 python:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 pip:
