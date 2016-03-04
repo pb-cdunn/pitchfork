@@ -33,6 +33,10 @@ def parseargs(args):
                      metavar='<prefix>',
                      type=str,
                      help='The path of where you want to deploy software to.')
+    sub.add_argument('--python',
+                     metavar='<python>',
+                     type=str,
+                     help='The path of pre-installed python binary that you want to use.')
     sub.add_argument('--workspace',
                      metavar='<workspace>',
                      type=str,
@@ -45,13 +49,17 @@ def parseargs(args):
     return parser.parse_args()
 
 def pitchfork(args):
-    import platform
     #log('[INFO] args:', args)
     if args.subcommand == 'configure':
+        import platform
         myargs = vars(args)
         if 'prefix' in myargs:
             print "PREFIX      = %s" % myargs['prefix']
-        if platform.system() == 'Darwin':
+        if 'workspace' in myargs:
+            print "WORKSPACE   = %s" % myargs['workspace']
+        if 'python' in myargs:
+            print "HAVE_PYTHON = %s" % myargs['python']
+        elif platform.system() == 'Darwin':
             print "HAVE_PYTHON ="
     elif args.subcommand == 'installed':
         from glob import glob
