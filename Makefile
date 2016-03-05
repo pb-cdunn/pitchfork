@@ -69,7 +69,7 @@ traitlets:        pip
 xmlbuilder:       pip
 nose:             pip
 cram:             pip
-cycler:           pip isodate
+cycler:           pip
 
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
