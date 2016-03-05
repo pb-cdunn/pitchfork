@@ -18,13 +18,14 @@ default:
 	@echo "PREFIX=${PREFIX}"
 
 # Please add dependencies after this line
+ccache:           init
 openssl:          ccache
 zlib:             ccache
 boost:            ccache
 ifeq ($(origin HAVE_PYTHON),undefined)
 python:           ccache zlib openssl ncurses readline
 else
-python:           ccache zlib ncurses readline
+python:           init ncurses readline
 endif
 readline:         ccache ncurses
 samtools:         ccache zlib
