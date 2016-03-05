@@ -1,4 +1,9 @@
+default:
+
+override PFHOME:=${CURDIR}
 -include settings.mk
+include ./mk/config.mk
+include ./mk/init.mk
 
 UNAME   = uname
 ARCH   := $(shell $(UNAME) -m)
@@ -8,8 +13,9 @@ PREFIX ?= deployment
 
 default:
 	@echo no default rule
-	echo ${CCACHE_DIR}
-	echo ${PREFIX}
+	@echo Please run 'make init' before any other rule.
+	@echo "CCACHE_DIR=${CCACHE_DIR}"
+	@echo "PREFIX=${PREFIX}"
 
 # Please add dependencies after this line
 openssl:          ccache
@@ -359,13 +365,3 @@ pblaa:
 #
 ppa:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
-
-# utils
-_startover:
-	@echo "This will erase everything in $(PREFIX), staging/ and workspace/ directories."
-	@read -p "Are you sure? " -n 1 -r; \
-        echo; \
-        if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
-           echo "rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log"; \
-           rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
-        fi
