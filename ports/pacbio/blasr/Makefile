@@ -67,7 +67,11 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
         ..
 do-build:
+ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
+	$(MAKE) -C $(_WRKSRC) all HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
+else
 	$(MAKE) -C $(_WRKSRC) all
+endif
 	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
 	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
