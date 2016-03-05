@@ -16,4 +16,4 @@ pbsmrtpipe -h
 pbtestkit-runner -h
 pbtools-runner -h
 pbvalidate -h
-sawriter
+#sawriter
