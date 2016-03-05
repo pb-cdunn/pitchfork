@@ -12,6 +12,11 @@ init: sanity
 	@mkdir -p "${PREFIX}/lib/pkgconfig"
 	@mkdir -p "${PREFIX}/share"
 	@mkdir -p "${PREFIX}/var/pkg"
+ifeq (${OPSYS},Darwin)
+	echo "export DYLD_LIBRARY_PATH=${PREFIX}/lib:\$$DYLD_LIBRARY_PATH PATH=${PREFIX}/bin:\$$PATH"|sed -e 's/::*/:/g' > "${PREFIX}/setup-env.sh"
+else
+	echo "export   LD_LIBRARY_PATH=${PREFIX}/lib::\$$LD_LIBRARY_PATH  PATH=${PREFIX}/bin:\$$PATH"|sed -e 's/::*/:/g' > "${PREFIX}/setup-env.sh"
+endif
 
 # utils
 _startover:
