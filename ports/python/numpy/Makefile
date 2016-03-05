@@ -8,6 +8,7 @@ _NAME   = numpy-1.10.2
 _URL    = https://pypi.python.org/packages/source/n/numpy
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+export CLFAGS LDFLAGS
 
 # Local works
 do-extract: | $(_WRKSRC)

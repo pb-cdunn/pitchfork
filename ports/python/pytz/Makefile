@@ -4,6 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME   = pytz-$(_VER)
 _VER    = 2015.7
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
