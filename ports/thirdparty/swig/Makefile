@@ -19,7 +19,7 @@ pcre-8.38.tar.gz:
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	cp pcre-8.38.tar.gz $(_WRKSRC)/
-	(cd $(_WRKSRC) && \
+	set -o pipefail && (cd $(_WRKSRC) && \
         Tools/pcre-build.sh && \
         CFLAGS="$(CFLAGS)" \
         CC="$(CC) -L$(PREFIX)/lib" \
