@@ -14,8 +14,8 @@ PREFIX ?= deployment
 default:
 	@echo no default rule
 	@echo Please run 'make init' before any other rule.
-	echo ${CCACHE_DIR}
-	echo ${PREFIX}
+	@echo "CCACHE_DIR=${CCACHE_DIR}"
+	@echo "PREFIX=${PREFIX}"
 
 # Please add dependencies after this line
 openssl:          ccache
