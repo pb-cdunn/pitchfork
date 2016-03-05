@@ -10,4 +10,4 @@ test -e $HOME/distfiles/boost_1_56_0.tar.gz \
         -o $HOME/distfiles/boost_1_56_0.tar.gz
 tar zxf $HOME/distfiles/boost_1_56_0.tar.gz --strip=1 -C $HOME/boost_1_56_0/include/ boost_1_56_0/boost
 cp mk/travis.mk settings.mk
-make -j blasr
+make -j reseq-core
