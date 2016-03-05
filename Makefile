@@ -109,6 +109,8 @@ pbchimera:     seqan cmake
 ppa:           boost cmake pbbam htslib
 
 #
+reseq-core: \
+       pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
 world: \
        pbccs     blasr            kineticsTools  \
        pbreports GenomicConsensus ConsensusCore2 pbfalcon \
