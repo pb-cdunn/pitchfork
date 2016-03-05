@@ -152,8 +152,13 @@ tcl:
 libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 endif
+ifeq ($(origin HAVE_OPENBLAS),undefined)
 openblas:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+openblas:
+	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+endif
 ifeq ($(origin HAVE_ZLIB),undefined)
 zlib:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
