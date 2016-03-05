@@ -49,8 +49,8 @@ html5lib:         pip
 ipython_genutils: pip
 iso8601:          pip
 isodate:          pip
-jinja2:           pip
-networkx:         pip
+jinja2:           pip MarkupSafe
+networkx:         pip decorator
 paramiko:         pip
 path.py:          pip
 pexpect:          pip
@@ -70,6 +70,7 @@ xmlbuilder:       pip
 nose:             pip
 cram:             pip
 cycler:           pip
+MarkupSafe:       pip
 
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
@@ -284,6 +285,8 @@ nose:
 cram:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 cycler:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+MarkupSafe:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 
 # Not part of pacbio developers' software collection

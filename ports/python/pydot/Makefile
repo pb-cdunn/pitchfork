@@ -4,6 +4,7 @@ include ../../../mk/pitchfork.mk
 _VER    = 1.0.2
 _NAME   = pydot-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+export CLFAGS LDFLAGS
 
 # Local sanity check
 ifeq ($(OPSYS),Darwin)

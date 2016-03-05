@@ -1,8 +1,8 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME   = cycler-$(_VER)
-_VER    = 0.10.0
+_VER    = 0.23
+_NAME   = MarkupSafe-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 export CLFAGS LDFLAGS
 
@@ -11,7 +11,7 @@ do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps cycler==$(_VER)
+	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps MarkupSafe==$(_VER)
 	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
 	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
 do-clean:

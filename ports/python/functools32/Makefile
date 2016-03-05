@@ -4,6 +4,7 @@ include ../../../mk/pitchfork.mk
 _VER    = 3.2.3-2
 _NAME   = functools32-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
