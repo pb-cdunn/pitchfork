@@ -50,7 +50,7 @@ ipython_genutils: pip
 iso8601:          pip
 isodate:          pip
 jinja2:           pip
-networkx:         pip
+networkx:         pip decorator
 paramiko:         pip
 path.py:          pip
 pexpect:          pip
