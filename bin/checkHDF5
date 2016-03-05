@@ -11,12 +11,12 @@ else
 fi
 
 if [ ! -e ${_HDF5}/include/hdf5.h ]; then
-   die "[ERROR] hdf5.h not found, check your HAVE_HDF5 value (${_HDF5})"
+   die "[ERROR] hdf5.h not found, check your HAVE_HDF5 value ${_HDF5}"
 fi
 if [ ! -e ${_HDF5}/include/H5Cpp.h ]; then
-   die "[ERROR] H5Cpp.h not found, check your HAVE_HDF5 value (${_HDF5})"
+   die "[ERROR] H5Cpp.h not found, check your HAVE_HDF5 value ${_HDF5}"
 fi
 if ! ls ${_HDF5}/lib/libhdf5.* >& /dev/null; then
-   die "[ERROR] libhdf5.* not found, check your HAVE_HDF5 value (${_HDF5})"
+   die "[ERROR] libhdf5.* not found, check your HAVE_HDF5 value ${_HDF5}"
 fi
 echo ${_HDF5}
