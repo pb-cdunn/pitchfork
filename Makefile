@@ -21,7 +21,11 @@ default:
 openssl:          ccache
 zlib:             ccache
 boost:            ccache
+ifeq ($(origin HAVE_PYTHON),undefined)
 python:           ccache zlib openssl ncurses readline
+else
+python:           ccache zlib ncurses readline
+endif
 readline:         ccache ncurses
 samtools:         ccache zlib
 cmake:            ccache zlib
@@ -35,7 +39,11 @@ gmap:             ccache
 
 pip:              python
 cython:           pip
+ifeq ($(OPSYS),Darwin)
+numpy:            pip cython
+else
 numpy:            pip cython openblas
+endif
 h5py:             pip hdf5 numpy six
 jsonschema:       pip functools32
 pydot:            pip pyparsing
@@ -141,7 +149,6 @@ readline: ;
 ncurses: ;
 tcl: ;
 libpng: ;
-openblas: ;
 else
 readline:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
@@ -151,8 +158,13 @@ tcl:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 libpng:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+endif
+ifeq ($(origin HAVE_OPENBLAS),undefined)
 openblas:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+else
+openblas:
+	$(MAKE) -j1 -C ports/thirdparty/$@ provided
 endif
 ifeq ($(origin HAVE_ZLIB),undefined)
 zlib:
@@ -194,15 +206,14 @@ hmmer:
 gmap:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 
-ifeq ($(origin HAVE_PYTHON),undefined)
 openssl:
 	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
+ifeq ($(origin HAVE_PYTHON),undefined)
 python:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 pip:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 else
-openssl: ;
 python:
 	$(MAKE) -j1 -C ports/python/virtualenv do-install
 pip: ;
