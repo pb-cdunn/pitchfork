@@ -5,7 +5,6 @@ _NAME             = falcon_kit
 $(_NAME)_REPO    ?= git://github.com/PacificBiosciences/FALCON
 _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
-export CLFAGS LDFLAGS
 
 # Local works
 do-fetch: | $(_WRKSRC)

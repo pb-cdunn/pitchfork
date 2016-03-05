@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _VER    = 1.5.1
 _NAME   = matplotlib-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 _tmpvar:=$(if $(shell which pkg-config),exists,$(error "unable to run pkg-config, consider doing yum install pkgconfig"))
 #export PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig

@@ -6,9 +6,6 @@ _URL             = https://prdownloads.sourceforge.net/modules
 _FILE            = modules-3.2.10.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
-export CFLAGS
-export LDFLAGS
-
 # Local works
 do-fetch: | $(_FILE)
 $(_FILE):

@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _NAME   = Cython-0.23.4
 _URL    = http://cython.org/release
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 # Local works
 do-extract: | $(_WRKSRC)

@@ -6,9 +6,6 @@ $(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= ea846607f3ca7f49b3fb43df76f572d3f47cc6bb
 
-export CC
-export CFLAGS
-
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):

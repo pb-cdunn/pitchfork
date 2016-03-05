@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _NAME   = python-dateutil-$(_VER)
 _VER    = 2.4.2
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

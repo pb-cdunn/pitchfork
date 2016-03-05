@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _NAME   = pycrypto-$(_VER)
 _VER    = 2.6.1
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

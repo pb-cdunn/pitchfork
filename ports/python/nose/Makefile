@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _VER    = 1.3.7
 _NAME   = nose-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

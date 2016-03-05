@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _VER    = 3.4.0
 _NAME   = rdflib-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

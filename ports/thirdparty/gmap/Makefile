@@ -6,9 +6,6 @@ _URL             = http://research-pub.gene.com/gmap/src
 _FILE            = gmap-gsnap-2015-12-31.v7.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
-export CFLAGS
-export LDFLAGS
-
 # Local works
 do-fetch: | $(_FILE)
 $(_FILE):

@@ -45,6 +45,9 @@ ZLIB_ROOT  = $(PREFIX)
 export CC
 export CXX
 export FC
+export CFLAGS
+export LDFLAGS
+export CXXFLAGS
 export CCACHE_DIR
 export PATH              := $(PREFIX)/bin:$(PFHOME)/bin:${PATH}
 export PKG_CONFIG_PATH   := $(PREFIX)/lib/pkgconfig
