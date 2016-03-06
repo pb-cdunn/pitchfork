@@ -104,7 +104,7 @@ dazzdb:       ccache
 daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
 #
-pbcore:           pysam h5py pyxb
+pbcore:           pysam h5py
 pbcoretools:      pbcore pbcommand
 pbcommand:        xmlbuilder jsonschema avro requests iso8601 numpy
 pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
