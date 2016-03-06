@@ -6,9 +6,6 @@ $(_NAME)_REPO    ?= git://github.com/PacificBiosciences/DAZZ_DB
 _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
-export CC
-export CFLAGS
-
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):

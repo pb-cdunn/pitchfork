@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _VER    = 0.6.2
 _NAME   = docopt-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

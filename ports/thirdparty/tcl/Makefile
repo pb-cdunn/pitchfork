@@ -6,9 +6,6 @@ _URL             = https://prdownloads.sourceforge.net/tcl
 _FILE            = tcl-core8.6.4-src.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
-export CFLAGS
-export LDFLAGS
-
 # Local works
 do-fetch: | $(_FILE)
 $(_FILE):

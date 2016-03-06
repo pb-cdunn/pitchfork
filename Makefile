@@ -18,16 +18,17 @@ default:
 	@echo "PREFIX=${PREFIX}"
 
 # Please add dependencies after this line
+ccache:           init
 openssl:          ccache
 zlib:             ccache
 boost:            ccache
 ifeq ($(origin HAVE_PYTHON),undefined)
 python:           ccache zlib openssl ncurses readline
 else
-python:           ccache zlib ncurses readline
+python:           init
 endif
 readline:         ccache ncurses
-samtools:         ccache zlib
+samtools:         ccache zlib ncurses
 cmake:            ccache zlib
 ncurses:          ccache
 openblas:         ccache
@@ -58,7 +59,7 @@ decorator:        pip
 docopt:           pip
 ecdsa:            pip
 functools32:      pip
-gnureadline:      pip
+gnureadline:      pip readline
 html5lib:         pip
 ipython_genutils: pip
 iso8601:          pip
@@ -93,6 +94,7 @@ biopython:    pip
 nim:          ccache zlib
 tcl:          ccache zlib
 modules:      ccache tcl
+gtest:        init
 
 #
 htslib:       ccache zlib
@@ -114,7 +116,6 @@ pbreports:        matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
 kineticsTools:    pbcore pbcommand scipy numpy h5py
 pypeFLOW:         rdflib rdfextras
 pbalign:          pbcore samtools blasr
-pbdoctorb:        docopt pbcore
 ConsensusCore:    numpy boost swig cmake
 ConsensusCore2:   numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
@@ -127,11 +128,9 @@ ppa:           boost cmake pbbam htslib
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
 world: \
-       pbccs     blasr            kineticsTools  \
-       pbreports GenomicConsensus ConsensusCore2 pbfalcon \
-       pbdoctorb ipython          biopython      cogent   \
-                 modules          cram           nose     \
-       hmmer     gmap
+       reseq-core kineticsTools ConsensusCore2 pbfalcon \
+       ipython    biopython     cogent         \
+       cram       nose          hmmer          gmap
 
 # end of dependencies
 
@@ -349,8 +348,6 @@ falcon_kit:
 pbfalcon:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pypeFLOW:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
-pbdoctorb:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 ConsensusCore:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install

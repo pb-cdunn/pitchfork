@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _NAME   = decorator-$(_VER)
 _VER    = 4.0.6
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

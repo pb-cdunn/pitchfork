@@ -8,7 +8,6 @@ _NAME   = OpenBLAS-0.2.15
 _URL    = https://github.com/xianyi/OpenBLAS/archive
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _FILE   = v0.2.15.tar.gz
-export CFLAGS LDFLAGS
 
 # Local works
 do-extract: | $(_WRKSRC)

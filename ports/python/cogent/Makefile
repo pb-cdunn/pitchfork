@@ -4,7 +4,6 @@ include ../../../mk/pitchfork.mk
 _VER    = 1.5.3
 _NAME   = cogent-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-export CLFAGS LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

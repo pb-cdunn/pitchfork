@@ -33,10 +33,14 @@ endif
 ARCH      := $(shell $(UNAME) -m)
 OPSYS     := $(shell $(UNAME) -s)
 
-LDFLAGS    = -L$(PREFIX)/lib
-CFLAGS     = -fPIC
+CFLAGS    ?=
+CXXFLAGS  ?=
+LDFLAGS   ?=
+
+LDFLAGS   += -L$(PREFIX)/lib
+CFLAGS    += -fPIC
 CFLAGS    += -I$(PREFIX)/include
-CXXFLAGS   = $(CFLAGS)
+CXXFLAGS  += $(CFLAGS)
 
 BOOST_ROOT = $(PREFIX)
 HDF5_ROOT  = $(PREFIX)
@@ -45,6 +49,9 @@ ZLIB_ROOT  = $(PREFIX)
 export CC
 export CXX
 export FC
+export CFLAGS
+export LDFLAGS
+export CXXFLAGS
 export CCACHE_DIR
 export PATH              := $(PREFIX)/bin:$(PFHOME)/bin:${PATH}
 export PKG_CONFIG_PATH   := $(PREFIX)/lib/pkgconfig

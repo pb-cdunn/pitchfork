@@ -6,9 +6,6 @@ $(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= ea846607f3ca7f49b3fb43df76f572d3f47cc6bb
 
-export CC
-export CFLAGS
-
 # Local works
 do-fetch: | $(_WRKSRC)
 $(_WRKSRC):
@@ -23,7 +20,7 @@ do-build:
                    CC=$(CC) \
             ZLIB_ROOT=$(ZLIB_ROOT) \
                CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" \
-              LDFLAGS=$(LDFLAGS) \
+              LDFLAGS="$(LDFLAGS)" \
         2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):

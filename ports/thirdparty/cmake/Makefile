@@ -9,10 +9,6 @@ _URL    = https://cmake.org/files/v3.4
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
-export CFLAGS
-export CXXFLAGS
-export LDFLAGS
-
 # Local works
 do-fetch: | $(_FILE)
 $(_FILE):
