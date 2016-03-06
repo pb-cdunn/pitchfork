@@ -59,7 +59,7 @@ decorator:        pip
 docopt:           pip
 ecdsa:            pip
 functools32:      pip
-gnureadline:      pip
+gnureadline:      pip readline
 html5lib:         pip
 ipython_genutils: pip
 iso8601:          pip
