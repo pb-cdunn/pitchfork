@@ -320,15 +320,15 @@ modules:
 
 #
 blasr_libcpp:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 blasr:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 htslib:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 seqan:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 pbbam:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbccs:
 	$(MAKE) -j1 -C ports/pacbio/$@ do-install
 dazzdb:

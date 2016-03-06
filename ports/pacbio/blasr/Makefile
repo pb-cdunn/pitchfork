@@ -11,7 +11,7 @@ $(_NAME)_VERSION?= HEAD
 
 # Local works
 do-extract:
-do-fetch: | $(_WRKSRC)
+do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
@@ -19,8 +19,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
-do-config: | $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
-$(_WRKSRC)/defines.mk:
+do-config: $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
+$(_WRKSRC)/defines.mk: do-fetch
 	cd $(_WRKSRC) && \
         ./configure.py --shared \
                PREFIX=$(PREFIX) \
@@ -38,7 +38,7 @@ $(_WRKSRC)/defines.mk:
             PBBAM_LIB=$(PREFIX)/lib \
            HTSLIB_INC=$(PREFIX)/src/htslib/include \
            HTSLIB_LIB=$(PREFIX)/src/htslib/lib
-$(_WRKSRC)/utils/bax2bam/build/Makefile:
+$(_WRKSRC)/utils/bax2bam/build/Makefile: do-fetch
 	mkdir -p $(_WRKSRC)/utils/bax2bam/build && \
         cd $(_WRKSRC)/utils/bax2bam/build && \
         $(CMAKE) \
@@ -52,7 +52,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile:
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
         ..
-$(_WRKSRC)/utils/bam2bax/build/Makefile:
+$(_WRKSRC)/utils/bam2bax/build/Makefile: do-fetch
 	mkdir -p $(_WRKSRC)/utils/bam2bax/build && \
         cd $(_WRKSRC)/utils/bam2bax/build && \
         $(CMAKE) \
@@ -66,7 +66,6 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile:
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
         ..
-do-build:
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
 	$(MAKE) -C $(_WRKSRC) all HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
 else
@@ -74,8 +73,8 @@ else
 endif
 	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
 	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): do-build
 	rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)/bin
 	cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(STAGING)/$(_NAME)/bin/
 	cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(STAGING)/$(_NAME)/bin/
