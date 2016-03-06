@@ -47,7 +47,7 @@ provided:
 	cp -a $(_OPENBLAS)/include/lapacke_config.h   $(STAGING)/$(_NAME)/include/
 	cp -a $(_OPENBLAS)/include/openblas_config.h  $(STAGING)/$(_NAME)/include/
 	cp -a $(_OPENBLAS)/include/lapacke_mangling.h $(STAGING)/$(_NAME)/include/
-	rsync -avx $(_OPENBLAS)/cmake/openblas*       $(STAGING)/$(_NAME)/lib/cmake/
+	rsync -avx $(_OPENBLAS)/lib/cmake/openblas*   $(STAGING)/$(_NAME)/lib/cmake/
 	rsync -avx $(_OPENBLAS)/libopenblas*          $(STAGING)/$(_NAME)/lib/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
