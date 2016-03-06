@@ -21,7 +21,7 @@ $(_FILE):
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	(cd $(_WRKSRC) && \
-         CFLAGS="-I$(_WRKSRC)/htslib-1.3 $(CFLAGS)" LDFLAGS=$(LDFLAGS) ./configure --prefix=$(PREFIX) \
+         CFLAGS="-I$(_WRKSRC)/htslib-1.3 $(CFLAGS)" ./configure --prefix=$(PREFIX) \
                      --with-htslib=$(_WRKSRC)/htslib-1.3 \
                      --without-curses 2>&1) \
         | tee config.log | $(PFHOME)/bin/activity

@@ -20,7 +20,7 @@ do-build:
                    CC=$(CC) \
             ZLIB_ROOT=$(ZLIB_ROOT) \
                CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" \
-              LDFLAGS=$(LDFLAGS) \
+              LDFLAGS="$(LDFLAGS)" \
         2>&1 | tee build.log | $(PFHOME)/bin/activity
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
