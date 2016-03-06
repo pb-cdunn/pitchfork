@@ -4,6 +4,8 @@ include ../../../mk/pitchfork.mk
 _VER    = 0.17.0
 _NAME   = scipy-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
+LDFLAGS += -shared
+export LDFLAGS
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
