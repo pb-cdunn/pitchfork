@@ -17,15 +17,15 @@ $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
-        | tee config.log | $(PFHOME)/bin/activity
+	(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)) >& \
+        config.log || $(PFHOME)/bin/diewith config.log
 do-build: | $(_WRKSRC)/ssl/.libs/libssl.$(DYLIB)
 $(_WRKSRC)/ssl/.libs/libssl.$(DYLIB):
-	$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
+	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
-	$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
+	$(MAKE) -C $(_WRKSRC) install >& install.log || $(PFHOME)/bin/diewith install.log
 	$(PERL) -pi -e 's[$(STAGING)/$(_NAME)][$(PREFIX)]g' $(STAGING)/$(_NAME)/lib/pkgconfig/*.pc
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@

@@ -21,7 +21,7 @@ $(_WRKSRC):
 ifneq ($(origin DO_BOOST_LIB),undefined)
 do-config: | $(_WRKSRC)/project-config.jam
 $(_WRKSRC)/project-config.jam:
-	(cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(PREFIX) 2>&1) | tee config.log | $(PFHOME)/bin/activity
+	(cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(PREFIX)) >& config.log || $(PFHOME)/bin/diewith config.log
 
 do-build: | $(STAGING)/$(_NAME)/lib/libboost_system.a
 $(STAGING)/$(_NAME)/lib/libboost_system.a:
@@ -29,7 +29,7 @@ $(STAGING)/$(_NAME)/lib/libboost_system.a:
                                  --without-mpi \
                                  --without-iostreams \
                                  --stagedir=$(STAGING)/$(_NAME) \
-                                 stage 2>&1) | tee build.log | $(PFHOME)/bin/activity
+                                 stage) >& build.log || $(PFHOME)/bin/diewith build.log
 do-clean:
 	rm -f build.log
 	cd $(_WRKSRC) && ./bjam --clean

@@ -17,14 +17,14 @@ $(_WRKSRC):
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
 	(cd $(_WRKSRC) && export CPPFLAGS="-DUSE_INTERP_ERRORLINE" && \
-        ./configure --prefix=$(PREFIX) --with-tcl=$(PREFIX)/lib 2>&1) \
-        | tee config.log | $(PFHOME)/bin/activity || exit
+        ./configure --prefix=$(PREFIX) --with-tcl=$(PREFIX)/lib) >& \
+        config.log || $(PFHOME)/bin/diewith config.log
 do-build: | $(_WRKSRC)/modulecmd
 $(_WRKSRC)/modulecmd:
-	$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity || exit
+	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	$(MAKE) -C $(_WRKSRC) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
+	$(MAKE) -C $(_WRKSRC) install >& install.log || $(PFHOME)/bin/diewith install.log
 	find $(PREFIX)/Modules|awk -F '$(PREFIX)/' '{print $$2}'|sort -r > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean

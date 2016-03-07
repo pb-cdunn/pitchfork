@@ -21,7 +21,7 @@ do-build:
             ZLIB_ROOT=$(ZLIB_ROOT) \
                CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" \
               LDFLAGS="$(LDFLAGS)" \
-        2>&1 | tee build.log | $(PFHOME)/bin/activity
+        >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)

@@ -17,15 +17,14 @@ $(_WRKSRC):
 do-config: | $(_WRKSRC)/unix/config.log
 $(_WRKSRC)/unix/config.log:
 	(cd $(_WRKSRC)/unix && \
-        ./configure --prefix=$(STAGING)/$(_NAME) 2>&1) \
-        | tee config.log | $(PFHOME)/bin/activity
+        ./configure --prefix=$(STAGING)/$(_NAME)) >& config.log || $(PFHOME)/bin/diewith config.log
 do-build: | $(_WRKSRC)/unix/libtcl8.6.$(DYLIB)
 $(_WRKSRC)/unix/libtcl8.6.$(DYLIB):
-	$(MAKE) -C $(_WRKSRC)/unix 2>&1 | tee build.log | $(PFHOME)/bin/activity
+	$(MAKE) -C $(_WRKSRC)/unix >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
-	$(MAKE) -C $(_WRKSRC)/unix install 2>&1 | tee install.log | $(PFHOME)/bin/activity
+	$(MAKE) -C $(_WRKSRC)/unix >& install.log || $(PFHOME)/bin/diewith install.log
 	$(PERL) -pi -e 's[$(STAGING)/$(_NAME)][$(PREFIX)]g;s[$(_WRKSRC)/unix][$(PREFIX)/lib];s[$(_WRKSRC)][$(PREFIX)/lib]' \
             $(STAGING)/$(_NAME)/lib/pkgconfig/*.pc \
             $(STAGING)/$(_NAME)/lib/tclConfig.sh

@@ -23,15 +23,14 @@ $(_WRKSRC)/config.log:
 	(cd $(_WRKSRC) && \
          CFLAGS="-I$(_WRKSRC)/htslib-1.3 $(CFLAGS)" ./configure --prefix=$(PREFIX) \
                      --with-htslib=$(_WRKSRC)/htslib-1.3 \
-                     --without-curses 2>&1) \
-        | tee config.log | $(PFHOME)/bin/activity
+                     --without-curses) >& config.log || $(PFHOME)/bin/diewith config.log
 do-build: | $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools:
-	$(MAKE) CC=$(CC) CFLAGS="-g -Wall -O2 $(CFLAGS)" -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
+	$(MAKE) CC=$(CC) CFLAGS="-g -Wall -O2 $(CFLAGS)" -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
-	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
+	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:

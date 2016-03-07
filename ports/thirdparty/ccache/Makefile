@@ -16,14 +16,14 @@ $(_FILE):
 	$(CURL) -O $(_URL)/$@
 do-config: | $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log:
-	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) --with-bundled-zlib 2>&1) | tee config.log | $(PFHOME)/bin/activity
+	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) --with-bundled-zlib) >& config.log || $(PFHOME)/bin/diewith config.log
 do-build: | $(_WRKSRC)/ccache
 $(_WRKSRC)/ccache:
-	$(MAKE) -C $(_WRKSRC) 2>&1 | tee build.log | $(PFHOME)/bin/activity
+	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
-	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install 2>&1 | tee install.log | $(PFHOME)/bin/activity
+	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CC)`
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CXX)`
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(FC)`
