@@ -7,21 +7,21 @@ _FILE	= $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-extract: | $(_WRKSRC)
-$(_WRKSRC):
+do-extract: $(_WRKSRC)
+$(_WRKSRC): do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKSPACE)
-do-fetch: | $(_FILE)
+do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -O $(_URL)/$@
-do-config: | $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log:
+do-config: $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log: do-extract
 	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) --with-bundled-zlib) >& config.log || $(PFHOME)/bin/diewith config.log
-do-build: | $(_WRKSRC)/ccache
-$(_WRKSRC)/ccache:
+do-build: $(_WRKSRC)/ccache
+$(_WRKSRC)/ccache: do-config
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): do-build
 	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
 	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CC)`

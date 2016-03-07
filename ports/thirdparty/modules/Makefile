@@ -7,23 +7,23 @@ _FILE            = modules-3.2.10.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-fetch: | $(_FILE)
+do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
-do-extract: | $(_WRKSRC)
-$(_WRKSRC):
+do-extract: $(_WRKSRC)
+$(_WRKSRC): do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKSPACE)
-do-config: | $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log:
+do-config: $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log: do-extract
 	(cd $(_WRKSRC) && export CPPFLAGS="-DUSE_INTERP_ERRORLINE" && \
         ./configure --prefix=$(PREFIX) --with-tcl=$(PREFIX)/lib) >& \
         config.log || $(PFHOME)/bin/diewith config.log
-do-build: | $(_WRKSRC)/modulecmd
-$(_WRKSRC)/modulecmd:
+do-build: $(_WRKSRC)/modulecmd
+$(_WRKSRC)/modulecmd: do-config
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): do-build
 	$(MAKE) -C $(_WRKSRC) install >& install.log || $(PFHOME)/bin/diewith install.log
 	find $(PREFIX)/Modules|awk -F '$(PREFIX)/' '{print $$2}'|sort -r > $@
 do-clean:
