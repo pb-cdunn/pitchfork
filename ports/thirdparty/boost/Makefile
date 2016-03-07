@@ -10,21 +10,21 @@ _FILE    = boost_1_60_0.tar.gz
 _WRKSRC  = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-fetch: | $(_FILE)
+do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
-do-extract: | $(_WRKSRC)
-$(_WRKSRC):
+do-extract: $(_WRKSRC)
+$(_WRKSRC): do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC)
 
 ifneq ($(origin DO_BOOST_LIB),undefined)
-do-config: | $(_WRKSRC)/project-config.jam
-$(_WRKSRC)/project-config.jam:
+do-config: $(_WRKSRC)/project-config.jam
+$(_WRKSRC)/project-config.jam: do-extract
 	(cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(PREFIX)) >& config.log || $(PFHOME)/bin/diewith config.log
 
-do-build: | $(STAGING)/$(_NAME)/lib/libboost_system.a
-$(STAGING)/$(_NAME)/lib/libboost_system.a:
+do-build: $(STAGING)/$(_NAME)/lib/libboost_system.a
+$(STAGING)/$(_NAME)/lib/libboost_system.a: do-config
 	(cd $(_WRKSRC) && ./bjam --without-python \
                                  --without-mpi \
                                  --without-iostreams \
@@ -39,8 +39,8 @@ do-distclean:
 	cd $(_WRKSRC) && rm -rf bin.v2 project-config.jam b2 bjam
 endif
 
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): do-build
 	mkdir -p $(STAGING)/$(_NAME)/include
 	cd $(_WRKSRC) && tar cf - boost | tar xf - -C $(STAGING)/$(_NAME)/include
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)

@@ -7,24 +7,24 @@ _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-fetch: | $(_FILE)
+do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
-do-extract: | $(_WRKSRC)
-$(_WRKSRC):
+do-extract: $(_WRKSRC)
+$(_WRKSRC): do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKSPACE)
 do-clean-distfile:
 	rm -f $(_FILE)
-do-config: | $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log:
+do-config: $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log: do-extract
 	(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX) --with-shared 2>&1) \
         >& config.log || $(PFHOME)/bin/diewith config.log
-do-build: | $(_WRKSRC)/lib/libncurses.$(DYLIB)
-$(_WRKSRC)/lib/libncurses.$(DYLIB):
+do-build: $(_WRKSRC)/lib/libncurses.$(DYLIB)
+$(_WRKSRC)/lib/libncurses.$(DYLIB): do-config
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): do-build
 	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)

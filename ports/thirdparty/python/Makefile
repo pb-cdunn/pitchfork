@@ -12,24 +12,24 @@ _CFLAGS          = $(CFLAGS)
 _CFLAGS         += -I$(PREFIX)/include/ncurses
 
 # Local works
-do-fetch: | $(_FILE)
+do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
-do-extract: | $(_WRKSRC)
-$(_WRKSRC):
+do-extract: $(_WRKSRC)
+$(_WRKSRC): do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKSPACE)
 	$(SED) -i -e "s|@@PREFIX@@|$(PREFIX)|g" $(_WRKSRC)/Lib/cgi.py $(_WRKSRC)/Lib/ctypes/macholib/dyld.py
 	$(SED)    -e "s|@@PREFIX@@|$(PREFIX)|g" patch-01 | (cd $(_WRKSRC) && patch -p0)
-do-config: | $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log:
+do-config: $(_WRKSRC)/config.log
+$(_WRKSRC)/config.log: do-extract
 	(cd $(_WRKSRC) && \
           CFLAGS="$(_CFLAGS)" ./configure $(_CONFIGURE_ARGS)) >& config.log || $(PFHOME)/bin/diewith config.log
-do-build: | $(_WRKSRC)/python.exe
-$(_WRKSRC)/python.exe:
+do-build: $(_WRKSRC)/python.exe
+$(_WRKSRC)/python.exe: do-config
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): do-build
 	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)

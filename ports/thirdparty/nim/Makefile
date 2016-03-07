@@ -10,18 +10,18 @@ _FILE            = $(_NAME).zip
 _tmpvar:=$(if $(shell which unzip),exists,$(error "unable to run unzip, consider doing yum install unzip"))
 
 # Local works
-do-fetch: | $(_FILE)
+do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
-do-extract: | $(_WRKSRC)
-$(_WRKSRC):
+do-extract: $(_WRKSRC)
+$(_WRKSRC): do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	unzip $(_FILE) -d $(WORKSPACE)
-do-build: | $(_WRKSRC)/bin/nim
-$(_WRKSRC)/bin/nim:
+do-build: $(_WRKSRC)/bin/nim
+$(_WRKSRC)/bin/nim: do-extract
 	cd $(_WRKSRC) && sh build.sh
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): do-build
 	rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)
 	mkdir -p $(PREFIX)/share/doc
 	cd $(_WRKSRC) && sh install.sh $(STAGING)/$(_NAME)

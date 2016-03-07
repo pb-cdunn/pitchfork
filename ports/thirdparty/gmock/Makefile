@@ -7,15 +7,15 @@ _FILE            = release-1.7.0.tar.gz
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 
 # Local works
-do-fetch: | $(_FILE)
+do-fetch:  $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/archive/$@
-do-extract: | $(_WRKSRC)
-$(_WRKSRC):
+do-extract: $(_WRKSRC)
+$(_WRKSRC): do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC)
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): do-extract
 	mkdir -p $(PREFIX)/src && cp -a $(_WRKSRC) $(PREFIX)/src/gmock
 	find $(_WRKSRC) ! -type d|awk -F '$(_WRKSRC)/' '{print "src/gmock/"$$2}' > $@
 do-flush:
