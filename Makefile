@@ -3,7 +3,8 @@ default:
 override PFHOME:=${CURDIR}
 -include settings.mk
 include ./mk/config.mk
-include ./mk/init.mk
+include ./mk/bootstrap.mk
+include ./mk/init.mk # in case we want to re-run init/sanity
 
 UNAME   = uname
 ARCH   := $(shell $(UNAME) -m)
@@ -12,20 +13,20 @@ SHELL   = /bin/bash -e
 PREFIX ?= deployment
 
 default:
-	@echo no default rule
-	@echo Please run 'make init' before any other rule.
+	@echo "'make init' must occur before any other rule."
+	@echo "You can do that manually, or let it happen automatically as 'initialized.mk' is generated."
 	@echo "CCACHE_DIR=${CCACHE_DIR}"
 	@echo "PREFIX=${PREFIX}"
 
 # Please add dependencies after this line
-ccache:           init
+ccache:
 openssl:          ccache
 zlib:             ccache
 boost:            ccache
 ifeq ($(origin HAVE_PYTHON),undefined)
 python:           ccache zlib openssl ncurses readline
 else
-python:           init
+python:
 endif
 readline:         ccache ncurses
 samtools:         ccache zlib ncurses
@@ -94,7 +95,7 @@ biopython:    pip
 nim:          ccache zlib
 tcl:          ccache zlib
 modules:      ccache tcl
-gtest:        init
+gtest:
 
 #
 htslib:       ccache zlib
