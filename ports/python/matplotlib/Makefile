@@ -7,6 +7,11 @@ _WRKSRC = $(WORKSPACE)/$(_NAME)
 
 _tmpvar:=$(if $(shell which pkg-config),exists,$(error "unable to run pkg-config, consider doing yum install pkgconfig"))
 #export PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig
+ifneq ($(origin CPLUS_INCLUDE_PATH),undefined)
+ifneq ($(wildcard /usr/lib/x86_64-linux-gnu),)
+export LDFLAGS := -L/usr/lib/x86_64-linux-gnu $(LDFLAGS)
+endif
+endif
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
