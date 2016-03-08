@@ -11,11 +11,11 @@ do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/archive/$@
 do-extract: $(_WRKSRC)
-$(_WRKSRC): do-fetch
+$(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC)
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): do-extract
+$(PREFIX)/var/pkg/$(_NAME): | do-extract
 	mkdir -p $(PREFIX)/src && cp -a $(_WRKSRC) $(PREFIX)/src/gtest
 	find $(_WRKSRC) ! -type d|awk -F '$(_WRKSRC)/' '{print "src/gtest/"$$2}' > $@
 do-flush:

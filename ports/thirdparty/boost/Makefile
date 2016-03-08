@@ -14,17 +14,17 @@ do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
 do-extract: $(_WRKSRC)
-$(_WRKSRC): do-fetch
+$(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	mkdir -p $(_WRKSRC) && tar zxf $(_FILE) --strip=1 -C $(_WRKSRC)
 
 ifneq ($(origin DO_BOOST_LIB),undefined)
 do-config: $(_WRKSRC)/project-config.jam
-$(_WRKSRC)/project-config.jam: do-extract
+$(_WRKSRC)/project-config.jam: | do-extract
 	(cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(PREFIX)) >& config.log || $(PFHOME)/bin/diewith config.log
 
 do-build: $(STAGING)/$(_NAME)/lib/libboost_system.a
-$(STAGING)/$(_NAME)/lib/libboost_system.a: do-config
+$(STAGING)/$(_NAME)/lib/libboost_system.a: | do-config
 	(cd $(_WRKSRC) && ./bjam --without-python \
                                  --without-mpi \
                                  --without-iostreams \
@@ -40,7 +40,7 @@ do-distclean:
 endif
 
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): do-build
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	mkdir -p $(STAGING)/$(_NAME)/include
 	cd $(_WRKSRC) && tar cf - boost | tar xf - -C $(STAGING)/$(_NAME)/include
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)

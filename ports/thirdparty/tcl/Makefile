@@ -11,18 +11,18 @@ do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
 do-extract: $(_WRKSRC)
-$(_WRKSRC): do-fetch
+$(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKSPACE)
 do-config: $(_WRKSRC)/unix/config.log
-$(_WRKSRC)/unix/config.log: do-extract
+$(_WRKSRC)/unix/config.log: | do-extract
 	(cd $(_WRKSRC)/unix && \
         ./configure --prefix=$(STAGING)/$(_NAME)) >& config.log || $(PFHOME)/bin/diewith config.log
 do-build: $(_WRKSRC)/unix/libtcl8.6.$(DYLIB)
-$(_WRKSRC)/unix/libtcl8.6.$(DYLIB): do-config
+$(_WRKSRC)/unix/libtcl8.6.$(DYLIB): | do-config
 	$(MAKE) -C $(_WRKSRC)/unix >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): do-build
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC)/unix >& install.log || $(PFHOME)/bin/diewith install.log
 	$(PERL) -pi -e 's[$(STAGING)/$(_NAME)][$(PREFIX)]g;s[$(_WRKSRC)/unix][$(PREFIX)/lib];s[$(_WRKSRC)][$(PREFIX)/lib]' \

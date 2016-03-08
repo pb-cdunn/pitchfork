@@ -9,21 +9,21 @@ _FILE   = $(_NAME).tar.gz
 
 # Local works
 do-extract: $(_WRKSRC)
-$(_WRKSRC): do-fetch
+$(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKSPACE)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
 do-config: $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log: do-extract
+$(_WRKSRC)/config.log: | do-extract
 	(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)) >& \
         config.log || $(PFHOME)/bin/diewith config.log
 do-build: $(_WRKSRC)/ssl/.libs/libssl.$(DYLIB)
-$(_WRKSRC)/ssl/.libs/libssl.$(DYLIB): do-build
+$(_WRKSRC)/ssl/.libs/libssl.$(DYLIB): | do-build
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): do-build
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC) install >& install.log || $(PFHOME)/bin/diewith install.log
 	$(PERL) -pi -e 's[$(STAGING)/$(_NAME)][$(PREFIX)]g' $(STAGING)/$(_NAME)/lib/pkgconfig/*.pc

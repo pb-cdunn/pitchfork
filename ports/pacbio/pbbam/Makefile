@@ -21,7 +21,7 @@ endif
 CPPFLAGS+= -D_GNU_SOURCE
 export CPPFLAGS
 do-config: $(_WRKSRC)/build/Makefile
-$(_WRKSRC)/build/Makefile: do-fetch
+$(_WRKSRC)/build/Makefile: | do-fetch
 	cd $(_WRKSRC) && mkdir -p build
 	cd $(_WRKSRC)/build \
      && $(CMAKE) \
@@ -39,7 +39,7 @@ $(_WRKSRC)/build/Makefile: do-fetch
 do-build:
 	$(MAKE) -C $(_WRKSRC)/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): do-build
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)
 	cd $(_WRKSRC) && tar cf - bin lib include | tar xf - -C $(STAGING)/$(_NAME)

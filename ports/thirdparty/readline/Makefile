@@ -9,21 +9,21 @@ _FILE   = $(_NAME).tar.gz
 
 # Local works
 do-extract: $(_WRKSRC)
-$(_WRKSRC): do-fetch
+$(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKSPACE)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
 do-config: $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log: do-extract
+$(_WRKSRC)/config.log: | do-extract
 	(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX)) >& \
         config.log || $(PFHOME)/bin/diewith condig.log
 do-build: $(_WRKSRC)/libreadline.$(DYLIB)
-$(_WRKSRC)/libreadline.$(DYLIB): do-config
+$(_WRKSRC)/libreadline.$(DYLIB): | do-config
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): do-build
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
