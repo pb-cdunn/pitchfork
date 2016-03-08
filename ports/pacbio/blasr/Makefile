@@ -83,9 +83,9 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
+	-$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build clean
+	-$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build clean
 	$(MAKE) -C $(_WRKSRC) clean
-	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build clean
-	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
