@@ -10,7 +10,7 @@ export CC
 export CXX
 
 # Local works
-do-fetch: | $(_WRKSRC)
+do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
@@ -18,8 +18,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
-do-config: | $(_WRKSRC)/build/defines.mk
-$(_WRKSRC)/build/defines.mk:
+do-config: $(_WRKSRC)/build/defines.mk
+$(_WRKSRC)/build/defines.mk: | do-fetch
 	mkdir -p $(_WRKSRC)/build
 	cd $(_WRKSRC) \
      &&     BOOST_INCLUDE=$(BOOST_ROOT)/include \
@@ -40,8 +40,8 @@ $(_WRKSRC)/build/defines.mk:
         ./configure.py --build-dir=$(_WRKSRC)/build
 do-build:
 	$(MAKE) -C $(_WRKSRC)/build
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/bin
 	cd $(_WRKSRC)/build/src/cpp \

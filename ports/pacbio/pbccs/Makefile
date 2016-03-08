@@ -10,7 +10,7 @@ _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
 # Local works
-do-fetch: | $(_WRKSRC)
+do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
@@ -18,8 +18,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
-do-config: | $(_WRKSRC)/_build/Makefile
-$(_WRKSRC)/_build/Makefile:
+do-config: $(_WRKSRC)/_build/Makefile
+$(_WRKSRC)/_build/Makefile: | do-fetch
 	mkdir -p $(_WRKSRC)/_build && \
 	cd $(_WRKSRC)/_build  && \
         $(CMAKE) \
@@ -39,8 +39,8 @@ $(_WRKSRC)/_build/Makefile:
             ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/_build
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/bin
 	rsync -ax $(_WRKSRC)/bin/ $(STAGING)/$(_NAME)/bin/
