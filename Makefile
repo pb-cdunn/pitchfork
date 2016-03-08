@@ -110,7 +110,7 @@ pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jso
 falcon_kit:       networkx
 pbfalcon:         falcon_kit pbsmrtpipe pypeFLOW
 pbreports:        matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
-kineticsTools:    pbcore pbcommand scipy numpy h5py
+kineticsTools:    scipy pbcore pbcommand h5py
 pypeFLOW:         rdflib rdfextras
 pbalign:          pbcore samtools blasr
 ConsensusCore:    numpy boost swig cmake
@@ -125,7 +125,8 @@ ppa:           boost cmake pbbam htslib
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
 world: \
-       reseq-core kineticsTools ConsensusCore2 pbfalcon \
+       kineticsTools \
+       reseq-core ConsensusCore2 pbfalcon \
        ipython    biopython     cogent         \
        cram       nose          hmmer          gmap
 
