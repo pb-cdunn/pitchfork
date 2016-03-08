@@ -14,7 +14,7 @@ do-extract: patch.log
 patch.log:
 	@cat patch-01 | (cd $(_WRKSRC) && patch -p0) | tee patch.log || exit 1
 do-fetch: $(_WRKSRC)
-$(_WRKSRC): | do-extract
+$(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
