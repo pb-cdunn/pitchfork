@@ -134,10 +134,10 @@ world: \
 # rules
 ifeq ($(origin HAVE_CCACHE),undefined)
 ccache:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 else
 ccache:
-	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+	$(MAKE) -C ports/thirdparty/$@ provided
 endif
 ifeq ($(OPSYS),Darwin)
 HAVE_ZLIB ?=
@@ -147,66 +147,66 @@ tcl: ;
 libpng: ;
 else
 readline:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 ncurses:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 tcl:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 libpng:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 endif
 ifeq ($(origin HAVE_OPENBLAS),undefined)
 openblas:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 else
 openblas:
-	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+	$(MAKE) -C ports/thirdparty/$@ provided
 endif
 ifeq ($(origin HAVE_ZLIB),undefined)
 zlib:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 else
 zlib:
-	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+	$(MAKE) -C ports/thirdparty/$@ provided
 endif
 ifeq ($(origin HAVE_HDF5),undefined)
 hdf5:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 else
 hdf5:
-	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+	$(MAKE) -C ports/thirdparty/$@ provided
 endif
 gtest:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 gmock:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 ifeq ($(origin HAVE_BOOST),undefined)
 boost:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 else
 boost:
-	$(MAKE) -j1 -C ports/thirdparty/$@ provided
+	$(MAKE) -C ports/thirdparty/$@ provided
 endif
 samtools:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 ifeq ($(origin HAVE_CMAKE),undefined)
 cmake:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 else
 cmake: ;
 endif
 swig:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 hmmer:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 gmap:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 
 openssl:
-	$(MAKE) -j1 -C ports/thirdparty/libressl do-install
+	$(MAKE) -C ports/thirdparty/libressl do-install
 ifeq ($(origin HAVE_PYTHON),undefined)
 python:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 pip:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 else
@@ -310,9 +310,9 @@ biopython:
 pyxb:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 nim:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 modules:
-	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/thirdparty/$@ do-install
 
 #
 blasr_libcpp:

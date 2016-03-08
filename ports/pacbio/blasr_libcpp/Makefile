@@ -14,7 +14,7 @@ do-extract: patch.log
 patch.log:
 	@cat patch-01 | (cd $(_WRKSRC) && patch -p0) | tee patch.log || exit 1
 do-fetch: $(_WRKSRC)
-$(_WRKSRC): do-extract
+$(_WRKSRC): | do-extract
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
@@ -22,7 +22,7 @@ else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
 do-config: $(_WRKSRC)/defines.mk
-$(_WRKSRC)/defines.mk: do-fetch
+$(_WRKSRC)/defines.mk: | do-fetch
 	cd $(_WRKSRC) && \
         ./configure.py \
             PREFIX=$(PREFIX) \
@@ -38,7 +38,7 @@ do-build:
 	$(MAKE) -C $(_WRKSRC) libpbihdf
 	$(MAKE) -C $(_WRKSRC) libblasr
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): do-build
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	cp -a $(_WRKSRC)/alignment/libblasr.$(DYLIB) $(PREFIX)/lib/
 	cp -a $(_WRKSRC)/hdf/libpbihdf.$(DYLIB) $(PREFIX)/lib/
 	cp -a $(_WRKSRC)/pbdata/libpbdata.$(DYLIB) $(PREFIX)/lib/

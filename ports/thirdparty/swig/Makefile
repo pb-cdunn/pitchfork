@@ -8,7 +8,7 @@ _FILE   = $(_NAME).tar.gz
 
 # Local works
 do-extract: $(_WRKSRC)
-$(_WRKSRC): do-fetch
+$(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKSPACE)
 do-fetch: $(_FILE) pcre-8.38.tar.gz
@@ -17,7 +17,7 @@ $(_FILE):
 pcre-8.38.tar.gz:
 	$(CURL) -L -O https://prdownloads.sourceforge.net/pcre/pcre-8.38.tar.gz
 do-config: $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log: do-extract
+$(_WRKSRC)/config.log: | do-extract
 	cp pcre-8.38.tar.gz $(_WRKSRC)/
 	set -o pipefail && (cd $(_WRKSRC) && \
         Tools/pcre-build.sh && \
@@ -38,7 +38,7 @@ $(_WRKSRC)/config.log: do-extract
 do-build:
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): do-build
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
