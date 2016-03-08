@@ -11,7 +11,7 @@ _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
 # Local works
-do-fetch: | $(_WRKSRC)
+do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
@@ -19,8 +19,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
-do-config: | $(_WRKSRC)/_build/Makefile
-$(_WRKSRC)/_build/Makefile:
+do-config: $(_WRKSRC)/_build/Makefile
+$(_WRKSRC)/_build/Makefile: | do-fetch
 	mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \
         cmake \
             -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
@@ -44,11 +44,11 @@ $(_WRKSRC)/_build/Makefile:
             -DPacBioConsensus_ThirdPartyDir=$(PREFIX)/src \
             -DPacBioCCS_ThirdPartyDir=$(PREFIX)/src \
             ..
-do-build: | $(_WRKSRC)/bin/laa
-$(_WRKSRC)/bin/laa:
+do-build: $(_WRKSRC)/bin/laa
+$(_WRKSRC)/bin/laa: | do-config
 	cd $(_WRKSRC)/_build && $(MAKE)
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)
 	rsync -ax $(_WRKSRC)/bin/ $(STAGING)/$(_NAME)/bin/

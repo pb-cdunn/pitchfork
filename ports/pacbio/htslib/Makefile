@@ -7,7 +7,7 @@ _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= ea846607f3ca7f49b3fb43df76f572d3f47cc6bb
 
 # Local works
-do-fetch: | $(_WRKSRC)
+do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
@@ -22,8 +22,8 @@ do-build:
                CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" \
               LDFLAGS="$(LDFLAGS)" \
         >& build.log || $(PFHOME)/bin/diewith build.log
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/src/htslib/include
 	mkdir -p $(STAGING)/$(_NAME)/src/htslib/lib
