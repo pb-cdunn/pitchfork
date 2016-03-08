@@ -11,7 +11,7 @@ $(_NAME)_VERSION?= HEAD
 
 # Local works
 do-extract: patch.log
-patch.log:
+patch.log: | do-fetch
 	@cat patch-01 | (cd $(_WRKSRC) && patch -p0) | tee patch.log || exit 1
 do-fetch: $(_WRKSRC)
 $(_WRKSRC):
@@ -22,7 +22,7 @@ else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
 do-config: $(_WRKSRC)/defines.mk
-$(_WRKSRC)/defines.mk: | do-fetch
+$(_WRKSRC)/defines.mk: | do-extract
 	cd $(_WRKSRC) && \
         ./configure.py \
             PREFIX=$(PREFIX) \
