@@ -66,6 +66,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
         ..
+do-build:
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
 	$(MAKE) -C $(_WRKSRC) all HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
 else
