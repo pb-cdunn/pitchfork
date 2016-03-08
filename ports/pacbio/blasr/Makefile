@@ -66,6 +66,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
         ..
+do-build:
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
 	$(MAKE) -C $(_WRKSRC) all HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
 else
@@ -83,9 +84,9 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
+	-$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build clean
+	-$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build clean
 	$(MAKE) -C $(_WRKSRC) clean
-	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build clean
-	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build clean
 	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
