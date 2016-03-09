@@ -1,6 +1,6 @@
 #!/bin/bash
 . ${HOME}/local/setup-env.sh
-set -e
+set -ex
 
 bam2bax -h
 bamSieve -h
