@@ -1,16 +1,16 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME   = samtools-1.3
-_URL    = https://github.com/samtools/samtools/releases/download/1.3
+_NAME   = samtools-0.1.20
+_URL    = https://github.com/samtools/samtools/archive
 _WRKSRC = $(WORKSPACE)/$(_NAME)
-_FILE   = $(_NAME).tar.bz2
+_FILE   = 0.1.20.tar.gz
 
 # Local works
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar jxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKSPACE)
 ifeq ($(OPSYS),Darwin)
 	cat patch-01 | (cd $(_WRKSRC) && patch -p0)
 	$(SED) -i -e 's/-rdynamic//g' $(_WRKSRC)/Makefile $(_WRKSRC)/htslib-*/configure*
@@ -18,7 +18,7 @@ endif
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
-do-config: $(_WRKSRC)/config.log
+old-do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
 	(cd $(_WRKSRC) && \
          CFLAGS="-I$(_WRKSRC)/htslib-1.3 $(CFLAGS)" ./configure --prefix=$(PREFIX) \
