@@ -20,7 +20,7 @@ $(_WRKSRC)/config.log: | do-extract
 	(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" ./configure --prefix=$(STAGING)/$(_NAME)) >& \
         config.log || $(PFHOME)/bin/diewith config.log
 do-build: $(_WRKSRC)/ssl/.libs/libssl.$(DYLIB)
-$(_WRKSRC)/ssl/.libs/libssl.$(DYLIB): | do-build
+$(_WRKSRC)/ssl/.libs/libssl.$(DYLIB): | do-config
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build

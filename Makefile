@@ -110,7 +110,7 @@ pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jso
 falcon_kit:       networkx
 pbfalcon:         falcon_kit pbsmrtpipe pypeFLOW
 pbreports:        matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
-kineticsTools:    pbcore pbcommand scipy numpy h5py
+kineticsTools:    scipy pbcore pbcommand h5py
 pypeFLOW:         rdflib rdfextras
 pbalign:          pbcore samtools blasr
 ConsensusCore:    numpy boost swig cmake
@@ -125,7 +125,8 @@ ppa:           boost cmake pbbam htslib
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
 world: \
-       reseq-core kineticsTools ConsensusCore2 pbfalcon \
+       kineticsTools \
+       reseq-core ConsensusCore2 pbfalcon \
        ipython    biopython     cogent         \
        cram       nose          hmmer          gmap
 
@@ -320,53 +321,53 @@ blasr_libcpp:
 blasr:
 	$(MAKE) -C ports/pacbio/$@ do-install
 htslib:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 seqan:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbbam:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbccs:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 dazzdb:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 daligner:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbdagcon:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 #
 pbcore:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbcommand:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbsmrtpipe:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 falcon_kit:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbfalcon:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pypeFLOW:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 ConsensusCore:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 ConsensusCore2:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 GenomicConsensus:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbreports:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 kineticsTools:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbalign:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbcoretools:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 #
 pbchimera:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pbsparse:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 pblaa:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install
 #
 ppa:
-	$(MAKE) -j1 -C ports/pacbio/$@ do-install
+	$(MAKE) -C ports/pacbio/$@ do-install

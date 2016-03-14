@@ -11,7 +11,7 @@ _WRKSRC           = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
 # Local works
-do-fetch: | $(_WRKSRC)
+do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
@@ -19,17 +19,17 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
-do-config:
+do-config: | do-fetch
 	mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \
         cmake \
             -DSEQAN_IncludeDir=$(PREFIX)/include \
             -DCMAKE_CXX_FLAGS="-L$(PREFIX)/lib" \
             ..
-do-build: | $(_WRKSRC)/_build/src/ChimeraLabeler
-$(_WRKSRC)/_build/src/ChimeraLabeler:
+do-build: $(_WRKSRC)/_build/src/ChimeraLabeler
+$(_WRKSRC)/_build/src/ChimeraLabeler: | do-config
 	cd $(_WRKSRC)/_build && $(MAKE) VERBOSE=1
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/bin
 	cp -a $(_WRKSRC)/_build/src/ChimeraLabeler $(STAGING)/$(_NAME)/bin/
