@@ -10,8 +10,10 @@ _ownpath  = os.path.abspath(__file__)
 _whereami = os.path.dirname(_ownpath)
 _projhome = os.path.dirname(_whereami)
 
+
 def log(*msgs):
     sys.stderr.write(' '.join(str(m) for m in msgs) + '\n')
+
 
 def parseargs(args):
     desc = 'Pacbio unofficial pitchfork building system.'
@@ -28,8 +30,8 @@ def parseargs(args):
         help='Run %s --help for more information' % _whatami)
 
     sub = subparsers.add_parser('configure',
-        help='prints out suggested settings.mk',
-        description='''What's in your settings.mk?''')
+                                help='prints out suggested settings.mk',
+                                description='''What's in your settings.mk?''')
     sub.add_argument('--prefix',
                      metavar='<path>',
                      type=str,
@@ -56,15 +58,16 @@ def parseargs(args):
                      help='The parent path of pre-installed zlib headers+libraries.')
 
     sub = subparsers.add_parser('installed',
-        help='''Check what's being installed''',
-        description='This will look into the PREFIX directories and list what has been installed.')
+                                help='''Check what's being installed''',
+                                description='This will look into the PREFIX directories and list what has been installed.')
     return parser.parse_args()
 
+
 def pitchfork(args):
-    #log('[INFO] args:', args)
+    # log('[INFO] args:', args)
     if args.subcommand == 'configure':
         from glob import glob
-        #print vars(args)
+        # print vars(args)
         myargs = vars(args)
         if myargs['prefix'] is not None:
             print "PREFIX      = %s" % myargs['prefix']
@@ -118,6 +121,7 @@ def pitchfork(args):
     else:
         # theoretically impossible
         raise Exception()
+
 
 def main(argv=sys.argv):
     """Main"""
