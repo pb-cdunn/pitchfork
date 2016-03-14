@@ -18,5 +18,5 @@ pbtools-runner -h
 pbvalidate -h
 #sawriter
 for myfile in bin/pitchfork; do
-    pep8-2.7 --ignore=E221,E226,E501,E701 $myfile
+    pep8 --ignore=E221,E226,E501,E701 $myfile
 done
