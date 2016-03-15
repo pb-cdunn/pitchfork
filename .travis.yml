@@ -16,6 +16,7 @@ addons:
       - gfortran-4.8
       - graphviz
       - python-dev
+      - pep8
       - cmake-data
       - cmake
 cache:
