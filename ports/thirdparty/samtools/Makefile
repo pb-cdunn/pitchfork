@@ -6,6 +6,9 @@ _URL    = https://github.com/samtools/samtools/archive
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 _FILE   = 0.1.20.tar.gz
 
+CFLAGS += -I$(PREFIX)/include/ncurses
+export CFLAGS
+
 # Local works
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
@@ -16,8 +19,7 @@ $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
 old-do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
-	(cd $(_WRKSRC) && \
-         ./configure --prefix=$(PREFIX) --without-curses) >& config.log || $(PFHOME)/bin/diewith config.log
+	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX)) >& config.log || $(PFHOME)/bin/diewith config.log
 do-build: $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools: | do-config
 	$(MAKE) CC=$(CC) CFLAGS="-g -Wall -O2 $(CFLAGS)" -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
