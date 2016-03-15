@@ -1,7 +1,7 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_VER    = 0.6
+_VER    = 0.7
 _NAME   = cram-$(_VER)
 _WRKSRC = $(WORKSPACE)/$(_NAME)
 
