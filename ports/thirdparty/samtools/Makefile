@@ -17,12 +17,9 @@ $(_WRKSRC): | do-fetch
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
-old-do-config: $(_WRKSRC)/config.log
-$(_WRKSRC)/config.log: | do-extract
-	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX)) >& config.log || $(PFHOME)/bin/diewith config.log
 do-build: $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools: | do-config
-	$(MAKE) CC=$(CC) CFLAGS="-g -Wall -O2 $(CFLAGS)" -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
+	$(MAKE) CC=$(CC) CFLAGS="-g -Wall -O2 $(CFLAGS)" LDFLAGS="$(LDFLAGS)" -C $(_WRKSRC) samtools >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
