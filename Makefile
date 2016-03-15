@@ -88,7 +88,7 @@ MarkupSafe:       pip
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 cogent:       pip numpy
-biopython:    pip
+biopython:    pip numpy
 nim:          ccache zlib
 tcl:          ccache zlib
 modules:      ccache tcl
