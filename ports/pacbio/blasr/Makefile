@@ -8,6 +8,9 @@ _NAME            = blasr
 $(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC          = $(WORKSPACE)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
+ifeq ($(OPSYS),FreeBSD)
+MAKE            := $(MAKE) DL_LIBFLAGS=''
+endif
 
 # Local works
 do-extract:
