@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 . ${HOME}/local/setup-env.sh
 set -ex
 

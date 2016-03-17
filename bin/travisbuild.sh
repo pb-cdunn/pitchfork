@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 mkdir -p $HOME/distfiles
 test -e $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz \
 || curl -s -L https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.13/bin/linux-x86_64/hdf5-1.8.13-linux-x86_64-shared.tar.gz \

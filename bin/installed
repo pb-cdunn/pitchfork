@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # description: a bash script to list installed packages
 # input:       environment variable PREFIX
 # output:      exit number
