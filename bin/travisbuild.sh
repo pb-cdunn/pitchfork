@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+rm -rf $HOME/local.pip/wheel
 mkdir -p $HOME/distfiles
 test -e $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz \
 || curl -s -L https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.13/bin/linux-x86_64/hdf5-1.8.13-linux-x86_64-shared.tar.gz \
@@ -13,3 +14,4 @@ cp mk/travis.mk settings.mk
 make init
 make -j8 reseq-core
 make -j8 pbfalcon
+rm -rf $HOME/local.pip/wheel
