@@ -12,3 +12,4 @@ tar zxf $HOME/distfiles/boost_1_56_0.tar.gz --strip=1 -C $HOME/boost_1_56_0/incl
 cp mk/travis.mk settings.mk
 make init
 make -j8 reseq-core
+make -j8 pbfalcon
