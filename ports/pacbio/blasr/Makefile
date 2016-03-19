@@ -42,8 +42,8 @@ $(_WRKSRC)/defines.mk: | do-fetch
            HTSLIB_INC=$(PREFIX)/src/htslib/include \
            HTSLIB_LIB=$(PREFIX)/src/htslib/lib
 $(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
-	mkdir -p $(_WRKSRC)/utils/bax2bam/build && \
-        cd $(_WRKSRC)/utils/bax2bam/build && \
+	mkdir -p $(_WRKSRC)/utils/bax2bam/build
+	cd $(_WRKSRC)/utils/bax2bam/build && \
         $(CMAKE) \
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DHDF5_RootDir=$(HDF5_ROOT) \
@@ -56,8 +56,8 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
         ..
 $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
-	mkdir -p $(_WRKSRC)/utils/bam2bax/build && \
-        cd $(_WRKSRC)/utils/bam2bax/build && \
+	mkdir -p $(_WRKSRC)/utils/bam2bax/build
+	cd $(_WRKSRC)/utils/bam2bax/build && \
         $(CMAKE) \
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DHDF5_RootDir=$(HDF5_ROOT) \
@@ -79,7 +79,8 @@ endif
 	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)/bin
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/bin
 	cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(STAGING)/$(_NAME)/bin/
 	cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(STAGING)/$(_NAME)/bin/
 	cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/

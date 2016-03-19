@@ -22,7 +22,7 @@ CPPFLAGS+= -D_GNU_SOURCE
 export CPPFLAGS
 do-config: $(_WRKSRC)/build/Makefile
 $(_WRKSRC)/build/Makefile: | do-fetch
-	cd $(_WRKSRC) && mkdir -p build
+	mkdir -p $(_WRKSRC)/build
 	cd $(_WRKSRC)/build \
      && $(CMAKE) \
             -DPacBioBAM_build_shared=ON \

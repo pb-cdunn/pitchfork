@@ -25,7 +25,8 @@ do-build:
 	$(MAKE) -C $(_WRKSRC)/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)/bin
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/bin
 	cd $(_WRKSRC)/build \
       && tar cf - daligner    LAsplit    LAsort  LAmerge HPCmapper \
                   HPCdaligner LAshow     LAcheck LAcat   LA4Falcon \

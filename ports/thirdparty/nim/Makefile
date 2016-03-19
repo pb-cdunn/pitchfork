@@ -22,7 +22,8 @@ $(_WRKSRC)/bin/nim: | do-extract
 	cd $(_WRKSRC) && sh build.sh
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME) && mkdir -p $(STAGING)/$(_NAME)
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)
 	mkdir -p $(PREFIX)/share/doc
 	cd $(_WRKSRC) && sh install.sh $(STAGING)/$(_NAME)
 	cp -a $(STAGING)/$(_NAME)/nim/bin/nim  $(PREFIX)/bin/

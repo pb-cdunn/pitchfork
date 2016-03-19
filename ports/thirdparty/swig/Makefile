@@ -19,8 +19,8 @@ pcre-8.38.tar.gz:
 do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
 	cp pcre-8.38.tar.gz $(_WRKSRC)/
-	set -o pipefail && (cd $(_WRKSRC) && \
-        Tools/pcre-build.sh && \
+	cd $(_WRKSRC) && Tools/pcre-build.sh >& config.log
+	(cd $(_WRKSRC) && \
         CFLAGS="$(CFLAGS)" \
         CC="$(CC) -L$(PREFIX)/lib" \
         CXX="$(CXX) -L$(PREFIX)/lib" \
@@ -34,7 +34,7 @@ $(_WRKSRC)/config.log: | do-extract
             --without-ruby \
             --without-tcl \
             --without-r \
-        ) >& config.log || $(PFHOME)/bin/diewith config.log
+        2>&1) >> config.log || $(PFHOME)/bin/diewith config.log
 do-build:
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
