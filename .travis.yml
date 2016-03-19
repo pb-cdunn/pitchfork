@@ -23,6 +23,7 @@ cache:
   directories:
     - $HOME/.ccache
     - $HOME/distfiles
+    - $HOME/local.pip
 
 install:
   - bin/travisbuild.sh
