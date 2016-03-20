@@ -32,7 +32,7 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-              -DCMAKE_SKIP_BUILD_RPATH=TRUE \
+              -DCMAKE_SKIP_BUILD_RPATH=FALSE \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DGMOCK_RootDir=$(PREFIX)/src/gmock \
