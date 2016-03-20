@@ -19,7 +19,7 @@ $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
 do-build: $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools: | do-config
-	$(MAKE) CC=$(CC) CFLAGS="-g -Wall -O2 $(CFLAGS)" LDFLAGS="$(LDFLAGS)" -C $(_WRKSRC) samtools >& build.log || $(PFHOME)/bin/diewith build.log
+	$(MAKE) CC=$(CC) CFLAGS='-g -Wall -O2 $(CFLAGS)' -C $(_WRKSRC) samtools >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)

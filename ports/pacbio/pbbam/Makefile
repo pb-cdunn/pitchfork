@@ -34,7 +34,7 @@ $(_WRKSRC)/build/Makefile: | do-fetch
             -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
             -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            -DCMAKE_SKIP_BUILD_RPATH=TRUE \
+            -DCMAKE_SKIP_BUILD_RPATH=FALSE \
             ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/build
