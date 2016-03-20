@@ -21,8 +21,9 @@ else
 endif
 do-config: $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile: | do-fetch
-	mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \
-        cmake \
+	mkdir -p $(_WRKSRC)/_build
+	cd $(_WRKSRC)/_build && \
+        $(CMAKE) \
             -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
             -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
             -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \

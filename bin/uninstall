@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # description: a bash script to uninstall a package
 # input:       a path point to pitchforks package file
 # output:      exit number

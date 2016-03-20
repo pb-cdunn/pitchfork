@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 reportVersion(){
     set -euf -o pipefail

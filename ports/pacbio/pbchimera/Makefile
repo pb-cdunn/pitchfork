@@ -20,8 +20,9 @@ else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
 do-config: | do-fetch
-	mkdir -p $(_WRKSRC)/_build && cd $(_WRKSRC)/_build && \
-        cmake \
+	mkdir -p $(_WRKSRC)/_build
+	cd $(_WRKSRC)/_build && \
+        $(CMAKE) \
             -DSEQAN_IncludeDir=$(PREFIX)/include \
             -DCMAKE_CXX_FLAGS="-L$(PREFIX)/lib" \
             ..

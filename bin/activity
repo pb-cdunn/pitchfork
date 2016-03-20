@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ncount=0
 while read LINE; do
     if [ "$DEBUG" ]; then

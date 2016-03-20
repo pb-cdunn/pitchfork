@@ -16,7 +16,8 @@ $(_WRKSRC): | do-fetch
 	tar zxf $(_FILE) -C $(WORKSPACE)
 do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
-	(cd $(_WRKSRC) && export CPPFLAGS="-DUSE_INTERP_ERRORLINE" && \
+	(cd $(_WRKSRC) && \
+        CPPFLAGS="-DUSE_INTERP_ERRORLINE" \
         ./configure --prefix=$(PREFIX) --with-tcl=$(PREFIX)/lib) >& \
         config.log || $(PFHOME)/bin/diewith config.log
 do-build: $(_WRKSRC)/modulecmd

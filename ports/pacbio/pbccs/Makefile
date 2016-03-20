@@ -20,7 +20,7 @@ else
 endif
 do-config: $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile: | do-fetch
-	mkdir -p $(_WRKSRC)/_build && \
+	mkdir -p $(_WRKSRC)/_build
 	cd $(_WRKSRC)/_build  && \
         $(CMAKE) \
               -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
