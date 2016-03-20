@@ -71,9 +71,11 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
         ..
 do-build:
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
-	$(MAKE) -C $(_WRKSRC) all HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
+	$(MAKE) -C $(_WRKSRC) blasr HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
+	$(MAKE) -C $(_WRKSRC)/utils HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
 else
-	$(MAKE) -C $(_WRKSRC) all
+	$(MAKE) -C $(_WRKSRC) blasr
+	$(MAKE) -C $(_WRKSRC)/utils
 endif
 	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
 	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build

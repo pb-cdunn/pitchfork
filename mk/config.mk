@@ -35,7 +35,7 @@ OPSYS     := $(shell $(UNAME) -s)
 
 CFLAGS    ?= -fPIC -I$(PREFIX)/include
 CXXFLAGS  ?= $(CFLAGS)
-LDFLAGS   ?= -Wl,-rpath,'$$$$ORIGIN/../lib' -L$(PREFIX)/lib
+LDFLAGS   ?= -Wl,-rpath,'$$ORIGIN/../lib',-rpath,'$$$$ORIGIN/../lib' -L$(PREFIX)/lib
 
 BOOST_ROOT = $(PREFIX)
 HDF5_ROOT  = $(PREFIX)
