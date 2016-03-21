@@ -33,14 +33,9 @@ endif
 ARCH      := $(shell $(UNAME) -m)
 OPSYS     := $(shell $(UNAME) -s)
 
-CFLAGS    ?=
-CXXFLAGS  ?=
-LDFLAGS   ?=
-
-LDFLAGS   += -L$(PREFIX)/lib
-CFLAGS    += -fPIC
-CFLAGS    += -I$(PREFIX)/include
-CXXFLAGS  += $(CFLAGS)
+CFLAGS    ?= -fPIC -I$(PREFIX)/include
+CXXFLAGS  ?= $(CFLAGS)
+LDFLAGS   ?= -Wl,-rpath,'$$ORIGIN/../lib',-rpath,'$$$$ORIGIN/../lib' -L$(PREFIX)/lib
 
 BOOST_ROOT = $(PREFIX)
 HDF5_ROOT  = $(PREFIX)
