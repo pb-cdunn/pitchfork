@@ -27,3 +27,6 @@ $(PREFIX)/var/pkg/$(_NAME):
         find lib/python* include/python* bin/pip* bin/python* \
              bin/activate* bin/easy_install* bin/wheel | sort -r \
         > $@
+ifeq ($(OPSYS),Darwin)
+	cp -a $(PYTHON) $(PREFIX)/bin/
+endif

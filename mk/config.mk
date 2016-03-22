@@ -52,6 +52,7 @@ export PATH              := $(PREFIX)/bin:$(PFHOME)/bin:${PATH}
 export PKG_CONFIG_PATH   := $(PREFIX)/lib/pkgconfig
 
 ifeq ($(OPSYS),Darwin)
+    HAVE_PYTHON ?= /usr/bin/python
     HAVE_ZLIB ?= /usr
     DYLIB  = dylib
     export DYLD_LIBRARY_PATH := $(PREFIX)/lib:${DYLD_LIBRARY_PATH}
