@@ -66,7 +66,6 @@ def parseargs(args):
 def pitchfork(args):
     # log('[INFO] args:', args)
     if args.subcommand == 'configure':
-        from glob import glob
         # print vars(args)
         myargs = vars(args)
         if myargs['prefix'] is not None:
@@ -115,7 +114,7 @@ def pitchfork(args):
             pass
         else:
             if len(glob("%s/deployment" % _projhome)) > 0:
-                _prefix = "%s%s/deployment" % _projhome
+                _prefix = "%s/deployment" % _projhome
         for mypkg in glob('%s/var/pkg/*' % _prefix):
             print os.path.basename(mypkg)
     else:
