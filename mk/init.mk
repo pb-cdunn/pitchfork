@@ -36,12 +36,12 @@ sanity:
 
 # utils
 _startover::
-	@echo "This will erase everything in $(PREFIX), staging/ and workspace/ directories."
+	@echo "This will erase everything in $(PREFIX)/, staging/ and "$(WORKSPACE)/" directories."
 	@read -p "Are you sure? " -n 1 -r; \
         echo; \
         if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
            set -x; \
-           rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* workspace/* ports/*/*/*.log; \
+           rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* "$(WORKSPACE)"/* ports/*/*/*.log; \
            rm -rf $(PREFIX).pip/wheel; \
         fi
 
