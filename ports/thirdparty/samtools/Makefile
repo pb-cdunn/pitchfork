@@ -16,7 +16,7 @@ $(_WRKSRC): | do-fetch
 	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
-	$(CURL) -L -O $(_URL)/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-build: $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools: | do-config
 	$(MAKE) CC=$(CC) CFLAGS='-g -Wall -O2 $(CFLAGS)' -C $(_WRKSRC) samtools >& build.log || $(PFHOME)/bin/diewith build.log
