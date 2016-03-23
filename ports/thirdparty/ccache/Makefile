@@ -13,7 +13,7 @@ $(_WRKSRC): | do-fetch
 	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
-	$(CURL) -O $(_URL)/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
 	(cd $(_WRKSRC) && ./configure --prefix=$(PREFIX) --with-bundled-zlib) >& config.log || $(PFHOME)/bin/diewith config.log

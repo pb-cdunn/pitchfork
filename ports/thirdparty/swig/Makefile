@@ -13,9 +13,9 @@ $(_WRKSRC): | do-fetch
 	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE) pcre-8.38.tar.gz
 $(_FILE):
-	$(CURL) -L -O $(_URL)/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 pcre-8.38.tar.gz:
-	$(CURL) -L -O https://prdownloads.sourceforge.net/pcre/pcre-8.38.tar.gz
+	$(PFHOME)/bin/pitchfork fetch --url https://prdownloads.sourceforge.net/pcre/pcre-8.38.tar.gz
 do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
 	cp pcre-8.38.tar.gz $(_WRKSRC)/

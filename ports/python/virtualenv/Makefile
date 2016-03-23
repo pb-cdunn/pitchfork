@@ -18,7 +18,7 @@ $(_WRKSRC)/virtualenv.py:
 	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: | $(_FILE)
 $(_FILE):
-	$(CURL) -L -O $(_URL)/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	$(PYTHON) $(_WRKSRC)/virtualenv.py $(PREFIX)

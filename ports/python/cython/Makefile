@@ -14,7 +14,7 @@ $(_WRKSRC):
 	tar zxf $(_NAME).tar.gz -C $(WORKDIR)
 do-fetch: | $(_NAME).tar.gz
 $(_NAME).tar.gz:
-	$(CURL) -O -L $(_URL)/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
