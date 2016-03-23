@@ -3,12 +3,47 @@ import sys
 import os
 import argparse
 from glob import glob
+import subprocess
 
-__VERSION__ = '0.0.1'
+__VERSION__ = '0.0.2'
 _whatami  = os.path.basename(sys.argv[0])
 _ownpath  = os.path.abspath(__file__)
 _whereami = os.path.dirname(_ownpath)
 _projhome = os.path.dirname(_whereami)
+
+
+def backticks(cmd, merge_stderr=True):
+    """
+    Simulates the perl backticks (``) command with error-handling support
+    Returns ( command output as sequence of strings, error code, error message )
+    """
+    if merge_stderr:
+        _stderr = subprocess.STDOUT
+    else:
+        _stderr = subprocess.PIPE
+
+    p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE, stderr=_stderr,
+                         close_fds=True)
+
+    out = [l[:-1] for l in p.stdout.readlines()]
+
+    p.stdout.close()
+    if not merge_stderr:
+        p.stderr.close()
+
+    # need to allow process to terminate
+    p.wait()
+
+    errCode = p.returncode and p.returncode or 0
+    if p.returncode > 0:
+        errorMessage = os.linesep.join(out)
+        output = []
+    else:
+        errorMessage = ''
+        output = out
+
+    return output, errCode, errorMessage
 
 
 def log(*msgs):
@@ -60,6 +95,14 @@ def parseargs(args):
     sub = subparsers.add_parser('installed',
                                 help='''Check what's being installed''',
                                 description='This will look into the PREFIX directories and list what has been installed.')
+
+    sub = subparsers.add_parser('fetch',
+                                help='prints out suggested settings.mk',
+                                description='''What's in your settings.mk?''')
+    sub.add_argument('--url',
+                     metavar='<url>',
+                     type=str,
+                     help='The url of distfile.')
     return parser.parse_args()
 
 
@@ -100,26 +143,76 @@ def pitchfork(args):
                 print "HAVE_ZLIB   ="
             else:
                 print "HAVE_ZLIB   = %s" % os.path.abspath(myargs['zlib'])
-    elif args.subcommand == 'installed':
-        _prefix = ''
-        if len(glob('%s/settings.mk' % _projhome)) > 0:
-            for line in open('%s/settings.mk' % _projhome, 'r'):
-                if 'PREFIX' in line.strip():
-                    if line.strip().split('=')[0].strip() == 'PREFIX':
-                        _prefix = line.strip().split('=')[1].strip()
-                    break
-        if 'PREFIX' in os.environ:
-            _prefix = "%s" % os.environ['PREFIX']
-        elif len(glob(_prefix)) > 0:
-            pass
-        else:
-            if len(glob("%s/deployment" % _projhome)) > 0:
-                _prefix = "%s/deployment" % _projhome
+        return
+
+    _prefix = ''
+    if len(glob('%s/settings.mk' % _projhome)) > 0:
+        for line in open('%s/settings.mk' % _projhome, 'r'):
+            if 'PREFIX' in line.strip():
+                if line.strip().split('=')[0].strip() == 'PREFIX':
+                    _prefix = line.strip().split('=')[1].strip()
+                break
+    if 'PREFIX' in os.environ:
+        _prefix = "%s" % os.environ['PREFIX']
+    elif len(glob(_prefix)) > 0:
+        pass
+    else:
+        if len(glob("%s/deployment" % _projhome)) > 0:
+            _prefix = "%s/deployment" % _projhome
+
+    if args.subcommand == 'installed':
         for mypkg in glob('%s/var/pkg/*' % _prefix):
             print os.path.basename(mypkg)
-    else:
-        # theoretically impossible
+        return
+
+    if args.subcommand == 'fetch':
+        myargs = vars(args)
+
+        _distfiles = ''
+        if 'DISTFILES' in os.environ:
+            _distfiles = "%s" % os.environ['DISTFILES']
+        elif len(glob('%s/settings.mk' % _projhome)) > 0:
+            for line in open('%s/settings.mk' % _projhome, 'r'):
+                if 'DISTFILES' in line.strip():
+                    if line.strip().split('=')[0].strip() == 'DISTFILES':
+                        _distfiles = line.strip().split('=')[1].strip()
+                    break
+        if len(glob(_distfiles)) > 0:
+            pass
+        else:
+            if len(glob("%s/distfiles" % _projhome)) > 0:
+                _distfiles = "%s/distfiles" % _projhome
+
+        if not os.path.exists('MD5SUM'):
+            log('[ERROR] MD5SUM file not found')
+            raise Exception()
+        if myargs['url'] is not None:
+            _url = myargs['url']
+            _archive = _url.split('/')[-1]
+            _prefetch = '/'.join([_distfiles, _archive])
+            if os.path.exists(_prefetch):
+                print "using local %s" % _archive
+                backticks('cp %s ./' % _prefetch)
+                try:
+                    backticks('md5sum -c MD5SUM')
+                    return
+                except:
+                    pass
+            try:
+                print "fetching %s" % _url
+                backticks('curl -L -O %s' % _url)
+            except:
+                raise Exception()
+            try:
+                backticks('md5sum -c MD5SUM')
+                backticks('cp %s %s/' % (_archive, _distfiles))
+                return
+            except:
+                raise Exception()
+
+        log('[ERROR] you need to specify --url')
         raise Exception()
+    raise Exception()
 
 
 def main(argv=sys.argv):

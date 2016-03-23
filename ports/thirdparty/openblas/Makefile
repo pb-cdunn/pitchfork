@@ -16,7 +16,7 @@ $(_WRKSRC): | do-fetch
 	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
-	$(CURL) -L -O $(_URL)/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-build: $(_WRKSRC)/libopenblas.$(DYLIB)
 $(_WRKSRC)/libopenblas.$(DYLIB): | do-extract
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log

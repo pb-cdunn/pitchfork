@@ -4,21 +4,4 @@
 # output:      exit number
 
 # utility for log
-die(){
-    test "$*" && echo "$*" || true
-    exit 1
-}
-
-# 0. warn about multiple argument
-if [ "$#" -ne 0 ]; then
-   die  "[ERROR] $0 only takes 1 argument"
-fi
-
-# 1. check PREFIX
-test "${PREFIX}" || die "[ERROR] PREFIX is not set or empty, try PREFIX=foo bin/installed"
-test -d "${PREFIX}/var/pkg" || die "[ERROR] package database not found"
-
-cd ${PREFIX}/var/pkg
-for myPkg in *; do
-    echo $myPkg
-done
+"$(dirname $0)/pitchfork" installed

@@ -7,9 +7,9 @@ _FILE            = release-1.7.0.tar.gz
 _WRKSRC          = $(WORKDIR)/$(_NAME)
 
 # Local works
-do-fetch:  $(_FILE)
+do-fetch: $(_FILE)
 $(_FILE):
-	$(CURL) -L -O $(_URL)/archive/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/archive/$@
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit

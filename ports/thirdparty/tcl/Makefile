@@ -9,7 +9,7 @@ _WRKSRC          = $(WORKDIR)/$(_NAME)
 # Local works
 do-fetch: $(_FILE)
 $(_FILE):
-	$(CURL) -L -O $(_URL)/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit

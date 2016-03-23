@@ -16,7 +16,7 @@ $(_WRKSRC):
 	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: | $(_FILE)
 $(_FILE):
-	$(CURL) -L -O $(_URL)/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 ifneq ($(OPSYS),Darwin)
 do-config: | $(_WRKSRC)/site.cfg
 $(_WRKSRC)/site.cfg:

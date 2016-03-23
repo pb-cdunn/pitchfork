@@ -10,7 +10,7 @@ _FILE            = get-pip.py
 # Local works
 do-fetch: | $(_FILE)
 $(_FILE):
-	$(CURL) -O $(_URL)/$(_REV)/contrib/$@
+	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$(_REV)/contrib/$@
 do-install: | $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	$(PREFIX)/bin/python $(_FILE)
