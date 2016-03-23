@@ -112,7 +112,7 @@ pbfalcon:         falcon_kit pbsmrtpipe pypeFLOW
 pbreports:        matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
 kineticsTools:    scipy pbcore pbcommand h5py
 pypeFLOW:         rdflib rdfextras
-pbalign:          pbcore samtools blasr
+pbalign:          pbcore samtools blasr pbcommand
 ConsensusCore:    numpy boost swig cmake
 ConsensusCore2:   numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore

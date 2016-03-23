@@ -71,7 +71,7 @@ def pitchfork(args):
         if myargs['prefix'] is not None:
             print "PREFIX      = %s" % myargs['prefix']
         if myargs['workspace'] is not None:
-            print "WORKSPACE   = %s" % myargs['workspace']
+            print "WORKDIR     = %s" % myargs['workspace']
         if myargs['boost'] is not None:
             if len("%s" % myargs['boost']) < 1:
                 print "HAVE_BOOST  ="

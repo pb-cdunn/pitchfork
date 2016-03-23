@@ -17,10 +17,10 @@ PFHOME    := $(realpath ../../..)
 
 -include $(PFHOME)/settings.mk
 
-WORKSPACE  ?= $(PFHOME)/workspace
+WORKDIR    ?= $(PFHOME)/workspace
 PREFIX     ?= $(PFHOME)/deployment
 STAGING    ?= $(PFHOME)/staging
-CCACHE_DIR ?= $(WORKSPACE)/.ccache
+CCACHE_DIR ?= $(WORKDIR)/.ccache
 PIP         = $(PREFIX)/bin/pip --cache-dir $(PREFIX).pip
 
 ifneq ($(origin DEBUG),undefined)
