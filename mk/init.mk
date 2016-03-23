@@ -6,7 +6,7 @@ override PFHOME:=$(CURDIR)
 include $(SELF_DIR)/config.mk
 
 init: sanity
-	mkdir -p "$(WORKSPACE)"
+	mkdir -p "$(WORKDIR)"
 	mkdir -p "$(STAGING)"
 	mkdir -p "$(PREFIX)/bin"
 	mkdir -p "$(PREFIX)/etc"
