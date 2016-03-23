@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _VER    = 2.8
 _NAME   = jinja2-$(_VER)
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME             = falcon_kit
 $(_NAME)_REPO    ?= git://github.com/PacificBiosciences/FALCON
-_WRKSRC           = $(WORKSPACE)/$(_NAME)
+_WRKSRC           = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
 # Local works

@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME            = Python-2.7.10
 _URL             = https://www.python.org/ftp/python/2.7.10
 _FILE            = Python-2.7.10.tgz
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 _CONFIGURE_ARGS  = --prefix=$(PREFIX)
 _CONFIGURE_ARGS += --enable-unicode=ucs4
 _CONFIGURE_ARGS += --enable-shared
@@ -19,7 +19,7 @@ $(_FILE):
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 	$(SED) -i -e "s|@@PREFIX@@|$(PREFIX)|g" $(_WRKSRC)/Lib/cgi.py $(_WRKSRC)/Lib/ctypes/macholib/dyld.py
 	$(SED)    -e "s|@@PREFIX@@|$(PREFIX)|g" patch-01 | (cd $(_WRKSRC) && patch -p0)
 do-config: $(_WRKSRC)/config.log

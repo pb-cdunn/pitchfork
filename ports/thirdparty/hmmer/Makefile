@@ -3,14 +3,14 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME   = hmmer-3.1b2
 _URL    = http://eddylab.org/software/hmmer3/3.1b2
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 _FILE   = $(_NAME).tar.gz
 
 # Local works
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@

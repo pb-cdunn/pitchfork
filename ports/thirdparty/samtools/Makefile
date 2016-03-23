@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME   = samtools-0.1.20
 _URL    = https://github.com/samtools/samtools/archive
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 _FILE   = 0.1.20.tar.gz
 
 CFLAGS += -I$(PREFIX)/include/ncurses
@@ -13,7 +13,7 @@ export CFLAGS
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@

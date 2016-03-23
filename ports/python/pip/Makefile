@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME            = pip-7.1.2
 _URL             = https://raw.githubusercontent.com/pypa/pip
 _REV             = 3dfa1f9a55d25587e9e97a27d8c87943e4b6aa54
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 _FILE            = get-pip.py
 
 # Local works

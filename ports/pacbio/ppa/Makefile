@@ -5,7 +5,7 @@ include ../../../mk/chkcxx.mk
 
 # Local variables
 _NAME            = ppa
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 _WRKSRCP4        = $(shell hostname)
 _P4CLIENTNAME    = pitchfork-$(_WRKSRCP4)
 _P4CLIENT        = P4CLIENT=$(_P4CLIENTNAME)

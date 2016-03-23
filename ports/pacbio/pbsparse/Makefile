@@ -7,7 +7,7 @@ endif
 # Local variables
 _NAME             = pbsparse
 $(_NAME)_REPO    ?= https://$(GHTOKEN)@github.com/PacificBiosciences/$(_NAME)
-_WRKSRC           = $(WORKSPACE)/$(_NAME)
+_WRKSRC           = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
 # Local works

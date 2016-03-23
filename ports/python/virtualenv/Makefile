@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME   = virtualenv-13.1.2
 _URL    = https://pypi.python.org/packages/source/v/virtualenv
 _FILE   = $(_NAME).tar.gz
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 PYTHON  = /usr/bin/python
 ifneq ($(origin HAVE_PYTHON),undefined)
     PYTHON := $(shell ../../../bin/chkSysPython $(HAVE_PYTHON))
@@ -15,7 +15,7 @@ endif
 do-extract: | $(_WRKSRC)/virtualenv.py
 $(_WRKSRC)/virtualenv.py:
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: | $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@

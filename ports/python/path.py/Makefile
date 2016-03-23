@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME   = path.py-$(_VER)
 _VER    = 8.1.2
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-install: | $(PREFIX)/var/pkg/$(_NAME)

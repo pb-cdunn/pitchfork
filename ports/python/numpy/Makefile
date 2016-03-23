@@ -7,13 +7,13 @@ include ../../../mk/chkfc.mk
 _NAME   = numpy-1.10.2
 _URL    = https://pypi.python.org/packages/source/n/numpy
 _FILE   = $(_NAME).tar.gz
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: | $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@

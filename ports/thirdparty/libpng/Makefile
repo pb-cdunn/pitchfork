@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME   = libpng-1.6.21
 _URL    = https://prdownloads.sourceforge.net/libpng
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 _FILE   = $(_NAME).tar.gz
 
@@ -11,7 +11,7 @@ _FILE   = $(_NAME).tar.gz
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@

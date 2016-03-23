@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME   = ncurses-6.0
 _URL    = ftp://ftp.gnu.org/gnu/ncurses
 _FILE   = $(_NAME).tar.gz
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-fetch: $(_FILE)
@@ -13,7 +13,7 @@ $(_FILE):
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-clean-distfile:
 	rm -f $(_FILE)
 do-config: $(_WRKSRC)/config.log

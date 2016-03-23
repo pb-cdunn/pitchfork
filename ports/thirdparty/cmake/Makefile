@@ -7,7 +7,7 @@ include ../../../mk/chkcxx.mk
 _NAME   = cmake-3.4.1
 _URL    = https://cmake.org/files/v3.4
 _FILE   = $(_NAME).tar.gz
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-fetch: $(_FILE)
@@ -16,7 +16,7 @@ $(_FILE):
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-config: $(_WRKSRC)/Makefile
 $(_WRKSRC)/Makefile: | do-extract
 	(cd $(_WRKSRC) && ./bootstrap --prefix=$(STAGING)/$(_NAME)) >& config.log || $(PFHOME)/bin/diewith config.log

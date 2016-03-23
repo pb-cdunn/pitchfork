@@ -6,7 +6,7 @@ include ../../../mk/chkcxx.mk
 # Local variables
 _NAME            = blasr
 $(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 ifeq ($(OPSYS),FreeBSD)
 MAKE            := $(MAKE) DL_LIBFLAGS=''

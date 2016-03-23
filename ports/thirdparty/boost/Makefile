@@ -7,7 +7,7 @@ include ../../../mk/chkcxx.mk
 _NAME    = boost-1.60.0
 _URL     = https://prdownloads.sourceforge.net/boost
 _FILE    = boost_1_60_0.tar.gz
-_WRKSRC  = $(WORKSPACE)/$(_NAME)
+_WRKSRC  = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-fetch: $(_FILE)

@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME            = tcl8.6.4
 _URL             = https://prdownloads.sourceforge.net/tcl
 _FILE            = tcl-core8.6.4-src.tar.gz
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-fetch: $(_FILE)
@@ -13,7 +13,7 @@ $(_FILE):
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-config: $(_WRKSRC)/unix/config.log
 $(_WRKSRC)/unix/config.log: | do-extract
 	(cd $(_WRKSRC)/unix && \

@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _VER    = 1.5.1
 _NAME   = matplotlib-$(_VER)
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 
 _tmpvar:=$(if $(shell which pkg-config),exists,$(error "unable to run pkg-config, consider doing yum install pkgconfig"))
 #export PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig

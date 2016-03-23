@@ -4,13 +4,13 @@ include ../../../mk/pitchfork.mk
 _NAME   = ccache-3.2.4
 _URL    = https://www.samba.org/ftp/ccache
 _FILE	= $(_NAME).tar.gz
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -O $(_URL)/$@

@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME             = htslib
 $(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
-_WRKSRC           = $(WORKSPACE)/$(_NAME)
+_WRKSRC           = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION ?= ea846607f3ca7f49b3fb43df76f572d3f47cc6bb
 
 # Local works

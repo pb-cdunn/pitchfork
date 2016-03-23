@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME            = modules-3.2.10
 _URL             = https://prdownloads.sourceforge.net/modules
 _FILE            = modules-3.2.10.tar.gz
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-fetch: $(_FILE)
@@ -13,7 +13,7 @@ $(_FILE):
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
 	(cd $(_WRKSRC) && \

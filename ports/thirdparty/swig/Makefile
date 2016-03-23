@@ -3,14 +3,14 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME   = swig-3.0.8
 _URL    = https://prdownloads.sourceforge.net/swig
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 _FILE   = $(_NAME).tar.gz
 
 # Local works
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE) pcre-8.38.tar.gz
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@

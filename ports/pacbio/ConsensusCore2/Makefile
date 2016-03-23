@@ -6,7 +6,7 @@ include ../../../mk/chkcxx.mk
 # Local variables
 _NAME            = ConsensusCore2
 $(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works

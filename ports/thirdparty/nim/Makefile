@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME            = nim-0.12.0
 _URL             = http://nim-lang.org/download
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 _FILE            = $(_NAME).zip
 
 # Local check
@@ -16,7 +16,7 @@ $(_FILE):
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	unzip $(_FILE) -d $(WORKSPACE)
+	unzip $(_FILE) -d $(WORKDIR)
 do-build: $(_WRKSRC)/bin/nim
 $(_WRKSRC)/bin/nim: | do-extract
 	cd $(_WRKSRC) && sh build.sh

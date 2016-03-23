@@ -3,7 +3,7 @@ include ../../../mk/pitchfork.mk
 # Local variables
 _NAME   = Cython-0.23.4
 _URL    = http://cython.org/release
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 LDFLAGS = -L$(PREFIX)/lib
 export LDFLAGS
 
@@ -11,7 +11,7 @@ export LDFLAGS
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_NAME).tar.gz -C $(WORKSPACE)
+	tar zxf $(_NAME).tar.gz -C $(WORKDIR)
 do-fetch: | $(_NAME).tar.gz
 $(_NAME).tar.gz:
 	$(CURL) -O -L $(_URL)/$@

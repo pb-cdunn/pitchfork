@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME            = gtest-1.7.0
 _URL             = https://github.com/google/googletest
 _FILE            = release-1.7.0.tar.gz
-_WRKSRC          = $(WORKSPACE)/$(_NAME)
+_WRKSRC          = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-fetch: $(_FILE)

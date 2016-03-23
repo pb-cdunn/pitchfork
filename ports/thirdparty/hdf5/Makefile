@@ -7,7 +7,7 @@ include ../../../mk/chkcxx.mk
 _NAME   = hdf5-1.8.16
 _URL    = https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.16/src
 _FILE   = $(_NAME).tar.gz
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 
 # Local works
 do-fetch: $(_FILE)
@@ -16,7 +16,7 @@ $(_FILE):
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
 	(cd $(_WRKSRC) && \

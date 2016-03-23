@@ -6,14 +6,14 @@ include ../../../mk/chkfc.mk
 # Local variables
 _NAME   = OpenBLAS-0.2.15
 _URL    = https://github.com/xianyi/OpenBLAS/archive
-_WRKSRC = $(WORKSPACE)/$(_NAME)
+_WRKSRC = $(WORKDIR)/$(_NAME)
 _FILE   = v0.2.15.tar.gz
 
 # Local works
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
-	tar zxf $(_FILE) -C $(WORKSPACE)
+	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(CURL) -L -O $(_URL)/$@
