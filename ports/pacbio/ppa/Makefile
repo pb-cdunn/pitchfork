@@ -6,7 +6,7 @@ include ../../../mk/chkcxx.mk
 # Local variables
 _NAME            = ppa
 _WRKSRC          = $(WORKDIR)/$(_NAME)
-_WRKSRCP4        = $(shell hostname)
+_WRKSRCP4        = $(shell hostname -s)
 _P4CLIENTNAME    = ${USER}-pitchfork-$(_WRKSRCP4)
 _P4CLIENT        = P4CLIENT=$(_P4CLIENTNAME)
 _BUILD           = $(_WRKSRC)/Sequel/ppa/build
@@ -18,7 +18,7 @@ $(_WRKSRC):
 	mkdir -p $(_WRKSRC)
 	cd $(_WRKSRC) && \
 	if [[ `p4 clients | grep $(_P4CLIENTNAME)` ]]; then p4 client -d $(_P4CLIENTNAME); fi && \
-	$(_P4CLIENT) P4EDITOR=cat p4 client -S //PrimaryAnalysis/main_ppa
+	P4EDITOR=cat p4 -c $(_P4CLIENTNAME) client -S //PrimaryAnalysis/main_ppa
 do-config: $(_BUILD)/Makefile
 $(_BUILD)/Makefile: | do-fetch
 	mkdir -p $(_BUILD)
