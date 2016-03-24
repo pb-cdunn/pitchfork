@@ -18,19 +18,5 @@ fi
 
 # 1. check PREFIX
 test "${PREFIX}" || die "[ERROR] PREFIX is not set or empty, try PREFIX=foo bin/uninstall"
-test -d "${PREFIX}/var/pkg" || die "[ERROR] package database not found"
 
-# 2. check pkg
-test -f "${PREFIX}/var/pkg/$1" || die "[ERROR] package not found"
-
-# 3. remove files
-cd ${PREFIX} || die "[ERROR] Sum Ting Wong, Wi Tu Lo."
-# beware of the space in the path list in the package file
-IFS=$(echo -en "\n\b")
-for thisFile in `cat var/pkg/${1}`; do
-    test "$thisFile" || continue
-    test -d $thisFile && find ${PREFIX}/$thisFile -empty -delete || true
-    test -f $thisFile && rm -f $thisFile || true
-done
-unset IFS
-rm -f var/pkg/${1}
+$(dirname ${0})/pitchfork uninstall --name $@

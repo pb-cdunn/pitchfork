@@ -96,6 +96,12 @@ def parseargs(args):
                                 help='''Check what's being installed''',
                                 description='This will look into the PREFIX directories and list what has been installed.')
 
+    sub = subparsers.add_parser('uninstall', help='''remove a previous installed package''')
+    sub.add_argument('--name',
+                     metavar='<package>',
+                     type=str,
+                     help='The name of the package.')
+
     sub = subparsers.add_parser('fetch',
                                 help='prints out suggested settings.mk',
                                 description='''What's in your settings.mk?''')
@@ -109,7 +115,6 @@ def parseargs(args):
 def pitchfork(args):
     # log('[INFO] args:', args)
     if args.subcommand == 'configure':
-        # print vars(args)
         myargs = vars(args)
         if myargs['prefix'] is not None:
             print "PREFIX      = %s" % myargs['prefix']
@@ -146,7 +151,7 @@ def pitchfork(args):
         return
 
     _prefix = ''
-    if len(glob('%s/settings.mk' % _projhome)) > 0:
+    if os.path.exists('%s/settings.mk' % _projhome):
         for line in open('%s/settings.mk' % _projhome, 'r'):
             if 'PREFIX' in line.strip():
                 if line.strip().split('=')[0].strip() == 'PREFIX':
@@ -154,15 +159,48 @@ def pitchfork(args):
                 break
     if 'PREFIX' in os.environ:
         _prefix = "%s" % os.environ['PREFIX']
-    elif len(glob(_prefix)) > 0:
+    elif os.path.exists(_prefix):
         pass
     else:
-        if len(glob("%s/deployment" % _projhome)) > 0:
+        if os.path.exists("%s/deployment" % _projhome):
             _prefix = "%s/deployment" % _projhome
 
     if args.subcommand == 'installed':
         for mypkg in glob('%s/var/pkg/*' % _prefix):
             print os.path.basename(mypkg)
+        return
+
+    if args.subcommand == 'uninstall':
+        myargs = vars(args)
+        if myargs['name'] is None:
+            return
+        mypath = '%s/var/pkg/%s' % (_prefix, myargs['name'])
+        if os.path.exists(mypath):
+            with open(mypath) as f:
+                content = f.readlines()
+            for myfile in content:
+                myfile = '%s/%s' % (_prefix, myfile.strip())
+                if os.path.isfile(myfile):
+                    print 'rm -f %s' % myfile
+                    try:
+                        os.remove(myfile)
+                    except:
+                        pass
+            for myfile in content:
+                myfile = '%s/%s' % (_prefix, myfile.strip())
+                if os.path.isdir(myfile):
+                    print 'rmdir %s||true' % myfile
+                    try:
+                        os.rmdir(myfile)
+                    except:
+                        pass
+            os.remove(mypath)
+            return
+        print 'Package %s not found.' % myargs['name']
+        if len(glob('%s/var/pkg/%s*' % (_prefix, myargs['name']))) > 0:
+            print 'Nothing is done, did you meant:'
+            for mypkg in glob('%s/var/pkg/%s*' % (_prefix, myargs['name'])):
+                print os.path.basename(mypkg)
         return
 
     if args.subcommand == 'fetch':
@@ -171,16 +209,16 @@ def pitchfork(args):
         _distfiles = ''
         if 'DISTFILES' in os.environ:
             _distfiles = "%s" % os.environ['DISTFILES']
-        elif len(glob('%s/settings.mk' % _projhome)) > 0:
+        elif os.path.exists('%s/settings.mk' % _projhome):
             for line in open('%s/settings.mk' % _projhome, 'r'):
                 if 'DISTFILES' in line.strip():
                     if line.strip().split('=')[0].strip() == 'DISTFILES':
                         _distfiles = line.strip().split('=')[1].strip()
                     break
-        if len(glob(_distfiles)) > 0:
+        if os.path.exists(_distfiles):
             pass
         else:
-            if len(glob("%s/distfiles" % _projhome)) > 0:
+            if os.path.exists("%s/distfiles" % _projhome):
                 _distfiles = "%s/distfiles" % _projhome
 
         if not os.path.exists('MD5SUM'):
