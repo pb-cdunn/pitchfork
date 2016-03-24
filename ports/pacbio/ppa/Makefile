@@ -13,7 +13,7 @@ _BUILD           = $(_WRKSRC)/Sequel/ppa/build
 
 # Local works
 do-fetch: $(_WRKSRC) 
-	cd $(_WRKSRC) && $(_P4CLIENT) p4 sync
+	cd $(_WRKSRC) && p4 -c $(_P4CLIENTNAME) sync
 $(_WRKSRC):
 	mkdir -p $(_WRKSRC)
 	cd $(_WRKSRC) && \
