@@ -16,23 +16,23 @@ do-fetch: $(_WRKSRC)
 	cd $(_WRKSRC) && p4 -c $(_P4CLIENTNAME) sync
 $(_WRKSRC):
 	mkdir -p $(_WRKSRC)
+	if [[ `p4 clients | grep $(_P4CLIENTNAME)` ]]; then p4 client -d $(_P4CLIENTNAME); fi
 	cd $(_WRKSRC) && \
-	if [[ `p4 clients | grep $(_P4CLIENTNAME)` ]]; then p4 client -d $(_P4CLIENTNAME); fi && \
-	P4EDITOR=cat p4 -c $(_P4CLIENTNAME) client -S //PrimaryAnalysis/main_ppa
+        P4EDITOR=cat p4 -c $(_P4CLIENTNAME) client -S //PrimaryAnalysis/main_ppa
 do-config: $(_BUILD)/Makefile
 $(_BUILD)/Makefile: | do-fetch
 	mkdir -p $(_BUILD)
 	cd $(_BUILD) && \
     $(CMAKE) \
-    	-DSECONDARY_BUILD=T \
-    	-DPPA_build_tests=OFF \
-	-DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
+        -DSECONDARY_BUILD=T \
+        -DPPA_build_tests=OFF \
+        -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
         -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
         -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
         -DHtslib_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
         -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
         -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
-    	..
+        ..
 do-build:
 	$(MAKE) -j -C $(_BUILD)
 do-install: $(PREFIX)/var/pkg/$(_NAME)
