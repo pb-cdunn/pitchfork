@@ -104,6 +104,7 @@ daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
 #
 pbcore:           pysam h5py
+pbh5tools:        h5py pbcore
 pbcoretools:      pbcore pbcommand
 pbcommand:        xmlbuilder jsonschema avro requests iso8601 numpy
 pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
@@ -369,6 +370,8 @@ pbsparse:
 pblaa:
 	$(MAKE) -C ports/pacbio/$@ do-install
 #
+pbh5tools:
+	$(MAKE) -C ports/pacbio/$@ do-install
 ppa:
 	$(MAKE) -C ports/pacbio/$@ do-install
 .PHONY: ConsensusCore GenomicConsensus MarkupSafe appnope avro biopython blasr boost ccache cmake cogent cram cycler cython daligner dazzdb decorator default docopt ecdsa fabric gmap gmock gnureadline gtest hmmer htslib ipython isodate jsonschema kineticsTools libpng matplotlib modules ncurses networkx nim nose numpy openblas openssl paramiko pbalign pbbam pbccs pbchimera pbcommand pbcore pbcoretools pbdagcon pbfalcon pblaa pbreports pbsmrtpipe pbsparse pexpect pickleshare pip ppa ptyprocess pycrypto pydot pyparsing pypeFLOW pysam python pytz pyxb rdfextras rdflib readline requests samtools scipy seqan simplegeneric six swig tcl traitlets world xmlbuilder zlib

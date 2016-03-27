@@ -21,6 +21,7 @@ WORKDIR    ?= $(PFHOME)/workspace
 PREFIX     ?= $(PFHOME)/deployment
 STAGING    ?= $(PFHOME)/staging
 CCACHE_DIR ?= $(WORKDIR)/.ccache
+DISTFILES  ?= $(PFHOME)/distfiles
 PIP         = $(PREFIX)/bin/pip --cache-dir $(PREFIX).pip
 
 ifneq ($(origin DEBUG),undefined)
