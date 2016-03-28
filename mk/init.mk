@@ -7,6 +7,7 @@ include $(SELF_DIR)/config.mk
 
 init: sanity
 	mkdir -p "$(WORKDIR)"
+	mkdir -p "$(DISTFILES)"
 	mkdir -p "$(STAGING)"
 	mkdir -p "$(PREFIX)/bin"
 	mkdir -p "$(PREFIX)/etc"
