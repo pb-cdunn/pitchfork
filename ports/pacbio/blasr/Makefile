@@ -25,7 +25,7 @@ endif
 do-config: $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
 $(_WRKSRC)/defines.mk: | do-fetch
 	cd $(_WRKSRC) && \
-        ./configure.py --shared \
+        $(SYSPYTHON) configure.py --shared \
                PREFIX=$(PREFIX) \
              HDF5_INC=$(HDF5_ROOT)/include \
              HDF5_LIB=$(HDF5_ROOT)/lib \

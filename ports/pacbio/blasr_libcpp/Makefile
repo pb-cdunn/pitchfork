@@ -24,7 +24,7 @@ endif
 do-config: $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk: | do-extract
 	cd $(_WRKSRC) && \
-        ./configure.py \
+        $(SYSPYTHON) configure.py \
             PREFIX=$(PREFIX) \
           HDF5_INC=$(HDF5_ROOT)/include \
           HDF5_LIB=$(HDF5_ROOT)/lib \
