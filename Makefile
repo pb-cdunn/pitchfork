@@ -74,7 +74,6 @@ pyparsing:        pip
 pysam:            pip
 python-dateutil:  pip
 pytz:             pip
-pyxb:             pip
 requests:         pip
 simplegeneric:    pip
 six:              pip
@@ -85,16 +84,26 @@ cram:             pip
 cycler:           pip
 MarkupSafe:       pip
 tabulate:         pip
+# unknown
+#pyxb:             pip
 
-#
-ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
-cogent:       pip numpy
-biopython:    pip numpy
+# Not part of pacbio developers' software collection
 nim:          ccache zlib
 tcl:          ccache zlib
 modules:      ccache tcl
+ssw_lib:      ccache
+mash:         ccache
+scikit-image: pip numpy decorator six networkx
+pillow:       pip
+dask.array:   pip toolz numpy
+toolz:        pip
+ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
+Cogent:       pip numpy scipy networkx scikit-image biopython bx-python PuLP ssw_lib
+biopython:    pip numpy
+bx-python:    pip
+PuLP:         pip
 
-#
+# software from pacbio
 htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
 blasr:        ccache blasr_libcpp hdf5 cmake
@@ -123,16 +132,16 @@ pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
 pbchimera:     seqan cmake
 ppa:           boost cmake pbbam htslib
 
-#
+# end of dependencies
+
+# meta rules
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
 world: \
-       kineticsTools \
-       reseq-core ConsensusCore2 pbfalcon \
-       ipython    biopython     cogent         \
-       cram       nose          hmmer          gmap
-
-# end of dependencies
+       reseq-core ConsensusCore2 pbfalcon kineticsTools \
+       hmmer      gmap           ssw_lib  mash          \
+       ipython    biopython      \
+       cram       nose
 
 # rules
 ifeq ($(origin HAVE_CCACHE),undefined)
@@ -207,8 +216,6 @@ gmap:
 
 openssl:
 	$(MAKE) -C ports/thirdparty/libressl do-install
-mash:
-	$(MAKE) -C ports/thirdparty/$@ do-install
 ifeq ($(origin HAVE_PYTHON),undefined)
 python:
 	$(MAKE) -C ports/thirdparty/$@ do-install
@@ -258,8 +265,6 @@ rdfextras:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 matplotlib:
 	$(MAKE) -j1 -C ports/python/$@ do-install
-cogent:
-	$(MAKE) -j1 -C ports/python/$@ do-install
 scipy:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 traitlets:
@@ -308,18 +313,6 @@ MarkupSafe:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 tabulate:
 	$(MAKE) -j1 -C ports/python/$@ do-install
-
-# Not part of pacbio developers' software collection
-ipython:
-	$(MAKE) -j1 -C ports/python/$@ do-install
-biopython:
-	$(MAKE) -j1 -C ports/python/$@ do-install
-pyxb:
-	$(MAKE) -j1 -C ports/python/$@ do-install
-nim:
-	$(MAKE) -C ports/thirdparty/$@ do-install
-modules:
-	$(MAKE) -C ports/thirdparty/$@ do-install
 
 #
 blasr_libcpp:
@@ -379,4 +372,36 @@ pbh5tools:
 	$(MAKE) -C ports/pacbio/$@ do-install
 ppa:
 	$(MAKE) -C ports/pacbio/$@ do-install
-.PHONY: ConsensusCore GenomicConsensus MarkupSafe appnope avro biopython blasr boost ccache cmake cogent cram cycler cython daligner dazzdb decorator default docopt ecdsa fabric gmap gmock gnureadline gtest hmmer htslib ipython isodate jsonschema kineticsTools libpng matplotlib modules ncurses networkx nim nose numpy openblas openssl paramiko pbalign pbbam pbccs pbchimera pbcommand pbcore pbcoretools pbdagcon pbfalcon pblaa pbreports pbsmrtpipe pbsparse pexpect pickleshare pip ppa ptyprocess pycrypto pydot pyparsing pypeFLOW pysam python pytz pyxb rdfextras rdflib readline requests samtools scipy seqan simplegeneric six swig tcl traitlets world xmlbuilder zlib pbh5tools tabulate
+Cogent:
+	$(MAKE) -C ports/pacbio/$@ do-install
+
+# Not part of pacbio developers' software collection
+nim:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+modules:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+mash:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+ssw_lib:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+scikit-image:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+pillow:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+dask.array:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+toolz:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+ipython:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+biopython:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+bx-python:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+PuLP:
+	$(MAKE) -j1 -C ports/python/$@ do-install
+# unknown
+#pyxb:
+#	$(MAKE) -j1 -C ports/python/$@ do-install
+
+.PHONY: ConsensusCore GenomicConsensus MarkupSafe appnope avro biopython blasr boost ccache cmake Cogent cram cycler cython daligner dazzdb decorator default docopt ecdsa fabric gmap gmock gnureadline gtest hmmer htslib ipython isodate jsonschema kineticsTools libpng matplotlib modules ncurses networkx nim nose numpy openblas openssl paramiko pbalign pbbam pbccs pbchimera pbcommand pbcore pbcoretools pbdagcon pbfalcon pblaa pbreports pbsmrtpipe pbsparse pexpect pickleshare pip ppa ptyprocess pycrypto pydot pyparsing pypeFLOW pysam python pytz pyxb rdfextras rdflib readline requests samtools scipy seqan simplegeneric six swig tcl traitlets world xmlbuilder zlib pbh5tools tabulate
