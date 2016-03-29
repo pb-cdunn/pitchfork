@@ -84,6 +84,7 @@ nose:             pip
 cram:             pip
 cycler:           pip
 MarkupSafe:       pip
+tabulate:         pip
 
 #
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
