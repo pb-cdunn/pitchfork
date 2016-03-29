@@ -207,6 +207,8 @@ gmap:
 
 openssl:
 	$(MAKE) -C ports/thirdparty/libressl do-install
+mash:
+	$(MAKE) -C ports/thirdparty/$@ do-install
 ifeq ($(origin HAVE_PYTHON),undefined)
 python:
 	$(MAKE) -C ports/thirdparty/$@ do-install
