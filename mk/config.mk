@@ -12,6 +12,7 @@ UNAME      = uname
 MD5SUM     = md5sum
 SHA1SUM    = sha1sum
 PERL       = perl
+SYSPYTHON ?= /usr/bin/python
 
 PFHOME    := $(realpath ../../..)
 
