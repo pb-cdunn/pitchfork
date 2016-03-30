@@ -91,14 +91,14 @@ tabulate:         pip
 nim:          ccache zlib
 tcl:          ccache zlib
 modules:      ccache tcl
-ssw_lib:      ccache
+ssw_lib:      ccache pip
 mash:         ccache
 scikit-image: pip numpy decorator six networkx
 pillow:       pip
 dask.array:   pip toolz numpy
 toolz:        pip
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
-Cogent:       pip numpy scipy networkx scikit-image biopython bx-python PuLP ssw_lib
+Cogent:       pip numpy scipy networkx scikit-image biopython bx-python PuLP ssw_lib mash
 biopython:    pip numpy
 bx-python:    pip
 PuLP:         pip

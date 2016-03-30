@@ -12,15 +12,16 @@ $(_WRKSRC):
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 do-build:
-	$(MAKE) -C $(_WRKSRC)/src LIB=libssw.$(DYLIB)
+	$(MAKE) -C $(_WRKSRC)/src
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/bin 
-	mkdir -p $(STAGING)/$(_NAME)/lib
+	mkdir -p $(STAGING)/$(_NAME)/lib/python2.7/site-packages
 	mkdir -p $(STAGING)/$(_NAME)/include
 	cd $(_WRKSRC)/src && tar cf - ssw_test pyssw.py | tar xf - -C $(STAGING)/$(_NAME)/bin/
-	cd $(_WRKSRC)/src && tar cf - libssw.$(DYLIB) | tar xf - -C $(STAGING)/$(_NAME)/lib/
+	cd $(_WRKSRC)/src && tar cf - libssw.so | tar xf - -C $(STAGING)/$(_NAME)/lib/
+	cd $(_WRKSRC)/src && tar cf - ssw_wrap.py | tar xf - -C $(STAGING)/$(_NAME)/lib/python2.7/site-packages/
 	cd $(_WRKSRC)/src && tar cf - *.h | tar xf - -C $(STAGING)/$(_NAME)/include/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
