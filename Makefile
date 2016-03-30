@@ -91,7 +91,7 @@ tabulate:         pip
 nim:          ccache zlib
 tcl:          ccache zlib
 modules:      ccache tcl
-ssw_lib:      ccache
+ssw_lib:      ccache pip
 mash:         ccache
 scikit-image: pip numpy decorator six networkx
 pillow:       pip
