@@ -18,7 +18,7 @@ endif
 # Local works
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
-	$(MD5SUM) -s -c $(_FILE).md5 >& /dev/null || exit
+	$(MD5SUM) -c $(_FILE).md5 >& /dev/null || exit
 do-fetch: $(_FILE)
 $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
