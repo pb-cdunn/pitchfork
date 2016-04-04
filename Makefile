@@ -93,6 +93,7 @@ tcl:          ccache zlib
 modules:      ccache tcl
 ssw_lib:      ccache pip
 mash:         ccache
+fasta2bam:    ccache pbbam htslib zlib boost cmake
 scikit-image: pip numpy decorator six networkx
 pillow:       pip
 dask.array:   pip toolz numpy
@@ -112,6 +113,7 @@ pbccs:        ccache pbbam htslib cmake boost gtest seqan ConsensusCore2
 dazzdb:       ccache
 daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
+bam2fastx:    ccache pbbam htslib zlib boost cmake
 #
 pbcore:           pysam h5py
 pbh5tools:        h5py pbcore
@@ -333,6 +335,8 @@ daligner:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbdagcon:
 	$(MAKE) -C ports/pacbio/$@ do-install
+bam2fastx:
+	$(MAKE) -C ports/pacbio/$@ do-install
 #
 pbcore:
 	$(MAKE) -C ports/pacbio/$@ do-install
@@ -400,6 +404,8 @@ bx-python:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 PuLP:
 	$(MAKE) -j1 -C ports/python/$@ do-install
+fasta2bam:
+	$(MAKE) -C ports/pacbio/$@ do-install
 # unknown
 #pyxb:
 #	$(MAKE) -j1 -C ports/python/$@ do-install
