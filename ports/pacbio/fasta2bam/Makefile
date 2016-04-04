@@ -1,0 +1,53 @@
+include ../../../mk/pitchfork.mk
+
+# CXX check
+include ../../../mk/chkcxx.mk
+
+# Local variables
+_NAME             = fasta2bam
+$(_NAME)_REPO    ?= git://github.com/armintoepfer/$(_NAME)
+_WRKSRC           = $(WORKDIR)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
+
+# Local works
+do-fetch: $(_WRKSRC)
+$(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
+	$(GIT) clone $($(_NAME)_REPO) $@
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+else
+	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+endif
+CXXFLAGS += -I$(PREFIX)/src/htslib/include
+export CXXFLAGS
+do-config: $(_WRKSRC)/build/Makefile
+$(_WRKSRC)/build/Makefile: | do-fetch
+	mkdir -p $(_WRKSRC)/build
+	cd $(_WRKSRC)/build \
+     && $(CMAKE) \
+              -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+              -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+              -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
+              -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
+              -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
+              -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
+              -DBAM2FASTX_build_tests=OFF \
+            ..
+do-build:
+	$(MAKE) VERBOSE=1 -C $(_WRKSRC)/build
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): | do-build
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/bin
+	cd $(_WRKSRC)/build && tar cf - fasta2bam | tar xf - -C $(STAGING)/$(_NAME)/bin
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+do-clean:
+	$(MAKE) -C $(_WRKSRC)/build clean
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	cd $(_WRKSRC) && $(GIT) clean -xdf
+do-flush:
+	rm -rf $(_WRKSRC)

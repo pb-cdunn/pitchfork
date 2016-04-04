@@ -93,6 +93,7 @@ tcl:          ccache zlib
 modules:      ccache tcl
 ssw_lib:      ccache pip
 mash:         ccache
+fasta2bam:    ccache pbbam htslib zlib boost cmake
 scikit-image: pip numpy decorator six networkx
 pillow:       pip
 dask.array:   pip toolz numpy
@@ -403,6 +404,8 @@ bx-python:
 	$(MAKE) -j1 -C ports/python/$@ do-install
 PuLP:
 	$(MAKE) -j1 -C ports/python/$@ do-install
+fasta2bam:
+	$(MAKE) -C ports/pacbio/$@ do-install
 # unknown
 #pyxb:
 #	$(MAKE) -j1 -C ports/python/$@ do-install
