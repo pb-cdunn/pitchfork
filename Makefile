@@ -112,6 +112,7 @@ pbccs:        ccache pbbam htslib cmake boost gtest seqan ConsensusCore2
 dazzdb:       ccache
 daligner:     ccache dazzdb
 pbdagcon:     ccache dazzdb daligner pbbam blasr_libcpp
+bam2fastx:    ccache pbbam htslib zlib boost cmake
 #
 pbcore:           pysam h5py
 pbh5tools:        h5py pbcore
@@ -332,6 +333,8 @@ dazzdb:
 daligner:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbdagcon:
+	$(MAKE) -C ports/pacbio/$@ do-install
+bam2fastx:
 	$(MAKE) -C ports/pacbio/$@ do-install
 #
 pbcore:
