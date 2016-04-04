@@ -33,7 +33,6 @@ $(_WRKSRC)/build/Makefile: | do-fetch
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
-              -DBAM2FASTX_build_tests=OFF \
             ..
 do-build:
 	$(MAKE) VERBOSE=1 -C $(_WRKSRC)/build

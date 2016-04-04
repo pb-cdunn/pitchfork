@@ -16,9 +16,14 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 	cd $(_WRKSRC) && $(GIT) submodule update --init -- third-party/cpp-optparse
+	cd $(_WRKSRC) && $(GIT) submodule update --init -- third-party/gtest
 else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
+# CPPFLAGS is only used in gtest
+CPPFLAGS+= -D_GNU_SOURCE
+export CPPFLAGS
+# HTSLIB problem with this CMAKEFILE
 CXXFLAGS += -I$(PREFIX)/src/htslib/include
 export CXXFLAGS
 do-config: $(_WRKSRC)/build/Makefile
@@ -34,7 +39,6 @@ $(_WRKSRC)/build/Makefile: | do-fetch
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
-              -DBAM2FASTX_build_tests=OFF \
             ..
 do-build:
 	$(MAKE) VERBOSE=1 -C $(_WRKSRC)/build
