@@ -42,8 +42,7 @@ _startover::
         echo; \
         if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
            set -x; \
-           rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* ports/*/*/*.log; \
-           find "$(WORKDIR)"/* -maxdepth 0 -type d -exec rm -rf {} \; ; \
+           rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* "$(WORKDIR)"/* ports/*/*/*.log; \
            rm -rf $(PREFIX).pip/wheel; \
         fi
 
