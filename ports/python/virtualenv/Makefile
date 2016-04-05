@@ -12,15 +12,15 @@ ifneq ($(origin HAVE_PYTHON),undefined)
 endif
 
 # Local works
-do-extract: | $(_WRKSRC)/virtualenv.py
-$(_WRKSRC)/virtualenv.py:
+do-extract: $(_WRKSRC)/virtualenv.py
+$(_WRKSRC)/virtualenv.py: | do-fetch
 	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKDIR)
-do-fetch: | $(_FILE)
+do-fetch: $(_FILE)
 $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
-do-install: | $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME): | do-extract
 	$(PYTHON) $(_WRKSRC)/virtualenv.py $(PREFIX)
 	$(PIP) install -U pip
 	cd $(PREFIX) && \
