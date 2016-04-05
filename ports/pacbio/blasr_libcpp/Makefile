@@ -10,9 +10,6 @@ _WRKSRC          = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION?= HEAD
 
 # Local works
-do-extract: patch.log
-patch.log: | do-fetch
-	@cat patch-01 | (cd $(_WRKSRC) && patch -p0) | tee patch.log || exit 1
 do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
