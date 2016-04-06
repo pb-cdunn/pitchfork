@@ -198,7 +198,7 @@ def pitchfork(args):
             return
         print 'Package %s not found.' % myargs['name']
         if len(glob('%s/var/pkg/%s*' % (_prefix, myargs['name']))) > 0:
-            print 'Nothing is done, did you meant:'
+            print 'Nothing is done, did you mean:'
             for mypkg in glob('%s/var/pkg/%s*' % (_prefix, myargs['name'])):
                 print os.path.basename(mypkg)
         return
