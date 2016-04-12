@@ -28,5 +28,5 @@ cache:
 install:
   - bin/travisbuild.sh
 
-script:
-  - bin/travistest.sh
+#script:
+#  - bin/travistest.sh
