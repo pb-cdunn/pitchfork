@@ -19,6 +19,7 @@ default:
 	@echo "PREFIX=${PREFIX}"
 
 # Please add dependencies after this line
+ccache:           initialized.o
 openssl:          ccache
 zlib:             ccache
 boost:            ccache

@@ -29,4 +29,5 @@ install:
   - bin/travisbuild.sh
 
 script:
-  - bin/travistest.sh
+   - /bin/ls $HOME/local/bin
+   - bin/travistest.sh
