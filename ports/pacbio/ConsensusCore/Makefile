@@ -30,14 +30,14 @@ $(_WRKSRC)/build/Python/_ConsensusCore.so: | do-config
 	$(MAKE) -C $(_WRKSRC) python
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(BOOST_ROOT)/include" $(_WRKSRC)/
-	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(BOOST_ROOT)/include" $(_WRKSRC)/
+	cd $(PREFIX) && \
+        find lib/python2.7/site-packages/ConsensusCore.* \
+             lib/python2.7/site-packages/_ConsensusCore.* \
+             lib/python2.7/site-packages/_ConsensusCore-* \
+        | grep -v '^$$'|sort -r > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

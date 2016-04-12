@@ -17,13 +17,16 @@ else
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
-	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps $(_WRKSRC)/
+	cd $(PREFIX) && \
+        find lib/python2.7/site-packages/Cogent* \
+             bin/run_mash.py \
+             bin/reconstruct_contig.py \
+             bin/process_kmer_to_graph.py \
+             bin/gff3_to_collapsed.py \
+             bin/generate_cmds_for_cogent.py \
+        | grep -v '^$$'|sort -r > $@
 do-clean:
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

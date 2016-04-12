@@ -17,12 +17,36 @@ else
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
-	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps $(_WRKSRC)/
+	cd $(PREFIX) && \
+        find lib/python2.7/site-packages/falcon_kit* \
+             lib/python2.7/site-packages/ext_falcon* \
+             bin/fc_run1 \
+             bin/fc_run.py \
+             bin/fc_run \
+             bin/fc_ovlp_to_graph.py \
+             bin/fc_ovlp_to_graph \
+             bin/fc_ovlp_stats.py \
+             bin/fc_ovlp_stats \
+             bin/fc_ovlp_filter.py \
+             bin/fc_ovlp_filter \
+             bin/fc_graph_to_utgs.py \
+             bin/fc_graph_to_utgs \
+             bin/fc_graph_to_contig.py \
+             bin/fc_graph_to_contig \
+             bin/fc_dedup_a_tigs.py \
+             bin/fc_dedup_a_tigs \
+             bin/fc_ctg_link_analysis.py \
+             bin/fc_ctg_link_analysis \
+             bin/fc_contig_annotate.py \
+             bin/fc_contig_annotate \
+             bin/fc_consensus.py \
+             bin/fc_consensus \
+             bin/fc_calc_cutoff \
+             bin/fc_actg_coordinate.py \
+             bin/fc_actg_coordinate \
+             bin/falcon-task \
+        | grep -v '^$$'|sort -r > $@
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-clean:
-	rm -rf $(STAGING)/$(_NAME)

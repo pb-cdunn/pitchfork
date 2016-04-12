@@ -17,13 +17,31 @@ else
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
-	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps $(_WRKSRC)/
+	cd $(PREFIX) && \
+        find lib/python2.7/site-packages/pbreports* \
+             bin/summarize_coverage                 \
+             bin/summarize_compare_by_movie         \
+             bin/preassembly_report                 \
+             bin/overview_report                    \
+             bin/motifs_report                      \
+             bin/mapping_stats_poc                  \
+             bin/mapping_stats                      \
+             bin/loading_xml                        \
+             bin/isoseq_cluster_report              \
+             bin/isoseq_classify_report             \
+             bin/filter_subread_summary             \
+             bin/filter_subread                     \
+             bin/filter_stats_xml                   \
+             bin/filter_stats                       \
+             bin/ccs_report                         \
+             bin/barcode_report                     \
+             bin/amplicon_analysis_timing_report    \
+             bin/amplicon_analysis_input_report     \
+             bin/amplicon_analysis_consensus_report \
+             bin/adapter_xml                        \
+        | grep -v '^$$'|sort -r > $@
 do-clean:
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

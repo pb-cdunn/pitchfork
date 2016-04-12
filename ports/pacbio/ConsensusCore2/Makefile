@@ -30,19 +30,19 @@ do-build:
 	cd $(_WRKSRC)/_build && $(MAKE)
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
 	    CMAKE_COMMAND=$(CMAKE) \
         Boost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               SWIG_COMMAND=$(shell . $(PREFIX)/setup-env.sh && which swig) \
                    VERBOSE=1 \
-        $(PIP) install --root $(STAGING)/$(_NAME) --verbose --upgrade --no-deps $(_WRKSRC)/
-	rsync -ax $(_WRKSRC)/lib/ $(STAGING)/$(_NAME)$(PREFIX)/lib/
-	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)$(PREFIX)/include/
-	rsync -aKx $(STAGING)/$(_NAME)$(PREFIX)/ $(PREFIX)/
-	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
+        $(PIP) install --verbose --upgrade --no-deps $(_WRKSRC)/
+	rsync -ax $(_WRKSRC)/lib/ $(PREFIX)/lib/
+	rsync -ax $(_WRKSRC)/include/ $(PREFIX)/include/
+	cd $(_WRKSRC) && find lib include | grep -v '^$$'|sort -r > $@
+	cd $(PREFIX) && \
+        find lib/python2.7/site-packages/ConsensusCore2 \
+             lib/python2.7/site-packages/ConsensusCore2-* \
+        | grep -v '^$$'|sort -r >> $@
 do-clean:
-	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC)/_build clean
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf

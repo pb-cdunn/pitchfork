@@ -17,13 +17,18 @@ else
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
-	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps $(_WRKSRC)/
+	rm -rf lib/python2.7/site-packages/bin
+	install -m 755 $(_WRKSRC)/bin/copyIpdSummaryDataset.py $(PREFIX)/bin/
+	install -m 755 $(_WRKSRC)/bin/writeSummaryToCmp.py $(PREFIX)/bin/
+	cd $(PREFIX) && \
+        find lib/python2.7/site-packages/kineticsTools* \
+             bin/summarizeModifications \
+             bin/ipdSummary \
+             bin/copyIpdSummaryDataset.py \
+             bin/writeSummaryToCmp.py \
+        | grep -v '^$$'|sort -r > $@
 do-clean:
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
