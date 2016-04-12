@@ -23,11 +23,6 @@ PREFIX     ?= $(PFHOME)/deployment
 STAGING    ?= $(PFHOME)/staging
 CCACHE_DIR ?= $(WORKDIR)/.ccache
 DISTFILES  ?= $(PFHOME)/distfiles
-WORKDIR    := $(realpath $(WORKDIR))
-PREFIX     := $(realpath $(PREFIX))
-STAGING    := $(realpath $(STAGING))
-CCACHE_DIR := $(realpath $(CCACHE_DIR))
-DISTFILES  := $(realpath $(DISTFILES))
 
 PIP         = $(PREFIX)/bin/pip --cache-dir $(PREFIX).pip
 
