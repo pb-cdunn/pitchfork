@@ -24,18 +24,14 @@ do-build:
         >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/src/htslib/include
-	mkdir -p $(STAGING)/$(_NAME)/src/htslib/lib
-	cd $(_WRKSRC) && \
-        tar cf - */*.h|tar xf - -C $(STAGING)/$(_NAME)/src/htslib/include/
-	cd $(_WRKSRC) && tar cf - *.a | tar xf - -C $(STAGING)/$(_NAME)/src/htslib/lib/
-	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
-	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+	mkdir -p $(PREFIX)/src/htslib/lib
+	mkdir -p $(PREFIX)/src/htslib/include
+	cd $(_WRKSRC) && tar cf - */*.h | tar xf - -C $(PREFIX)/src/htslib/include/
+	cd $(_WRKSRC) && tar cf - *.a   | tar xf - -C $(PREFIX)/src/htslib/lib/
+	cd $(PREFIX)  && find src/htslib ! -type d > $@
 #this thing cannot be installed to prefix/lib or it will kill pysam/samtools
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flash:

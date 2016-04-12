@@ -10,6 +10,8 @@ _WRKSRCP4        = $(shell hostname -s)
 _P4CLIENTNAME    = ${USER}-pitchfork-$(_WRKSRCP4)
 _P4CLIENT        = P4CLIENT=$(_P4CLIENTNAME)
 _BUILD           = $(_WRKSRC)/Sequel/ppa/build
+LDFLAGS         += -lz
+export LDFLAGS
 
 # Local works
 do-fetch: $(_WRKSRC) 
@@ -34,18 +36,13 @@ $(_BUILD)/Makefile: | do-fetch
         -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
         ..
 do-build:
-	$(MAKE) -j -C $(_BUILD)
+	$(MAKE) -j -C $(_BUILD) VERBOSE=1
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/bin
-	rsync -ax $(_BUILD)/ba* $(STAGING)/$(_NAME)/bin/
-	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F $(STAGING)/$(_NAME)/ '{print $$2}' > $@
+	rsync -ax $(_BUILD)/ba* $(PREFIX)/bin/
+	cd $(_BUILD) && find ba*  ! -type d|awk '{print "bin/"$$1}' > $@
 do-clean:
 	-$(MAKE) -C $(_BUILD) clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	rm -rf $(_BUILD)
 do-flush:
-	rm -rf $(STAGING)/$(_NAME)

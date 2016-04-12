@@ -16,8 +16,8 @@ else
 	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
 endif
 do-config:
-	mkdir -p $(_WRKSRC)/build $(STAGING)/$(_NAME)
-	echo PREFIX:=$(STAGING)/$(_NAME) > $(_WRKSRC)/build/Makefile
+	mkdir -p $(_WRKSRC)/build
+	echo PREFIX:=$(PREFIX) > $(_WRKSRC)/build/Makefile
 	echo CC:=$(CC) >> $(_WRKSRC)/build/Makefile
 	echo AR:=$(AR) >> $(_WRKSRC)/build/Makefile
 	echo include ../GNUmakefile >> $(_WRKSRC)/build/Makefile
@@ -25,18 +25,14 @@ do-build:
 	$(MAKE) -C $(_WRKSRC)/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/bin 
-	mkdir -p $(STAGING)/$(_NAME)/lib
-	mkdir -p $(STAGING)/$(_NAME)/include 
-	cd $(_WRKSRC)/build && tar cf - DBrm DBshow DBsplit DBstats fasta2DB|tar xf - -C $(STAGING)/$(_NAME)/bin/
-	cd $(_WRKSRC)/build && tar cf - *.a|tar xf - -C $(STAGING)/$(_NAME)/lib/
-	cd $(_WRKSRC) && tar cf - *.h|tar xf - -C $(STAGING)/$(_NAME)/include/
-	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)/
-	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+	cd $(_WRKSRC)/build && tar cf - DBrm DBshow DBsplit DBstats fasta2DB | tar xf - -C $(PREFIX)/bin/
+	cd $(_WRKSRC)/build && tar cf - *.a                                  | tar xf - -C $(PREFIX)/lib/
+	cd $(_WRKSRC)       && tar cf - *.h                                  | tar xf - -C $(PREFIX)/include/
+	cd $(_WRKSRC)/build && find DBrm DBshow DBsplit DBstats fasta2DB | awk '{print "$(PREFIX)/bin/"$$1}'     >  $@
+	cd $(_WRKSRC)/build && find *.a                                  | awk '{print "$(PREFIX)/lib/"$$1}'     >> $@
+	cd $(_WRKSRC)       && find *.h                                  | awk '{print "$(PREFIX)/include/"$$1}' >> $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flash:

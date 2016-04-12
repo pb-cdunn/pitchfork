@@ -17,13 +17,19 @@ else
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps --verbose $(_WRKSRC)/
-	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps --verbose $(_WRKSRC)/
+	cd $(PREFIX) && \
+        find lib/python2.7/site-packages/GenomicConsensus* \
+             bin/variantCaller \
+             bin/summarizeConsensus \
+             bin/quiver \
+             bin/poa \
+             bin/plurality \
+             bin/gffToVcf \
+             bin/gffToBed \
+             bin/arrow \
+        | grep -v '^$$'|sort -r > $@
 do-clean:
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
