@@ -17,13 +17,16 @@ else
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	$(PIP) install --root $(STAGING)/$(_NAME) --no-deps $(_WRKSRC)/
-	rsync -aKx $(STAGING)/$(_NAME)/$(PREFIX)/ $(PREFIX)/
-	cd $(STAGING)/$(_NAME)$(PREFIX) && find * |grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps $(_WRKSRC)/
+	cd $(PREFIX) && \
+        find lib/python2.7/site-packages/pbalign* \
+             bin/pbalign                    \
+             bin/maskAlignedReads.py        \
+             bin/loadChemistry.py           \
+             bin/extractUnmappedSubreads.py \
+             bin/createChemistryHeader.py   \
+        | grep -v '^$$'|sort -r > $@
 do-clean:
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

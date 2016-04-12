@@ -26,7 +26,6 @@ $(PREFIX)/var/pkg/$(_NAME): | do-fetch
              bin/heartbeat-wrapper \
         | grep -v '^$$'|sort -r > $@
 do-clean:
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

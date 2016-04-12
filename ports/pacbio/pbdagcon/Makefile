@@ -42,16 +42,15 @@ do-build:
 	$(MAKE) -C $(_WRKSRC)/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/bin
 	cd $(_WRKSRC)/build/src/cpp \
       && tar cf - pbdagcon dazcon \
-                  | tar xf - -C $(STAGING)/$(_NAME)/bin/
-	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+                  | tar xf - -C $(PREFIX)/bin/
+	cd $(PREFIX) && \
+        find bin/pbdagcon \
+             bin/dazcon   \
+        > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
