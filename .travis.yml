@@ -30,4 +30,4 @@ install:
 
 script:
    - /bin/ls $HOME/local/bin
-#  - bin/travistest.sh
+   - bin/travistest.sh
