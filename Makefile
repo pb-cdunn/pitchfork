@@ -138,6 +138,8 @@ ppa:           boost cmake pbbam htslib
 # end of dependencies
 
 # meta rules
+bam2bax: blasr
+bax2bam: blasr
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
 world: \
