@@ -36,8 +36,8 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
                    VERBOSE=1 \
         $(PIP) install --verbose --upgrade --no-deps $(_WRKSRC)/
 	rsync -ax $(_WRKSRC)/lib/ $(PREFIX)/lib/
-	rsync -ax $(_WRKSRC)/include/ $(PREFIX)/include/
-	cd $(_WRKSRC) && find lib include | grep -v '^$$'|sort -r > $@
+	rsync -ax --exclude Version.h.in $(_WRKSRC)/include/ $(PREFIX)/include/
+	cd $(_WRKSRC) && find lib include | grep -v -e '^$$' -e Version.h.in | sort -r > $@
 	cd $(PREFIX) && \
         find lib/python2.7/site-packages/ConsensusCore2 \
              lib/python2.7/site-packages/ConsensusCore2-* \

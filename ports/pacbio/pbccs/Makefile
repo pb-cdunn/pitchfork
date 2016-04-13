@@ -43,8 +43,8 @@ do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rsync -ax $(_WRKSRC)/bin/ $(PREFIX)/bin/
 	rsync -ax $(_WRKSRC)/lib/ $(PREFIX)/lib/
-	rsync -ax $(_WRKSRC)/include/ $(PREFIX)/include/
-	cd $(_WRKSRC) && find bin lib include ! -type d > $@
+	rsync -ax --exclude Version.h.in $(_WRKSRC)/include/ $(PREFIX)/include/
+	cd $(_WRKSRC) && find bin lib include | grep -v Version.h.in > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/_build clean
 do-distclean:
