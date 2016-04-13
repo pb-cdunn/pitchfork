@@ -17,10 +17,15 @@ export LDFLAGS
 do-fetch: $(_WRKSRC) 
 	cd $(_WRKSRC) && p4 -c $(_P4CLIENTNAME) sync
 $(_WRKSRC):
+ifeq ($(wildcard $($(_NAME)_REPO)),)
 	mkdir -p $(_WRKSRC)
 	if [[ `p4 clients | grep $(_P4CLIENTNAME)` ]]; then p4 client -d $(_P4CLIENTNAME); fi
 	cd $(_WRKSRC) && \
         P4EDITOR=cat p4 -c $(_P4CLIENTNAME) client -S //PrimaryAnalysis/main_ppa
+else
+	rm -f $(_WRKSRC)
+	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+endif
 do-config: $(_BUILD)/Makefile
 $(_BUILD)/Makefile: | do-fetch
 	mkdir -p $(_BUILD)

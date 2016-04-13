@@ -18,7 +18,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	cd $(_WRKSRC) && $(GIT) submodule update --init -- third-party/cpp-optparse
 	cd $(_WRKSRC) && $(GIT) submodule update --init -- third-party/gtest
 else
-	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+	rm -f $(_WRKSRC)
+	ln -s $($(_NAME)_REPO) $(_WRKSRC)
 endif
 # CPPFLAGS is only used in gtest
 CPPFLAGS+= -D_GNU_SOURCE
