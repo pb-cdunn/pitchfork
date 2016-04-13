@@ -18,7 +18,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	cd $(_WRKSRC) && $(GIT) submodule update --init -- third-party/cpp-optparse
 	cd $(_WRKSRC) && $(GIT) submodule update --init -- third-party/gtest
 else
-	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+	rm -f $(_WRKSRC)
+	ln -s $($(_NAME)_REPO) $(_WRKSRC)
 endif
 # CPPFLAGS is only used in gtest
 CPPFLAGS+= -D_GNU_SOURCE
@@ -44,14 +45,13 @@ do-build:
 	$(MAKE) VERBOSE=1 -C $(_WRKSRC)/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/bin
-	cd $(_WRKSRC)/build && tar cf - bam2fasta bam2fastq | tar xf - -C $(STAGING)/$(_NAME)/bin
-	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+	cd $(_WRKSRC)/build && tar cf - bam2fasta bam2fastq | tar xf - -C $(PREFIX)/bin
+	cd $(PREFIX) && \
+        find bin/bam2fasta \
+             bin/bam2fastq \
+        > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

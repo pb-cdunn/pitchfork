@@ -17,7 +17,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 else
-	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+	rm -f $(_WRKSRC)
+	ln -s $($(_NAME)_REPO) $(_WRKSRC)
 endif
 do-config: $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile: | do-fetch
@@ -50,15 +51,11 @@ $(_WRKSRC)/bin/laa: | do-config
 	cd $(_WRKSRC)/_build && $(MAKE)
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	rsync -ax $(_WRKSRC)/bin/ $(STAGING)/$(_NAME)/bin/
-	rsync -ax $(_WRKSRC)/include/ $(STAGING)/$(_NAME)/include/
-	rsync -aKx $(STAGING)/$(_NAME)/ $(PREFIX)/
-	find $(STAGING)/$(_NAME)|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}'|grep -v '^$$'|sort -r > $@
+	rsync -ax $(_WRKSRC)/bin/ $(PREFIX)/bin/
+	rsync -ax $(_WRKSRC)/include/ $(PREFIX)/include/
+	cd $(_WRKSRC) && find bin include|grep -v '^$$'|sort -r > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/_build clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

@@ -16,7 +16,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 else
-	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+	rm -f $(_WRKSRC)
+	ln -s $($(_NAME)_REPO) $(_WRKSRC)
 endif
 do-config: $(_WRKSRC)/defines.mk
 $(_WRKSRC)/defines.mk: | do-extract
@@ -46,7 +47,6 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC) && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

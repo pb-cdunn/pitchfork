@@ -20,7 +20,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 else
-	rsync -avx $($(_NAME)_REPO)/ $(_WRKSRC)/
+	rm -f $(_WRKSRC)
+	ln -s $($(_NAME)_REPO) $(_WRKSRC)
 endif
 do-config: $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
 $(_WRKSRC)/defines.mk: | do-fetch
@@ -81,19 +82,22 @@ endif
 	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/bin
-	cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(STAGING)/$(_NAME)/bin/
-	cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(STAGING)/$(_NAME)/bin/
-	cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
-	cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(STAGING)/$(_NAME)/
-	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+	cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(PREFIX)/bin/
+	cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(PREFIX)/bin/
+	cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
+	cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(PREFIX)/
+	cd $(PREFIX) && \
+        find bin/blasr \
+             bin/loadPulses \
+             bin/pls2fasta \
+             bin/sawriter \
+             bin/bax2bam \
+             bin/bam2bax \
+        > $@
 do-clean:
 	-$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build clean
 	-$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build clean
 	$(MAKE) -C $(_WRKSRC) clean
-	rm -rf $(STAGING)/$(_NAME)
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
