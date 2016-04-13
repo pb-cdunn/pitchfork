@@ -65,3 +65,4 @@ else
     export LD_LIBRARY_PATH   := $(PREFIX)/lib:${LD_LIBRARY_PATH}
 endif
 
+unexport PYTHONPATH

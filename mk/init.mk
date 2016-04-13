@@ -21,6 +21,7 @@ ifeq ($(OPSYS),Darwin)
 else
 	echo "export   LD_LIBRARY_PATH=$(PREFIX)/lib::\$$LD_LIBRARY_PATH  PATH=$(PREFIX)/bin:\$$PATH"|sed -e 's/::*/:/g' > "$(PREFIX)/setup-env.sh"
 endif
+	echo "unset PYTHONPATH"
 
 
 ifeq ($(OPSYS),Darwin)

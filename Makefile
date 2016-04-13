@@ -35,7 +35,7 @@ hdf5:             ccache zlib
 swig:             ccache python
 libpng:           ccache zlib
 hmmer:            ccache
-gmap:             ccache
+gmap:             ccache zlib
 
 pip:              python
 cython:           pip
