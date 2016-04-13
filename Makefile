@@ -102,7 +102,7 @@ toolz:        pip
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
 Cogent:       pip numpy scipy networkx scikit-image biopython bx-python PuLP ssw_lib mash
 biopython:    pip numpy
-bx-python:    pip
+bx-python:    pip zlib
 PuLP:         pip
 
 # software from pacbio
