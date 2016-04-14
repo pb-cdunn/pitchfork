@@ -12,20 +12,16 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
-DEVOPT = ""
+DEVOPT =
 else
 	rm -f $(_WRKSRC)
 	ln -s $($(_NAME)_REPO) $(_WRKSRC)
-DEVOPT = "-e"
+DEVOPT = -e
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	$(PIP) install $(DEVOPT) --no-deps $(_WRKSRC)/
-	cd $(PREFIX) && \
-        find lib/python2.7/site-packages/FALCON_pbsmrtpipe* \
-             lib/python2.7/site-packages/pbfalcon*          \
-             bin/pb-ini2xml bin/pb-falcon                   \
-        | grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps $(DEVOPT) $(_WRKSRC)/
+	echo pip uninstall FALCON_pbsmrtpipe > $@
 do-clean:
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
