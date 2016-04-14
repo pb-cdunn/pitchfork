@@ -13,8 +13,7 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 else
-	rm -f $(_WRKSRC)
-	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+	ln -fs $($(_NAME)_REPO) $(_WRKSRC)
 endif
 do-config:
 	mkdir -p $(_WRKSRC)/build
