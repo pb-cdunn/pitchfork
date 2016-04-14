@@ -12,36 +12,16 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+DEVOPT =
 else
 	rm -f $(_WRKSRC)
 	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+DEVOPT = -e
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	$(PIP) install --no-deps $(_WRKSRC)/
-	cd $(PREFIX) && \
-        find lib/python2.7/site-packages/pbreports* \
-             bin/summarize_coverage                 \
-             bin/summarize_compare_by_movie         \
-             bin/preassembly_report                 \
-             bin/overview_report                    \
-             bin/motifs_report                      \
-             bin/mapping_stats_poc                  \
-             bin/mapping_stats                      \
-             bin/loading_xml                        \
-             bin/isoseq_cluster_report              \
-             bin/isoseq_classify_report             \
-             bin/filter_subread_summary             \
-             bin/filter_subread                     \
-             bin/filter_stats_xml                   \
-             bin/filter_stats                       \
-             bin/ccs_report                         \
-             bin/barcode_report                     \
-             bin/amplicon_analysis_timing_report    \
-             bin/amplicon_analysis_input_report     \
-             bin/amplicon_analysis_consensus_report \
-             bin/adapter_xml                        \
-        | grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps $(DEVOPT) $(_WRKSRC)/
+	@echo pip uninstall $(_NAME) > $@
 do-clean:
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf

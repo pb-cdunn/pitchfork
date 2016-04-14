@@ -15,9 +15,11 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+DEVOPT =
 else
 	rm -f $(_WRKSRC)
 	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+DEVOPT = -e
 endif
 do-config: $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile: | do-fetch
@@ -35,14 +37,11 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
         Boost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               SWIG_COMMAND=$(shell . $(PREFIX)/setup-env.sh && which swig) \
                    VERBOSE=1 \
-        $(PIP) install --verbose --upgrade --no-deps $(_WRKSRC)/
+        $(PIP) install --verbose --upgrade --no-deps $(DEVOPT) $(_WRKSRC)/
 	rsync -ax $(_WRKSRC)/lib/ $(PREFIX)/lib/
 	rsync -ax --exclude Version.h.in $(_WRKSRC)/include/ $(PREFIX)/include/
-	cd $(_WRKSRC) && find lib include | grep -v -e '^$$' -e Version.h.in | sort -r > $@
-	cd $(PREFIX) && \
-        find lib/python2.7/site-packages/ConsensusCore2 \
-             lib/python2.7/site-packages/ConsensusCore2-* \
-        | grep -v '^$$'|sort -r >> $@
+	@echo pip uninstall $(_NAME) > $@
+	cd $(_WRKSRC) && find lib include | grep -v -e '^$$' -e Version.h.in | sort -r >> $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/_build clean
 do-distclean:

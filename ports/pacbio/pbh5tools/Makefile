@@ -12,18 +12,16 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+DEVOPT =
 else
 	rm -f $(_WRKSRC)
 	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+DEVOPT = -e
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	$(PIP) install $(_NAME) --no-deps $(_WRKSRC)/
-	cd $(PREFIX) && \
-        find lib/python2.7/site-packages/pbh5tools* \
-             bin/cmph5tools.py \
-             bin/bash5tools.py \
-        | grep -v '^$$'|sort -r > $@
+	$(PIP) install $(_NAME) --no-deps $(DEVOPT) $(_WRKSRC)/
+	@echo pip uninstall $(_NAME) > $@
 do-clean:
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
