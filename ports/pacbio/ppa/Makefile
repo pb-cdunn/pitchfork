@@ -38,6 +38,7 @@ $(_BUILD)/Makefile: | do-fetch
         -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
         -DHtslib_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
         -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
+        -DZLIB_ROOT=$(ZLIB_ROOT) \
         -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
         ..
 do-build:
