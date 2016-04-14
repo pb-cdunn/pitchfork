@@ -14,7 +14,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 DEVOPT =
 else
-	ln -fs $($(_NAME)_REPO) $(_WRKSRC)
+	rm -f $(_WRKSRC)
+	ln -s $($(_NAME)_REPO) $(_WRKSRC)
 DEVOPT = -e
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)

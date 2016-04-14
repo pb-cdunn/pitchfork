@@ -13,7 +13,8 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 else
-	ln -fs $($(_NAME)_REPO) $(_WRKSRC)
+	rm -f $(_WRKSRC)
+	ln -s $($(_NAME)_REPO) $(_WRKSRC)
 endif
 do-config: $(_WRKSRC)/make/Config.mk
 $(_WRKSRC)/make/Config.mk: | do-fetch
