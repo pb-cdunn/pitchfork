@@ -34,8 +34,8 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	$(PIP) install --no-deps --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(BOOST_ROOT)/include" $(_WRKSRC)/
 	cd $(PREFIX) && \
         find lib/python2.7/site-packages/ConsensusCore.* \
+             lib/python2.7/site-packages/ConsensusCore-* \
              lib/python2.7/site-packages/_ConsensusCore.* \
-             lib/python2.7/site-packages/_ConsensusCore-* \
         | grep -v '^$$'|sort -r > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
