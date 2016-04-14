@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME             = ssw_lib
 $(_NAME)_REPO     = git://github.com/mengyao/Complete-Striped-Smith-Waterman-Library
 _WRKSRC           = $(WORKDIR)/$(_NAME)
-$(_NAME)_VERSION  = HEAD
+$(_NAME)_VERSION  = 513bef01369b14d62f24088fb193ac515db247f4
 
 # Local works
 do-fetch: $(_WRKSRC)
