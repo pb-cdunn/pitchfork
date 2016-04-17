@@ -17,8 +17,7 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 DEVOPT =
 else
-	rm -f $(_WRKSRC)
-	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
 DEVOPT = -e
 endif
 do-config: $(_WRKSRC)/_build/Makefile
