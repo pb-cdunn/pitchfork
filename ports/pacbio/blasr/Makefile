@@ -11,6 +11,13 @@ $(_NAME)_VERSION?= HEAD
 ifeq ($(OPSYS),FreeBSD)
 MAKE            := $(MAKE) DL_LIBFLAGS=''
 endif
+ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
+HDF5_LIBFLAGS = -lhdf5_cpp -lhdf5 -lsz
+HAVE_SZ       = -lsz
+else
+HDF5_LIBFLAGS = -lhdf5_cpp -lhdf5
+HAVE_SZ       =
+endif
 
 # Local works
 do-extract:
@@ -20,8 +27,7 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 else
-	rm -f $(_WRKSRC)
-	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
 endif
 do-config: $(_WRKSRC)/defines.mk $(_WRKSRC)/utils/bax2bam/build/Makefile $(_WRKSRC)/utils/bam2bax/build/Makefile
 $(_WRKSRC)/defines.mk: | do-fetch
@@ -55,6 +61,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
+              -DBax2Bam_EXE_LINKER_FLAGS="-Wl,--no-as-needed $(HAVE_SZ) " \
         ..
 $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
 	mkdir -p $(_WRKSRC)/utils/bam2bax/build
@@ -69,11 +76,12 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
+              -DBam2Bax_EXE_LINKER_FLAGS="-Wl,--no-as-needed $(HAVE_SZ) " \
         ..
 do-build:
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
-	$(MAKE) -C $(_WRKSRC) blasr HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
-	$(MAKE) -C $(_WRKSRC)/utils HDF5_LIBFLAGS="-lhdf5_cpp -lhdf5 -lsz"
+	$(MAKE) -C $(_WRKSRC) blasr HDF5_LIBFLAGS="$(HDF5_LIBFLAGS)"
+	$(MAKE) -C $(_WRKSRC)/utils HDF5_LIBFLAGS="$(HDF5_LIBFLAGS)"
 else
 	$(MAKE) -C $(_WRKSRC) blasr
 	$(MAKE) -C $(_WRKSRC)/utils

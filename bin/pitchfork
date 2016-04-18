@@ -178,6 +178,12 @@ def pitchfork(args):
         if os.path.exists(mypath):
             with open(mypath) as f:
                 content = f.readlines()
+            if ' uninstall ' in content[0]:
+                try:
+                    print '%s/bin/pip uninstall -y %s' % (_prefix, content[0].strip().split(' ')[-1])
+                    backticks('%s/bin/pip uninstall -y %s' % (_prefix, content[0].strip().split(' ')[-1]))
+                except:
+                    pass
             for myfile in content:
                 myfile = '%s/%s' % (_prefix, myfile.strip())
                 if os.path.isfile(myfile):

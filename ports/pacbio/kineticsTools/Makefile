@@ -12,23 +12,18 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+DEVOPT =
 else
-	rm -f $(_WRKSRC)
-	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
+DEVOPT = -e
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	$(PIP) install --no-deps $(_WRKSRC)/
-	rm -rf lib/python2.7/site-packages/bin
+	$(PIP) install --no-deps $(DEVOPT) $(_WRKSRC)/
+	rm -rf $(PREFIX)/lib/python2.7/site-packages/bin
 	install -m 755 $(_WRKSRC)/bin/copyIpdSummaryDataset.py $(PREFIX)/bin/
 	install -m 755 $(_WRKSRC)/bin/writeSummaryToCmp.py $(PREFIX)/bin/
-	cd $(PREFIX) && \
-        find lib/python2.7/site-packages/kineticsTools* \
-             bin/summarizeModifications \
-             bin/ipdSummary \
-             bin/copyIpdSummaryDataset.py \
-             bin/writeSummaryToCmp.py \
-        | grep -v '^$$'|sort -r > $@
+	@echo pip uninstall $(_NAME) > $@
 do-clean:
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf

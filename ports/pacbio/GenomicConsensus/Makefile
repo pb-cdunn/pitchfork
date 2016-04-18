@@ -12,24 +12,15 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+DEVOPT =
 else
-	rm -f $(_WRKSRC)
-	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
+DEVOPT = -e
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	$(PIP) install --no-deps --verbose $(_WRKSRC)/
-	cd $(PREFIX) && \
-        find lib/python2.7/site-packages/GenomicConsensus* \
-             bin/variantCaller \
-             bin/summarizeConsensus \
-             bin/quiver \
-             bin/poa \
-             bin/plurality \
-             bin/gffToVcf \
-             bin/gffToBed \
-             bin/arrow \
-        | grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps --verbose $(DEVOPT) $(_WRKSRC)/
+	@echo pip uninstall $(_NAME) > $@
 do-clean:
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf

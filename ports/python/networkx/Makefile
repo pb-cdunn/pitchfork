@@ -1,7 +1,7 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_VER    = 1.11rc2
+_VER    = 1.10
 _NAME   = networkx-$(_VER)
 _WRKSRC = $(WORKDIR)/$(_NAME)
 

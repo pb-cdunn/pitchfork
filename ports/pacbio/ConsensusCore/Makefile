@@ -12,9 +12,10 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+DEVOPT =
 else
-	rm -f $(_WRKSRC)
-	ln -s $($(_NAME)_REPO) $(_WRKSRC)
+	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
+DEVOPT = -e
 endif
 do-config: $(_WRKSRC)/make/Config.mk
 $(_WRKSRC)/make/Config.mk: | do-fetch
@@ -31,12 +32,8 @@ $(_WRKSRC)/build/Python/_ConsensusCore.so: | do-config
 	$(MAKE) -C $(_WRKSRC) python
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	$(PIP) install --no-deps --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(BOOST_ROOT)/include" $(_WRKSRC)/
-	cd $(PREFIX) && \
-        find lib/python2.7/site-packages/ConsensusCore.* \
-             lib/python2.7/site-packages/ConsensusCore-* \
-             lib/python2.7/site-packages/_ConsensusCore.* \
-        | grep -v '^$$'|sort -r > $@
+	$(PIP) install --no-deps --install-option="--swig=$(PREFIX)/bin/swig" --install-option="--swig-lib=$(PREFIX)/share/swig/3.0.8" --install-option="--boost=$(BOOST_ROOT)/include" $(DEVOPT) $(_WRKSRC)/
+	@echo pip uninstall $(_NAME) > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 do-distclean:
