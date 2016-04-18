@@ -64,7 +64,7 @@ ipython_genutils: pip
 iso8601:          pip
 isodate:          pip
 jinja2:           pip MarkupSafe
-networkx:         pip decorator
+networkx:         pip decorator matplotlib
 paramiko:         pip
 path.py:          pip
 pexpect:          pip
