@@ -100,7 +100,7 @@ pillow:       pip
 dask.array:   pip toolz numpy
 toolz:        pip
 ipython:      pip traitlets pickleshare appnope decorator gnureadline pexpect ipython_genutils path.py ptyprocess simplegeneric
-Cogent:       pip numpy scipy networkx scikit-image biopython bx-python PuLP ssw_lib mash
+Cogent:       pip numpy scipy networkx scikit-image biopython bx-python PuLP ssw_lib mash matplotlib
 biopython:    pip numpy
 bx-python:    pip zlib
 PuLP:         pip
