@@ -61,7 +61,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
-              -DBax2Bam_EXE_LINKER_FLAGS="-Wl,--no-as-needed $(HAVE_SZ) " \
+              -DBax2Bam_EXE_LINKER_FLAGS="$(HAVE_SZ) " \
         ..
 $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
 	mkdir -p $(_WRKSRC)/utils/bam2bax/build
@@ -76,7 +76,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
-              -DBam2Bax_EXE_LINKER_FLAGS="-Wl,--no-as-needed $(HAVE_SZ) " \
+              -DBam2Bax_EXE_LINKER_FLAGS="$(HAVE_SZ) " \
         ..
 do-build:
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
