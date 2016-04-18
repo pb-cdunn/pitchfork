@@ -95,7 +95,7 @@ modules:      ccache tcl
 ssw_lib:      ccache pip
 mash:         ccache
 fasta2bam:    ccache pbbam htslib zlib boost cmake
-scikit-image: pip numpy decorator six networkx
+scikit-image: pip numpy decorator six networkx matplotlib
 pillow:       pip
 dask.array:   pip toolz numpy
 toolz:        pip
