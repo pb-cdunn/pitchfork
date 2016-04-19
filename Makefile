@@ -95,7 +95,7 @@ modules:      ccache tcl
 ssw_lib:      ccache pip
 mash:         ccache
 fasta2bam:    ccache pbbam htslib zlib boost cmake
-scikit-image: pip numpy decorator six networkx matplotlib
+scikit-image: pip numpy decorator six networkx matplotlib pillow
 pillow:       pip
 dask.array:   pip toolz numpy
 toolz:        pip
@@ -412,123 +412,11 @@ fasta2bam:
 # unknown
 #pyxb:
 #	$(MAKE) -j1 -C ports/python/$@ do-install
-clean-blasr_libcpp:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-blasr:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-htslib:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-seqan:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbbam:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbccs:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-dazzdb:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-daligner:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbdagcon:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-bam2fastx:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbcore:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbcommand:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbsmrtpipe:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-falcon_kit:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbfalcon:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pypeFLOW:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-ConsensusCore:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-ConsensusCore2:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-GenomicConsensus:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbreports:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-kineticsTools:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbalign:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbcoretools:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbchimera:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbsparse:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pblaa:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-pbh5tools:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-ppa:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
-clean-Cogent:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-clean
+clean-%:
+	$(MAKE) -C ports/pacbio/$* do-clean
+distclean-%:
+	$(MAKE) -C ports/pacbio/$* do-distclean
 clean: clean-blasr_libcpp clean-blasr clean-htslib clean-seqan clean-pbbam clean-pbccs clean-dazzdb clean-daligner clean-pbdagcon clean-bam2fastx clean-pbcore clean-pbcommand clean-pbsmrtpipe clean-falcon_kit clean-pbfalcon clean-pypeFLOW clean-ConsensusCore clean-ConsensusCore2 clean-GenomicConsensus clean-pbreports clean-kineticsTools clean-pbalign clean-pbcoretools clean-pbchimera clean-pbsparse clean-pblaa clean-pbh5tools clean-ppa clean-Cogent
-distclean-blasr_libcpp:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-blasr:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-htslib:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-seqan:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbbam:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbccs:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-dazzdb:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-daligner:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbdagcon:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-bam2fastx:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbcore:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbcommand:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbsmrtpipe:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-falcon_kit:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbfalcon:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pypeFLOW:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-ConsensusCore:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-ConsensusCore2:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-GenomicConsensus:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbreports:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-kineticsTools:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbalign:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbcoretools:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbchimera:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbsparse:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pblaa:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-pbh5tools:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-ppa:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
-distclean-Cogent:
-	$(MAKE) -C ports/pacbio/$(subst clean-,,$@) do-distclean
 distclean: distclean-blasr_libcpp distclean-blasr distclean-htslib distclean-seqan distclean-pbbam distclean-pbccs distclean-dazzdb distclean-daligner distclean-pbdagcon distclean-bam2fastx distclean-pbcore distclean-pbcommand distclean-pbsmrtpipe distclean-falcon_kit distclean-pbfalcon distclean-pypeFLOW distclean-ConsensusCore distclean-ConsensusCore2 distclean-GenomicConsensus distclean-pbreports distclean-kineticsTools distclean-pbalign distclean-pbcoretools distclean-pbchimera distclean-pbsparse distclean-pblaa distclean-pbh5tools distclean-ppa distclean-Cogent
 
 .PHONY: ConsensusCore GenomicConsensus MarkupSafe appnope avro biopython blasr boost ccache cmake Cogent cram cycler cython daligner dazzdb decorator default docopt ecdsa fabric gmap gmock gnureadline gtest hmmer htslib ipython isodate jsonschema kineticsTools libpng matplotlib modules ncurses networkx nim nose numpy openblas openssl paramiko pbalign pbbam pbccs pbchimera pbcommand pbcore pbcoretools pbdagcon pbfalcon pblaa pbreports pbsmrtpipe pbsparse pexpect pickleshare pip ppa ptyprocess pycrypto pydot pyparsing pypeFLOW pysam python pytz pyxb rdfextras rdflib readline requests samtools scipy seqan simplegeneric six swig tcl traitlets world xmlbuilder zlib pbh5tools tabulate
