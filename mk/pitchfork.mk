@@ -13,5 +13,5 @@ do-build: do-config
 do-install: do-build
 do-uninstall:
 	@PREFIX=$(PREFIX) $(PFHOME)/bin/uninstall $(_NAME)
-do-distclean: do-clean
+#do-distclean: do-clean
 provided:
