@@ -236,7 +236,8 @@ def pitchfork(args):
             _prefetch = '/'.join([_distfiles, _archive])
             if os.path.exists(_prefetch):
                 print "using local %s" % _archive
-                backticks('cp %s ./' % _prefetch)
+                backticks('rm -f ./%s' % os.path.basename(_prefetch))
+                backticks('ln -sfn %s ./' % _prefetch)
                 try:
                     backticks('md5sum -c MD5SUM')
                     return
