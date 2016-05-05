@@ -24,11 +24,11 @@ do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
 	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CC)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CXX)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(FC)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache cpp
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache CC
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache `basename $(CC)`
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache `basename $(CXX)`
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache `basename $(FC)`
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache cpp
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache CC
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
@@ -45,12 +45,12 @@ _CCACHE = $(shell ../../../bin/checkCCACHE $(HAVE_CCACHE))
 provided:
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/bin
-	cd $(STAGING)/$(_NAME)/bin && ln -s $(_CCACHE) ccache
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CC)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(CXX)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache `basename $(FC)`
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache cpp
-	cd $(STAGING)/$(_NAME)/bin && ln -s ccache CC
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn $(_CCACHE) ccache
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache `basename $(CC)`
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache `basename $(CXX)`
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache `basename $(FC)`
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache cpp
+	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache CC
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 endif
