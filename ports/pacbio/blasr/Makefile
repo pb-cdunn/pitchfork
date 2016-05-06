@@ -103,8 +103,8 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
              bin/bam2bax \
         > $@
 do-clean:
-	-$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build clean
-	-$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build clean
+	rm -rf $(_WRKSRC)/utils/bax2bam/build
+	rm -rf $(_WRKSRC)/utils/bam2bax/build clean
 	$(MAKE) -C $(_WRKSRC) clean
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
