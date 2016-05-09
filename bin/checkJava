@@ -13,10 +13,14 @@ if [ "_$(uname -s)" = "_Darwin" ]; then
     :
     test -x /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java || die "[ERROR] problem running JRE."
     /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java -version 2>&1 \
-    | grep 'Java(TM) SE Runtime Environment (build 1.' || die "[ERROR] problem running JRE."
+       | grep 'Java(TM) SE Runtime Environment (build 1.[7,8]' > /dev/null 2>&1 \
+    || die "[ERROR] invalid JRE version."
+    echo '/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java'
 else
     :
-    which java || die "[ERROR] JRE not found"
+    which java > /dev/null 2>&1 || die "[ERROR] JRE not found"
     java -version 2>&1 \
-    | grep 'Java(TM) SE Runtime Environment (build 1.' || die "[ERROR] problem running JRE."
+       | grep 'Java(TM) SE Runtime Environment (build 1.[7,8]' > /dev/null 2>&1 \
+    || die "[ERROR] invalid JRE version."
+    which java
 fi
