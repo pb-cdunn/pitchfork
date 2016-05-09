@@ -36,6 +36,7 @@ swig:             ccache python
 libpng:           ccache zlib
 hmmer:            ccache
 gmap:             ccache zlib
+sbt:              jre
 
 pip:              python
 cython:           pip
@@ -85,8 +86,6 @@ cram:             pip
 cycler:           pip
 MarkupSafe:       pip
 tabulate:         pip
-# unknown
-#pyxb:             pip
 
 # Not part of pacbio developers' software collection
 nim:          ccache zlib
@@ -217,6 +216,10 @@ swig:
 hmmer:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 gmap:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+jre:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+sbt:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 
 openssl:
