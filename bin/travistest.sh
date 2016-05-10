@@ -17,6 +17,7 @@ pbtestkit-runner -h
 pbtools-runner -h
 pbvalidate -h
 #sawriter
+fasta-to-reference --help
 python -c "from pbcore.io import *"
 for myfile in bin/pitchfork; do
     pep8 --ignore=E221,E501,E265,E731,E402,W292 $myfile
