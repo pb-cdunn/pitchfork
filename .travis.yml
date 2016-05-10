@@ -28,8 +28,10 @@ cache:
     - $HOME/local.pip
 
 install:
-  - bin/travisbuild.sh
+    - java -version
+    - which java
+#    - bin/travisbuild.sh
 
-script:
-   - /bin/ls $HOME/local/bin
-   - bin/travistest.sh
+#script:
+#    - /bin/ls $HOME/local/bin
+#    - bin/travistest.sh
