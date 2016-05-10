@@ -24,14 +24,15 @@ cache:
   directories:
     - $HOME/.ccache
     - $HOME/.ivy2
+    - $HOME/.ivy
     - $HOME/distfiles
     - $HOME/local.pip
 
-#install:
-build:
+install:
     - dpkg --list|grep -i jav
     - java -version
     - which java
+#build:
 #    - bin/travisbuild.sh
 
 #script:
