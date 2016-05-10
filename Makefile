@@ -36,6 +36,7 @@ swig:             ccache python
 libpng:           ccache zlib
 hmmer:            ccache
 gmap:             ccache zlib
+sbt:              jre
 
 pip:              python
 cython:           pip
@@ -85,8 +86,6 @@ cram:             pip
 cycler:           pip
 MarkupSafe:       pip
 tabulate:         pip
-# unknown
-#pyxb:             pip
 
 # Not part of pacbio developers' software collection
 nim:          ccache zlib
@@ -130,6 +129,7 @@ pbalign:          pbcore samtools blasr pbcommand
 ConsensusCore:    numpy boost swig cmake
 ConsensusCore2:   numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
+smrtflow:         sbt
 #
 pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
 pbchimera:     seqan cmake
@@ -217,6 +217,10 @@ swig:
 hmmer:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 gmap:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+jre:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+sbt:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 
 openssl:
@@ -380,6 +384,9 @@ pbh5tools:
 ppa:
 	$(MAKE) -C ports/pacbio/$@ do-install
 Cogent:
+	$(MAKE) -C ports/pacbio/$@ do-install
+#
+smrtflow:
 	$(MAKE) -C ports/pacbio/$@ do-install
 
 # Not part of pacbio developers' software collection

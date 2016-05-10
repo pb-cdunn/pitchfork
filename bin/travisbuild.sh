@@ -14,4 +14,5 @@ cp mk/travis.mk settings.mk
 make init
 make reseq-core
 make pbfalcon
+make smrtflow
 rm -rf $HOME/local.pip/wheel
