@@ -19,6 +19,7 @@ addons:
       - pep8
       - cmake-data
       - cmake
+      - oracle-java8-installer
 cache:
   directories:
     - $HOME/.ccache
