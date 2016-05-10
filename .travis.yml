@@ -27,7 +27,9 @@ cache:
     - $HOME/distfiles
     - $HOME/local.pip
 
-install:
+#install:
+build:
+    - dpkg --list|grep -i jav
     - java -version
     - which java
 #    - bin/travisbuild.sh
