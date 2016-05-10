@@ -4,23 +4,19 @@ die(){
     test "$*" && echo "$*" || true
     exit 1
 }
-which uname >& /dev/null || die "[ERROR] unable to run uname, consider doing yum install coreutils"
-which curl  >& /dev/null || die "[ERROR] unable to run curl, consider doing yum install curl"
-which git   >& /dev/null || die "[ERROR] unable to run git, consider doing yum install git"
-which rsync >& /dev/null || die "[ERROR] unable to run rsync, consider doing yum install rsync"
 
 if [ "_$(uname -s)" = "_Darwin" ]; then
     :
     test -x /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java || die "[ERROR] problem running JRE."
     /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java -version 2>&1 \
-       | grep 'Java(TM) SE Runtime Environment (build 1.[7,8]' > /dev/null 2>&1 \
+       | grep 'Java(TM) SE Runtime Environment (build 1.8' > /dev/null 2>&1 \
     || die "[ERROR] invalid JRE version."
     echo '/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java'
 else
     :
     which java > /dev/null 2>&1 || die "[ERROR] JRE not found"
     java -version 2>&1 \
-       | grep 'Java(TM) SE Runtime Environment (build 1.[7,8]' > /dev/null 2>&1 \
+       | grep 'Java(TM) SE Runtime Environment (build 1.8' > /dev/null 2>&1 \
     || die "[ERROR] invalid JRE version."
     which java
 fi
