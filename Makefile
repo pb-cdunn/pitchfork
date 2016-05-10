@@ -129,6 +129,7 @@ pbalign:          pbcore samtools blasr pbcommand
 ConsensusCore:    numpy boost swig cmake
 ConsensusCore2:   numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
+smrtflow:         sbt
 #
 pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
 pbchimera:     seqan cmake
@@ -383,6 +384,9 @@ pbh5tools:
 ppa:
 	$(MAKE) -C ports/pacbio/$@ do-install
 Cogent:
+	$(MAKE) -C ports/pacbio/$@ do-install
+#
+smrtflow:
 	$(MAKE) -C ports/pacbio/$@ do-install
 
 # Not part of pacbio developers' software collection
