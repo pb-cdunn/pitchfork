@@ -20,7 +20,7 @@ addons:
       - cmake-data
       - cmake
       - oracle-java8-installer
-#     - oracle-java8-set-default
+
 cache:
   directories:
     - $HOME/.ccache
@@ -32,6 +32,6 @@ cache:
 install:
     - bin/travisbuild.sh
 
-#script:
-#    - /bin/ls $HOME/local/bin
-#    - bin/travistest.sh
+script:
+    - /bin/ls $HOME/local/bin
+    - bin/travistest.sh
