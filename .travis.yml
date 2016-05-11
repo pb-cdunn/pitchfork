@@ -24,10 +24,12 @@ addons:
 cache:
   directories:
     - $HOME/.ccache
-    - $HOME/.ivy2
-    - $HOME/.ivy
+    - $HOME/.ivy2/cache
     - $HOME/distfiles
     - $HOME/local.pip
+
+before_cache:
+    - find $HOME/.ivy2 -name "ivydata-*.properties" -delete -print
 
 install:
     - bin/travisbuild.sh
