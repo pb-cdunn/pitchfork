@@ -29,12 +29,10 @@ cache:
     - $HOME/distfiles
     - $HOME/local.pip
 
-before_install:
-    - dpkg-query -L oracle-java8-installer
+#before_install:
+#    - dpkg-query -L oracle-java8-installer
 install:
-    - dpkg --list|grep -i jav
-    - java -version
-    - which java
+    - ls -l /usr/lib/jvm/java-8-oracle/jre/bin/java
 #    - bin/travisbuild.sh
 
 #script:
