@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export PATH=/usr/lib/jvm/java-8-oracle/jre/bin:$PATH
 rm -rf $HOME/local.pip/wheel
 mkdir -p $HOME/distfiles
 test -e $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz \
