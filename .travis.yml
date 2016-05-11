@@ -3,9 +3,6 @@
 
 language: cpp
 
-jdk:
-  - oraclejdk8
-
 sudo: false
 
 addons:
@@ -32,6 +29,8 @@ cache:
     - $HOME/distfiles
     - $HOME/local.pip
 
+before_install:
+    - java install oraclejdk8
 install:
     - dpkg --list|grep -i jav
     - java -version
