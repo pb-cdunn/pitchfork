@@ -24,7 +24,7 @@ $(_FILE):
 	cat $(_FILE).md5 > MD5SUM
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): | do-build
+$(PREFIX)/var/pkg/$(_NAME): | do-extract
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/bin
 	tar zxf $(_FILE) -C $(STAGING)/$(_NAME)/bin/
