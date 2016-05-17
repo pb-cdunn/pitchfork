@@ -31,7 +31,7 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
         ..
 do-build:
 	cd $(_WRKSRC)/_build && $(MAKE)
-	cd $(_WRKSRC)/_pitchforktmp && ar x ../lib/libpbconsensus.a
+	cd $(_WRKSRC)/_pitchforktmp && $(AR) x ../lib/libpbconsensus.a
 	cd $(_WRKSRC)/_pitchforktmp && $(CXX) -shared *.o -o ../lib/libpbconsensus.$(DYLIB)
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
