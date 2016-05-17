@@ -35,7 +35,7 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
             -DSEQAN_RootDir=$(PREFIX) \
             -DPacBioConsensus_IncludeDir=$(PREFIX)/include \
             -DPBCONSENSUS_INCLUDE_DIRS=$(PREFIX)/include \
-            -DPBCONSENSUS_LIBRARIES=$(PREFIX)/lib/libpbconsensus.a \
+            -DPBCONSENSUS_LIBRARIES=$(PREFIX)/lib/libpbconsensus.$(DYLIB) \
             -DPacBioCCS_IncludeDir=$(PREFIX)/include \
             -DPBCCS_INCLUDE_DIRS=$(PREFIX)/include \
             -DPBCCS_LIBRARIES=$(PREFIX)/lib/libpbccs.a \
