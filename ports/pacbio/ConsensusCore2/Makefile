@@ -23,6 +23,7 @@ endif
 do-config: $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile: | do-fetch
 	mkdir -p $(_WRKSRC)/_build
+	mkdir -p $(_WRKSRC)/_pitchforktmp
 	cd $(_WRKSRC)/_build \
      && $(CMAKE) \
           -DCMAKE_BUILD_TYPE=Release \
@@ -30,6 +31,8 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
         ..
 do-build:
 	cd $(_WRKSRC)/_build && $(MAKE)
+	cd $(_WRKSRC)/_pitchforktmp && ar x ../lib/libpbconsensus.a
+	cd $(_WRKSRC)/_pitchforktmp && $(CXX) -shared *.o -o ../lib/libpbconsensus.$(DYLIB)
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	    CMAKE_COMMAND=$(CMAKE) \
@@ -43,6 +46,7 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC) && find lib include | grep -v -e '^$$' -e Version.h.in | sort -r >> $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/_build clean
+	rm -rf "$(_WRKSRC)/_pitchforktmp"
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:

@@ -26,7 +26,7 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
               -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
               -DPBBAM_INCLUDE_DIRS=$(PREFIX)/include/pbbam \
               -DPBCONSENSUS_INCLUDE_DIRS=$(PREFIX)/include \
-              -DPBCONSENSUS_LIBRARIES=$(PREFIX)/lib/libpbconsensus.a \
+              -DPBCONSENSUS_LIBRARIES=$(PREFIX)/lib/libpbconsensus.$(DYLIB) \
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DSEQAN_INCLUDE_DIRS=$(PREFIX)/include \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
