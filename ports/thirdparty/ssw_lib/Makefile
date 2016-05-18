@@ -11,7 +11,7 @@ $(_NAME)_VERSION  = a9beb7e4c67824538e15fd781002983d2b333261
 do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 	$(GIT) clone $($(_NAME)_REPO) $@
-	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+	$(GIT) -C $(_WRKSRC) checkout $($(_NAME)_VERSION)
 do-build:
 	$(MAKE) -C $(_WRKSRC)/src CC="$(CC) $(CFLAGS) $(LDFLAGS)" CXX="$(CXX) $(CXXFLAGS) $(LDFLAGS)"
 do-install: $(PREFIX)/var/pkg/$(_NAME)
