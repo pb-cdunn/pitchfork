@@ -119,8 +119,8 @@ pbh5tools:        h5py pbcore
 pbcoretools:      pbcore pbcommand
 pbcommand:        xmlbuilder jsonschema avro requests iso8601 numpy tabulate
 pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
-falcon_kit:       networkx daligner dazzdb pbdagcon
-pbfalcon:         falcon_kit pbsmrtpipe pypeFLOW dazzdb daligner
+falcon_kit:       networkx daligner dazzdb pbdagcon pypeFLOW
+pbfalcon:         falcon_kit pbsmrtpipe dazzdb daligner
 pbreports:        matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
 kineticsTools:    scipy pbcore pbcommand h5py
 pypeFLOW:         rdflib rdfextras

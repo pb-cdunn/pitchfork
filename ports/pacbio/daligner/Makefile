@@ -30,10 +30,8 @@ do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC)/build && \
         tar cf - $(PROGRAMS) \
-        | tar xf - -C $(PREFIX)/bin/
-	cd $(_WRKSRC)/build && \
-        find $(PROGRAMS) \
-        | awk '{print "$(PREFIX)/bin/"$$1}' > $@
+        | tar xvf - -C $(PREFIX)/bin/ \
+	| awk '{print "bin/"$$1}' > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
 do-distclean:
