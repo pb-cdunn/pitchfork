@@ -39,7 +39,7 @@ gmap:             ccache zlib
 sbt:              jre
 
 pip:              python
-cython:           pip
+cython:           pip ccache
 ifeq ($(OPSYS),Darwin)
 numpy:            pip cython
 else
@@ -129,6 +129,7 @@ ConsensusCore:    numpy boost swig cmake
 ConsensusCore2:   numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 smrtflow:         sbt
+pbtranscript:     scipy networkx pysam pbcore pbcommand pbcoretools pbdagcon
 #
 pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
 pbchimera:     seqan cmake
@@ -369,6 +370,8 @@ kineticsTools:
 pbalign:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbcoretools:
+	$(MAKE) -C ports/pacbio/$@ do-install
+pbtranscript:
 	$(MAKE) -C ports/pacbio/$@ do-install
 #
 pbchimera:
