@@ -142,6 +142,8 @@ bam2bax: blasr
 bax2bam: blasr
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
+isoseq-core: \
+       pbtranscript reseq-core hmmer gmap ipython biopython cram nose
 world: \
        reseq-core ConsensusCore2 pbfalcon kineticsTools \
        hmmer      gmap           ssw_lib  mash          \
