@@ -134,6 +134,7 @@ pbtranscript:     scipy networkx pysam pbcore pbcommand pbcoretools pbdagcon
 pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
 pbchimera:     seqan cmake
 ppa:           boost cmake pbbam htslib
+trim_isoseq_polyA: boost cmake
 
 # end of dependencies
 
@@ -391,6 +392,8 @@ Cogent:
 	$(MAKE) -C ports/pacbio/$@ do-install
 #
 smrtflow:
+	$(MAKE) -C ports/pacbio/$@ do-install
+trim_isoseq_polyA:
 	$(MAKE) -C ports/pacbio/$@ do-install
 
 # Not part of pacbio developers' software collection
