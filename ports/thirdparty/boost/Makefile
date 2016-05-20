@@ -19,16 +19,17 @@ $(_WRKSRC): | do-fetch
 	mkdir -p $(_WRKSRC)
 	tar zxf $(_FILE) --strip=1 -C $(_WRKSRC)
 
-ifneq ($(origin DO_BOOST_LIB),undefined)
+#ifneq ($(origin DO_BOOST_LIB),undefined)
 do-config: $(_WRKSRC)/project-config.jam
 $(_WRKSRC)/project-config.jam: | do-extract
-	(cd $(_WRKSRC) && ./bootstrap.sh --prefix=$(PREFIX)) >& config.log || $(PFHOME)/bin/diewith config.log
+	(cd $(_WRKSRC) \
+         && ./bootstrap.sh --prefix=$(PREFIX) \
+                           --with-libraries=system,program_options,iostreams \
+        ) >& config.log || $(PFHOME)/bin/diewith config.log
 
 do-build: $(STAGING)/$(_NAME)/lib/libboost_system.a
 $(STAGING)/$(_NAME)/lib/libboost_system.a: | do-config
-	(cd $(_WRKSRC) && ./bjam --without-python \
-                                 --without-mpi \
-                                 --without-iostreams \
+	(cd $(_WRKSRC) && ./bjam \
                                  --stagedir=$(STAGING)/$(_NAME) \
                                  stage) >& build.log || $(PFHOME)/bin/diewith build.log
 do-clean:
@@ -38,7 +39,7 @@ do-clean:
 do-distclean:
 	rm -f config.log $(_WRKSRC)/bootstrap.log
 	cd $(_WRKSRC) && rm -rf bin.v2 project-config.jam b2 bjam
-endif
+#endif
 
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
@@ -53,5 +54,6 @@ ifneq ($(origin HAVE_BOOST),undefined)
 _BOOST = $(shell ../../../bin/checkBOOST $(HAVE_BOOST))
 provided:
 	ln -fs $(_BOOST)/include/boost $(PREFIX)/include/
+	ln -fs $(_BOOST)/lib/boost $(PREFIX)/lib/
 	echo include/boost > $(PREFIX)/var/pkg/$(_NAME)
 endif
