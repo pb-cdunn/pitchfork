@@ -7,6 +7,5 @@ FC          = gfortran-4.8
 HAVE_PYTHON =
 HAVE_CMAKE  =
 HAVE_HDF5   = ${HOME}/hdf5-1.8.13-linux-x86_64-shared
-HAVE_BOOST  = ${HOME}/boost_1_56_0
 #VERBOSE     = 1
 #export VERBOSE
