@@ -21,6 +21,7 @@ endif
 do-config: $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile: | do-fetch
 	mkdir -p $(_WRKSRC)/_build
+	mkdir -p $(_WRKSRC)/_pitchforktmp
 	cd $(_WRKSRC)/_build  && \
         $(CMAKE) \
               -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
@@ -39,6 +40,8 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
             ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/_build
+	cd $(_WRKSRC)/_pitchforktmp && $(AR) x ../lib/libpbccs.a
+	cd $(_WRKSRC)/_pitchforktmp && $(CXX) $(CXXFLAGS) -shared *.o -o ../lib/libpbccs.$(DYLIB)
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rsync -ax $(_WRKSRC)/bin/ $(PREFIX)/bin/
@@ -46,7 +49,8 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rsync -ax --exclude Version.h.in $(_WRKSRC)/include/ $(PREFIX)/include/
 	cd $(_WRKSRC) && find bin lib include | grep -v Version.h.in > $@
 do-clean:
-	$(MAKE) -C $(_WRKSRC)/_build clean
+	rm -fr $(_WRKSRC)/_build
+	rm -fr $(_WRKSRC)/_pitchforktmp
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
