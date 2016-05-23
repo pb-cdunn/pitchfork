@@ -188,7 +188,7 @@ def pitchfork(args):
                     pass
             for myfile in content:
                 myfile = '%s/%s' % (_prefix, myfile.strip())
-                if os.path.isfile(myfile):
+                if os.path.isfile(myfile) or os.path.islink(myfile):
                     print 'rm -f %s' % myfile
                     try:
                         os.remove(myfile)
