@@ -40,8 +40,12 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
             ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/_build
+ifeq ($(OPSYS),Darwin)
+	cd $(_WRKSRC)/_pitchforktmp && $(CXX) $(CXXFLAGS) -shared ../lib/libpbccs.a -o ../lib/libpbccs.$(DYLIB)
+else
 	cd $(_WRKSRC)/_pitchforktmp && $(AR) x ../lib/libpbccs.a
 	cd $(_WRKSRC)/_pitchforktmp && $(CXX) $(CXXFLAGS) -shared *.o -o ../lib/libpbccs.$(DYLIB)
+endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rsync -ax $(_WRKSRC)/bin/ $(PREFIX)/bin/
