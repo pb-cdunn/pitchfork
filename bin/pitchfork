@@ -153,6 +153,8 @@ def pitchfork(args):
     _prefix = ''
     if os.path.exists('%s/settings.mk' % _projhome):
         for line in open('%s/settings.mk' % _projhome, 'r'):
+            if '#' in line.lstrip()[0]:
+                continue
             if 'PREFIX' in line.strip():
                 if line.strip().split('=')[0].strip() == 'PREFIX':
                     _prefix = line.strip().split('=')[1].strip()

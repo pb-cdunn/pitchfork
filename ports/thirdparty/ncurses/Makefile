@@ -40,3 +40,23 @@ do-distclean:
 	rm -f $(_WRKSRC)/config.log config.log
 do-flush:
 	rm -rf $(_WRKSRC) || true
+ifneq ($(origin HAVE_NCURSES),undefined)
+_NCURSES:=$(shell ../../../bin/checkNCURSES $(HAVE_NCURSES))
+provided:
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/include
+	mkdir -p $(STAGING)/$(_NAME)/lib
+	mkdir -p $(STAGING)/$(_NAME)/share
+	cp -a $(_NCURSES)/include/ncurses $(STAGING)/$(_NAME)/include/
+	find $(_NCURSES)/lib -maxdepth 1 \
+             \( -name 'libcurse*$(DYLIB)*'  \
+             -o -name 'libform*$(DYLIB)*'   \
+             -o -name 'libmenu*$(DYLIB)*'   \
+             -o -name 'libncurse*$(DYLIB)*' \
+             -o -name 'libpanel*$(DYLIB)*'  \
+             -o -name 'terminfo'            \
+             \) -exec cp -a {} $(STAGING)/$(_NAME)/lib/ \;
+	cp -a $(_NCURSES)/share/terminfo $(STAGING)/$(_NAME)/share/
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+endif

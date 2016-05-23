@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+die(){
+    test "$*" && echo "$*" || true
+    exit 1
+}
+
+if [ $# -eq 0 ]; then
+    _NCURSES=/usr
+else
+    _NCURSES=$1
+fi
+
+if [ ! -e ${_NCURSES}/include/ncurses/ncurses.h ]; then
+   die "[ERROR] ncurses.h not found, check your HAVE_NCURSES value ${_NCURSES}"
+fi
+if ! ls ${_NCURSES}/lib/libncurses.* >& /dev/null; then
+   die "[ERROR] libncurses.* not found, check your HAVE_NCURSES value ${_NCURSES}"
+fi
+echo ${_NCURSES}

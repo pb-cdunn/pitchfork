@@ -169,7 +169,11 @@ else
 readline:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 ncurses:
+ifeq ($(origin HAVE_NCURSES),undefined)
 	$(MAKE) -C ports/thirdparty/$@ do-install
+else
+	$(MAKE) -C ports/thirdparty/$@ provided
+endif
 tcl:
 	$(MAKE) -j1 -C ports/thirdparty/$@ do-install
 libpng:
