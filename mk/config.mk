@@ -38,6 +38,9 @@ ARCH      := $(shell $(UNAME) -m)
 OPSYS     := $(shell $(UNAME) -s)
 
 CFLAGS    ?= -fPIC -I$(PREFIX)/include
+ifneq ($(OPSYS),Darwin)
+CFLAGS    += -static-libstdc++
+endif
 CXXFLAGS  ?= $(CFLAGS)
 LDFLAGS   ?= -Wl,-rpath,'$$ORIGIN/../lib',-rpath,'$$$$ORIGIN/../lib' -L$(PREFIX)/lib
 
