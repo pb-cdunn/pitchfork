@@ -120,7 +120,9 @@ pbcoretools:      pbcore pbcommand
 pbcommand:        xmlbuilder jsonschema avro requests iso8601 numpy tabulate
 pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
 falcon_kit:       networkx daligner dazzdb pbdagcon pypeFLOW
-pbfalcon:         falcon_kit pbsmrtpipe dazzdb daligner
+falcon_polish:    falcon_kit blasr GenomicConsensus pbcoretools
+falcon:           falcon_polish # an alias
+pbfalcon:         falcon_polish pbsmrtpipe #pbreports
 pbreports:        matplotlib cython numpy h5py pysam jsonschema pbcore pbcommand
 kineticsTools:    scipy pbcore pbcommand h5py
 pypeFLOW:         rdflib rdfextras
@@ -359,6 +361,8 @@ pbcommand:
 pbsmrtpipe:
 	$(MAKE) -C ports/pacbio/$@ do-install
 falcon_kit:
+	$(MAKE) -C ports/pacbio/$@ do-install
+falcon_polish:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbfalcon:
 	$(MAKE) -C ports/pacbio/$@ do-install
